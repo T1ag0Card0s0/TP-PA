@@ -16,7 +16,7 @@ public class TinyPAcMain {
         IGameEngine gameEngine=new GameEngine();
         TestClient client= new TestClient();
         gameEngine.registerClient(client);
-        gameEngine.start(500);
+        gameEngine.start(200);
         gameEngine.waitForTheEnd();
     }
 }
