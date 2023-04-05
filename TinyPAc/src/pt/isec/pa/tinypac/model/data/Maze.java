@@ -1,5 +1,12 @@
 package pt.isec.pa.tinypac.model.data;
 
+import pt.isec.pa.tinypac.model.data.mazeElements.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public final class Maze {
     private final IMazeElement[][] board;
 
@@ -29,5 +36,45 @@ public final class Maze {
                 else
                     char_board[y][x] = board[y][x].getSymbol();
         return char_board;
+    }
+    public int getWidth(){ return board[0].length;}
+    public int getHeight(){return board.length;}
+        public void fillLevel(String filePath) throws IOException {
+            File file = new File(filePath);
+            FileReader reader = new FileReader(file);
+            BufferedReader br = new BufferedReader(reader);
+            int c;
+            int row=0,column=0;
+            while ((c = br.read()) != -1) {
+                set(column,row,elementFinder((char)c));
+                if((char)c == '\n'){ row++;column=0;}
+                column++;
+            }
+            br.close();
+            reader.close();
+        }
+    private IMazeElement elementFinder(char character){
+        IMazeElement element=null;
+        switch (character){
+            case 'W'->{
+                element=new Wrap('█');
+            }
+            case 'o'->{
+                element=new NormalFood('.');
+            }
+            case 'F'->{
+                element=new Fruit(character);
+            }
+            case 'M'->{
+                element=new PacMan(character);
+            }
+            case 'O'->{
+                element=new PowerFood('o');
+            }
+            case 'Y','y'->{
+                element=new GhostCave('█');
+            }
+        }
+        return element;
     }
 }
