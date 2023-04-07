@@ -3,7 +3,7 @@ package pt.isec.pa.tinypac.model.data.mazeElements.zoneElements;
 import com.googlecode.lanterna.TextColor;
 import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 
-public class Wrap implements IMazeElement {
+public class Wrap implements IMazeElement{
 
     public Wrap(){}
     @Override

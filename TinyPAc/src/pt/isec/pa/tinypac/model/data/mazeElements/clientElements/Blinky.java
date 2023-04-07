@@ -7,8 +7,8 @@ import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 
 public class Blinky  extends ClientElement implements IGameEngineEvolve{
 
-    public Blinky(int xCoord,int yCoord,char symbol,TextColor color){
-        super(xCoord,yCoord,symbol,color);
+    public Blinky(int xCoord,int yCoord){
+        super(xCoord,yCoord,'█',TextColor.ANSI.RED);
     }
 
 

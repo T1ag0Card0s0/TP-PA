@@ -6,7 +6,6 @@ import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 
 
 public class ClientElement implements IMazeElement {
-    private Maze maze;
     private int xCoord;
     private int yCoord;
     private final char symbol;
@@ -18,10 +17,6 @@ public class ClientElement implements IMazeElement {
         this.symbol=symbol;
         this.currentDirection=EDirections.STOPED;
         this.color=color;
-    }
-
-    public Maze getMaze() {
-        return maze;
     }
 
     public int getxCoord() {
@@ -45,15 +40,16 @@ public class ClientElement implements IMazeElement {
     public void setCurrentDirection(EDirections newDirection){
         currentDirection=newDirection;
     }
+    public void move(){}
 
     @Override
     public TextColor getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public char getSymbol() {
-        return 0;
+        return symbol;
     }
 
 }

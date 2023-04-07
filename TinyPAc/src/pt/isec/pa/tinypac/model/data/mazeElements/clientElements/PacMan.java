@@ -7,16 +7,24 @@ import pt.isec.pa.tinypac.model.data.Maze;
 import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.NormalFood;
 import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.PowerFood;
+import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.Wall;
+import pt.isec.pa.tinypac.ui.text.TextInterface;
 
-public class PacMan extends ClientElement {
+public class PacMan extends ClientElement implements IGameEngineEvolve {
+    private final Maze maze;
     private int pontos;
-    public PacMan(int xCoord, int yCoord){
-        super(xCoord,yCoord,'p',TextColor.ANSI.GREEN);
+    private final TextInterface textInterface;
+    public PacMan(Maze maze,TextInterface textInterface){
+        super(0,0,'█',TextColor.ANSI.GREEN);
+        this.textInterface=textInterface;
+        this.maze=maze;
+    }
+    /*public PacMan(int xCoord, int yCoord,TextInterface textInterface){
+        super(xCoord,yCoord,'█',TextColor.ANSI.GREEN);
         this.pontos=0;
-    }
-    public boolean checkNextPosition(IMazeElement nextElement){
-        return nextElement == null || nextElement instanceof NormalFood || nextElement instanceof PowerFood;
-    }
+        this.textInterface=textInterface;
+    }*/
+    @Override
     public void move(){
         int x=getxCoord(),y=getyCoord();
         switch (getCurrentDirection()) {
@@ -25,16 +33,27 @@ public class PacMan extends ClientElement {
             case LEFT -> x--;
             case RIGHT -> x++;
         }
-        IMazeElement element = getMaze().get(y,x);
-        if(checkNextPosition(element)){
+        IMazeElement nextElement = maze.get(x,y);
+        if(!(nextElement instanceof Wall)){
             setxCoord(x);
             setyCoord(y);
-        }else {
+        }else{
             setCurrentDirection(EDirections.STOPED);
         }
-
     }
     public int getPontos(){return pontos;}
     public void somaPontos(int valor){this.pontos+=valor;}
 
+
+    @Override
+    public void evolve(IGameEngine gameEngine, long currentTime) {
+        switch (textInterface.ReadArrow()){
+            case "ArrowUp"->setCurrentDirection(EDirections.UP);
+            case "ArrowDown"->setCurrentDirection(EDirections.DOWN);
+            case "ArrowLeft"->setCurrentDirection(EDirections.LEFT);
+            case "ArrowRight"-> setCurrentDirection(EDirections.RIGHT);
+            case "Escape"-> gameEngine.stop();
+        }
+    }
 }
+
