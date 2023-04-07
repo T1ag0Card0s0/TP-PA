@@ -1,4 +1,4 @@
-package pt.isec.pa.tinypac.model.data;
+package pt.isec.pa.tinypac.model.data.mazeElements;
 
 import com.googlecode.lanterna.TextColor;
 

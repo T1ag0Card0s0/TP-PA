@@ -1,11 +1,10 @@
 package pt.isec.pa.tinypac.model.data;
 
-import pt.isec.pa.tinypac.model.data.mazeElements.*;
+import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
+import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.PacMan;
+import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public final class Maze {
     private final IMazeElement[][] board;
@@ -39,40 +38,62 @@ public final class Maze {
     }
     public int getWidth(){ return board[0].length;}
     public int getHeight(){return board.length;}
-        public void fillLevel(String filePath) throws IOException {
+    public IMazeElement findPacMan(){
+        for(int i = 0; i<board.length;i++){
+            for(int j = 0; j<board[i].length;j++){
+                if(board[i][j] instanceof Start){
+                    PacMan pacMan=new PacMan(i,j);
+                    set(i,j,pacMan);
+                    return pacMan;
+                }
+            }
+        }
+        return null;
+    }
+    public void fillBoard(String filePath) {
+        try {
             File file = new File(filePath);
             FileReader reader = new FileReader(file);
             BufferedReader br = new BufferedReader(reader);
             int c;
-            int row=0,column=0;
+            int row = 0, column = 0;
             while ((c = br.read()) != -1) {
-                set(column,row,elementFinder((char)c));
-                if((char)c == '\n'){ row++;column=0;}
+                set(column, row, elementFinder((char) c));
                 column++;
+                if ((char) c == '\n') {
+                    row++;
+                    column = 0;
+                }
             }
             br.close();
             reader.close();
+        }catch (IOException e){
+            e.printStackTrace();
         }
+    }
     private IMazeElement elementFinder(char character){
         IMazeElement element=null;
         switch (character){
             case 'W'->{
-                element=new Wrap('█');
+                element=new Wrap();
             }
             case 'o'->{
-                element=new NormalFood('.');
+                element=new NormalFood();
             }
             case 'F'->{
-                element=new Fruit(character);
+                element=new Fruit();
             }
             case 'M'->{
-                element=new PacMan(character);
+                element=new Start();
             }
             case 'O'->{
-                element=new PowerFood('o');
+                element=new PowerFood();
             }
             case 'Y','y'->{
-                element=new GhostCave('█');
+                element=new GhostCave();
+            }
+            case 'x'->{
+                element=new Wall();
             }
         }
         return element;

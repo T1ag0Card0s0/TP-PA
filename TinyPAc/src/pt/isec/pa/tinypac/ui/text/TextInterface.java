@@ -1,17 +1,13 @@
 package pt.isec.pa.tinypac.ui.text;
 
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-import pt.isec.pa.tinypac.model.data.IMazeElement;
+import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
+import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.PacMan;
 
 import java.io.IOException;
 public class TextInterface {
@@ -21,48 +17,53 @@ public class TextInterface {
         this.terminal=null;
         this.textGraphics=null;
     }
-    public void DrawMaze(Maze maze){
+    public void createWindow() throws IOException {
+        TerminalSize size = new TerminalSize(50, 50);
+        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(size);
+        terminal = terminalFactory.createTerminal();
+        terminal.enterPrivateMode();
+        terminal.clearScreen();
+        terminal.setCursorVisible(false);
+        textGraphics=terminal.newTextGraphics();
+    }
+
+    public void DrawMaze(Maze maze) {
         try {
-            terminal= new DefaultTerminalFactory().createTerminal();
-            terminal.enterPrivateMode();
-            terminal.clearScreen();
-            terminal.setCursorVisible(false);
-            textGraphics=terminal.newTextGraphics();
-            for(int i = 0; i<maze.getWidth();i++){
-                for(int j = 0 ; j< maze.getHeight();j++){
-                     IMazeElement temp=maze.get(j,i);
-                     if(temp!=null){
+            for (int i = 0; i < maze.getHeight(); i++) {
+                for (int j = 0; j < maze.getWidth(); j++) {
+                    IMazeElement temp = maze.get(i, j);
+                    if (temp != null) {
                         textGraphics.setForegroundColor(temp.getColor());
-                        textGraphics.putString(j,i,temp.getSymbol()+"");
-                     }else{
-                         textGraphics.setForegroundColor(TextColor.ANSI.BLUE);
-                         textGraphics.putString(j,i,"█");
-                     }
+                        textGraphics.putString(i, j, temp.getSymbol() + "");
+                    } else {
+                        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+                    }
                 }
             }
             textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
             terminal.flush();
-            KeyStroke keyStroke = terminal.readInput();
-
-            while(keyStroke.getKeyType() != KeyType.Escape) {
-                terminal.flush();
-                keyStroke = terminal.readInput();
-            }
-
         }catch (IOException e){
             e.printStackTrace();
         }
-        finally {
-            if(terminal!=null){
-                try {
-                    terminal.close();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
+    }
+    public String ReadArrow() {
+        String Key=" ";
+        try {
+            Key=terminal.readInput().getKeyType().toString();
+            if(Key.equals("Escape"))  CloseTerminal();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return Key;
+    }
+
+    public void CloseTerminal(){
+        if(terminal!=null){
+            try{
+                terminal.close();
+            }catch (IOException e){
+                e.printStackTrace();
             }
         }
     }
-
-
-
 }
