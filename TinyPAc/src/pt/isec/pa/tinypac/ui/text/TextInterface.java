@@ -11,7 +11,6 @@ import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
 import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.ClientElement;
 import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.PacMan;
-import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.Start;
 
 import java.io.IOException;
 public class TextInterface {
@@ -36,12 +35,7 @@ public class TextInterface {
             for (int i = 0; i < maze.getHeight(); i++) {
                 for (int j = 0; j < maze.getWidth(); j++) {
                     IMazeElement temp = maze.get(i, j);
-                    if (temp != null) {
-                        textGraphics.setForegroundColor(temp.getColor());
-                        textGraphics.putString(i, j, temp.getSymbol() + "");
-                    } else {
-                        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                    }
+                    DrawMazeElement(temp,i,j);
                 }
             }
             textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -51,20 +45,28 @@ public class TextInterface {
         }
     }
     public void startGame(){
-        IGameEngine gameEngine = new GameEngine();
         Maze maze = new Maze(32,32);
         maze.setNewLevel("Levels\\Level01.txt");
+        DrawMaze(maze);
+        IGameEngine gameEngine = new GameEngine();
         PacMan pacMan=new PacMan(maze,this);
-        maze.setPosition(pacMan);
         ShowBoard boardContent=new ShowBoard(maze,pacMan,this);
         gameEngine.registerClient(boardContent);
         gameEngine.registerClient(pacMan);
         gameEngine.start(100);
         gameEngine.waitForTheEnd();
     }
+    public void DrawMazeElement(IMazeElement element,int x,int y){
+        if (element != null) {
+            textGraphics.setForegroundColor(element.getColor());
+            textGraphics.putString(x, y, element.getSymbol() + "");
+        } else {
+            textGraphics.putString(x, y, " ");
+            textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        }
+    }
     public void DrawClientMazeElement(ClientElement element){
         try {
-            element.move();
             textGraphics.setForegroundColor(element.getColor());
             textGraphics.putString(element.getxCoord(), element.getyCoord(), element.getSymbol() + "");
             terminal.flush();

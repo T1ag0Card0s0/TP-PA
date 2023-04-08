@@ -5,8 +5,7 @@ import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 
 public class Fruit implements IMazeElement {
 
-    public Fruit(){
-    }
+    public Fruit(){}
     @Override
     public TextColor getColor() {
         return TextColor.ANSI.MAGENTA;

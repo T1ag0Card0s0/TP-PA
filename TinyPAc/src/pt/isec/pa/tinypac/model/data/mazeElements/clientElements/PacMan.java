@@ -5,53 +5,63 @@ import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Maze;
 import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
+import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.GhostCave;
 import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.NormalFood;
-import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.PowerFood;
 import pt.isec.pa.tinypac.model.data.mazeElements.zoneElements.Wall;
 import pt.isec.pa.tinypac.ui.text.TextInterface;
 
+
 public class PacMan extends ClientElement implements IGameEngineEvolve {
-    private final Maze maze;
-    private int pontos;
     private final TextInterface textInterface;
     public PacMan(Maze maze,TextInterface textInterface){
-        super(0,0,'█',TextColor.ANSI.GREEN);
+        super(0,0,'█',TextColor.ANSI.GREEN,maze);
         this.textInterface=textInterface;
-        this.maze=maze;
+        setStartPosition();
     }
-    /*public PacMan(int xCoord, int yCoord,TextInterface textInterface){
-        super(xCoord,yCoord,'█',TextColor.ANSI.GREEN);
-        this.pontos=0;
-        this.textInterface=textInterface;
-    }*/
-    @Override
-    public void move(){
-        int x=getxCoord(),y=getyCoord();
-        switch (getCurrentDirection()) {
-            case UP -> y--;
-            case DOWN -> y++;
+    public boolean checkNextElement(IMazeElement nextElement){
+         return !(nextElement instanceof Wall||nextElement instanceof GhostCave);
+    }
+    public IMazeElement getNextElement(EDirections direction){
+        int x=getxCoord();
+        int y=getyCoord();
+        switch (direction){
+            case UP-> y--;
+            case DOWN->y++;
             case LEFT -> x--;
             case RIGHT -> x++;
         }
-        IMazeElement nextElement = maze.get(x,y);
-        if(!(nextElement instanceof Wall)){
-            setxCoord(x);
-            setyCoord(y);
-        }else{
-            setCurrentDirection(EDirections.STOPED);
+        return getMazeElement(x,y);
+    }
+    public void changeDirection(){
+        if(checkNextElement(getNextElement(getNexDirection()))){
+            setCurrentDirection(getNexDirection());
         }
     }
-    public int getPontos(){return pontos;}
-    public void somaPontos(int valor){this.pontos+=valor;}
 
-
+    @Override
+    public void move(){
+        changeDirection();
+        if(checkNextElement(getNextElement(getCurrentDirection()))){
+            int x=getxCoord();
+            int y=getyCoord();
+            switch (getCurrentDirection()){
+                case UP-> y--;
+                case DOWN->y++;
+                case LEFT -> x--;
+                case RIGHT -> x++;
+            }
+            setxCoord(x);
+            setyCoord(y);
+            if(getMazeElement(x,y) instanceof NormalFood)setMazeElement(x,y,null);
+        }
+    }
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
         switch (textInterface.ReadArrow()){
-            case "ArrowUp"->setCurrentDirection(EDirections.UP);
-            case "ArrowDown"->setCurrentDirection(EDirections.DOWN);
-            case "ArrowLeft"->setCurrentDirection(EDirections.LEFT);
-            case "ArrowRight"-> setCurrentDirection(EDirections.RIGHT);
+            case "ArrowUp"->setNexDirection(EDirections.UP);
+            case "ArrowDown"->setNexDirection(EDirections.DOWN);
+            case "ArrowLeft"->setNexDirection(EDirections.LEFT);
+            case "ArrowRight"-> setNexDirection(EDirections.RIGHT);
             case "Escape"-> gameEngine.stop();
         }
     }
