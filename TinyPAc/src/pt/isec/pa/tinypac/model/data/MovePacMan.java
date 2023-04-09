@@ -1,6 +1,5 @@
 package pt.isec.pa.tinypac.model.data;
 
-import pt.isec.pa.tinypac.gameengine.GameEngineState;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.EDirections;
@@ -16,7 +15,6 @@ public class MovePacMan implements IGameEngineEvolve {
     }
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
-        //System.out.printf("\nPacman Antes de mover %d,%d\t",pacMan.getxCoord(),pacMan.getyCoord());
             switch (textInterface.ReadArrow()) {
                 case "ArrowUp" -> pacMan.setNexDirection(EDirections.UP);
                 case "ArrowDown" -> pacMan.setNexDirection(EDirections.DOWN);
@@ -24,7 +22,7 @@ public class MovePacMan implements IGameEngineEvolve {
                 case "ArrowRight" -> pacMan.setNexDirection(EDirections.RIGHT);
                 case "Escape" -> gameEngine.stop();
             }
-      //  System.out.printf("Pacman Depois de mover %d,%d\n",pacMan.getxCoord(),pacMan.getyCoord());
+
 
     }
 }

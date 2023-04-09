@@ -8,7 +8,4 @@ public class Blinky  extends ClientElement {
     public Blinky(int xCoord, int yCoord, Maze maze){
         super(xCoord,yCoord,'█',TextColor.ANSI.RED,maze);
     }
-
-
-
 }

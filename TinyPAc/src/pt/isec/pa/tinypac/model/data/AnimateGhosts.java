@@ -6,10 +6,11 @@ import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.ClientElement;
 import pt.isec.pa.tinypac.ui.text.TextInterface;
 
 
-public class AnimateElement  implements IGameEngineEvolve {
+public class AnimateGhosts  implements IGameEngineEvolve {
+
     private final ClientElement element;
     private final TextInterface textInterface;
-    public AnimateElement(ClientElement element,TextInterface textInterface){
+    public AnimateGhosts(ClientElement element,TextInterface textInterface ){
         this.textInterface =textInterface;
         this.element=element;
     }
@@ -21,7 +22,5 @@ public class AnimateElement  implements IGameEngineEvolve {
             textInterface.DrawMazeElement(element.getMazeElement(x,y),x,y);
             textInterface.DrawClientMazeElement(element);
         }
-
-
     }
 }

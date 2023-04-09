@@ -15,7 +15,8 @@ import java.util.ArrayList;
 
 public class GameManager {
     private final IGameEngine gameEngine;
-    private PacMan pacMan;
+    private int numFood;
+    private final PacMan pacMan;
     private final ArrayList<ClientElement> elements;
     private final Maze maze;
     public GameManager(){
@@ -23,6 +24,7 @@ public class GameManager {
         this.elements=new ArrayList<>();
         this.pacMan=new PacMan(maze);
         this.gameEngine= new GameEngine();
+        this.numFood=0;
         setNewLevel("Levels\\Level01.txt");
     }
     public Maze getMaze() {
@@ -62,11 +64,11 @@ public class GameManager {
         IMazeElement element=null;
         switch (character){
             case 'W'->{element= new Wraper(); pacMan.storeWraperCoordinates(x,y);}
-            case 'o'->element=new NormalFood();
+            case 'o'->{element=new NormalFood();numFood++;}
             case 'F'->element=new Fruit();
             case 'M'->{pacMan.setxCoord(x);pacMan.setyCoord(y);}
-            case 'O'->element=new PowerFood();
-            case 'Y' -> element = new GhostCave();
+            case 'O'->{element=new PowerFood();numFood++;}
+            case 'Y' -> element = new GhostCaveDoor();
             case 'y'->{element=new GhostCave(); addGhost(x,y);}
             case 'x'->element=new Wall();
         }
@@ -79,10 +81,11 @@ public class GameManager {
         gameEngine.resume();
     }
     public void startGame(TextInterface textInterface){
-        elements.add(pacMan);
         MovePacMan movePacMan=new MovePacMan(pacMan,textInterface);
+        AnimatePacMan animatePacMan=new AnimatePacMan(pacMan,textInterface,numFood);
+        gameEngine.registerClient(animatePacMan);
         for(ClientElement element:elements){
-            AnimateElement animateElement=new AnimateElement(element,textInterface);
+            AnimateGhosts animateElement=new AnimateGhosts(element,textInterface);
             gameEngine.registerClient(animateElement);
         }
         gameEngine.registerClient(movePacMan);

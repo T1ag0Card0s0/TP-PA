@@ -1,8 +1,6 @@
 package pt.isec.pa.tinypac.model.data.mazeElements.clientElements;
 
 import com.googlecode.lanterna.TextColor;
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
-import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Maze;
 
 public class Inky  extends ClientElement  {
