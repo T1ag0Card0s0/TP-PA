@@ -38,50 +38,7 @@ public final class Maze {
                     char_board[y][x] = board[y][x].getSymbol();
         return char_board;
     }
-    public void setPosition(ClientElement element){
-        for(int i = 0; i<board.length;i++){
-            for(int j = 0; j<board[i].length;j++){
-                if(board[i][j] instanceof Start){
-                    element.setyCoord(j);
-                    element.setxCoord(i);
-                }
-            }
-        }
-    }
-    public void setNewLevel(String filePath){
-        try {
-            File file = new File(filePath);
-            FileReader reader = new FileReader(file);
-            BufferedReader br = new BufferedReader(reader);
-            int c;
-            int row = 0, column = 0;
-            while ((c = br.read()) != -1) {
-                set(column,row,elementFinder((char)c));
-                column++;
-                if ((char) c == '\n') {
-                    row++;
-                    column = 0;
-                }
-            }
-            br.close();
-            reader.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-    public IMazeElement elementFinder(char character){
-        IMazeElement element=null;
-        switch (character){
-            case 'W'->element=new Wrap();
-            case 'o'->element=new NormalFood();
-            case 'F'->element=new Fruit();
-            case 'M'-> element=new Start();
-            case 'O'->element=new PowerFood();
-            case 'Y','y'->element=new GhostCave();
-            case 'x'->element=new Wall();
-        }
-        return element;
-    }
+
     public int getWidth(){ return board[0].length;}
     public int getHeight(){return board.length;}
 

@@ -5,18 +5,19 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-import pt.isec.pa.tinypac.gameengine.GameEngine;
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
+import pt.isec.pa.tinypac.model.data.GameManager;
 import pt.isec.pa.tinypac.model.data.mazeElements.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
 import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.ClientElement;
-import pt.isec.pa.tinypac.model.data.mazeElements.clientElements.PacMan;
+
 
 import java.io.IOException;
 public class TextInterface {
+    private final GameManager gameManager;
     private TextGraphics textGraphics;
     private Terminal terminal;
-    public TextInterface() {
+    public TextInterface(GameManager gameManager) {
+        this.gameManager=gameManager;
         this.terminal=null;
         this.textGraphics=null;
     }
@@ -45,16 +46,8 @@ public class TextInterface {
         }
     }
     public void startGame(){
-        Maze maze = new Maze(32,32);
-        maze.setNewLevel("Levels\\Level01.txt");
-        DrawMaze(maze);
-        IGameEngine gameEngine = new GameEngine();
-        PacMan pacMan=new PacMan(maze,this);
-        ShowBoard boardContent=new ShowBoard(maze,pacMan,this);
-        gameEngine.registerClient(boardContent);
-        gameEngine.registerClient(pacMan);
-        gameEngine.start(100);
-        gameEngine.waitForTheEnd();
+        DrawMaze(gameManager.getMaze());
+        gameManager.startGame(this);
     }
     public void DrawMazeElement(IMazeElement element,int x,int y){
         if (element != null) {
@@ -84,10 +77,6 @@ public class TextInterface {
             e.printStackTrace();
         }
         return Key;
-    }
-
-    public Terminal getTerminal() {
-        return terminal;
     }
 
     public void CloseTerminal(){

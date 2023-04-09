@@ -5,13 +5,10 @@ import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Maze;
 
-public class Pinky extends ClientElement implements IGameEngineEvolve {
+public class Pinky extends ClientElement  {
 
     public Pinky(int xCoord, int yCoord, Maze maze){
         super(xCoord,yCoord,'█',new TextColor.RGB(255,184,255),maze);
     }
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
 
-    }
     }

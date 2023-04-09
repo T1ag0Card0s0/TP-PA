@@ -56,10 +56,10 @@ public class ClientElement implements IMazeElement {
     public void setMazeElement(int x,int y,IMazeElement element){
         maze.set(x,y,element);
     }
-    public void setStartPosition(){
-        maze.setPosition(this);
+
+    public boolean move() {
+        return false;
     }
-    public void move(){}
 
     @Override
     public TextColor getColor() {
