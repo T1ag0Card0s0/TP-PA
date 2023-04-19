@@ -1,35 +1,28 @@
 package pt.isec.pa.tinypac.gameengine;
-
 import java.util.HashSet;
 import java.util.Set;
-
 public final class GameEngine implements IGameEngine {
     private GameEngineState state;
     private GameEngineThread controlThread;
     private Set<IGameEngineEvolve> clients;
     System.Logger logger;
-
     private void setState(GameEngineState state) {
         this.state = state;
         logger.log(System.Logger.Level.INFO,state.toString());
     }
-
     public GameEngine() {
         logger = System.getLogger("GameEngine");
         clients = new HashSet<>();
         setState(GameEngineState.READY);
     }
-
     @Override
     public void registerClient(IGameEngineEvolve listener) {
         clients.add(listener);
     }
-
     @Override
     public void unregisterClient(IGameEngineEvolve listener) {
         clients.remove(listener);
     }
-
     @Override
     public boolean start(long interval) {
         if (state != GameEngineState.READY)
@@ -39,7 +32,6 @@ public final class GameEngine implements IGameEngine {
         controlThread.start();
         return false;
     }
-
     @Override
     public boolean stop() {
         if (state == GameEngineState.READY)
@@ -47,7 +39,6 @@ public final class GameEngine implements IGameEngine {
         setState(GameEngineState.READY);
         return true;
     }
-
     @Override
     public boolean pause() {
         if (state != GameEngineState.RUNNING)
@@ -55,7 +46,6 @@ public final class GameEngine implements IGameEngine {
         setState(GameEngineState.PAUSED);
         return true;
     }
-
     @Override
     public boolean resume() {
         if (state != GameEngineState.PAUSED)
@@ -63,17 +53,14 @@ public final class GameEngine implements IGameEngine {
         setState(GameEngineState.RUNNING);
         return false;
     }
-
     @Override
     public GameEngineState getCurrentState() {
         return state;
     }
-
     @Override
     public long getInterval() {
         return controlThread.interval;
     }
-
     @Override
     public void setInterval(long newInterval) {
         if (controlThread != null)
@@ -82,16 +69,12 @@ public final class GameEngine implements IGameEngine {
 
     @Override
     public void waitForTheEnd() {
-        //controlThread.setDaemon(false);
         try {
             controlThread.join();
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException e) {}
     }
-
     private class GameEngineThread extends Thread {
         long interval;
-
         GameEngineThread(long interval) {
             this.interval = interval;
             this.setDaemon(true);
@@ -100,12 +83,13 @@ public final class GameEngine implements IGameEngine {
         public void run() {
             int errCounter = 0;
             while (true) {
-                if (state == GameEngineState.READY)
-                    break;
+                if (state == GameEngineState.READY) break;
                 if (state == GameEngineState.RUNNING) {
                     new Thread(() -> {
                         long time = System.nanoTime();
-                        clients.forEach(client -> client.evolve(GameEngine.this, time));
+                        clients.forEach(
+                                client -> client.evolve(GameEngine.this, time)
+                        );
                     }).start();
                 }
                 try {
