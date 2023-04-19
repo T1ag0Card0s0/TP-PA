@@ -7,17 +7,10 @@ import pt.isec.pa.tinypac.model.data.Maze;
 
 import java.util.Random;
 
-public class Clyde extends MoveableElement implements IGameEngineEvolve{
-    private boolean inCave;
+public class Clyde extends Ghost implements IGameEngineEvolve{
+
     public Clyde(int x, int y, Maze maze) {
         super(x, y,maze,new TextColor.RGB(255,184,82));
-    }
-    public void setInCave(boolean inCave) {
-        this.inCave = inCave;
-    }
-    @Override
-    public boolean getInCave(){
-        return inCave;
     }
    @Override
     public boolean move(){
@@ -31,7 +24,6 @@ public class Clyde extends MoveableElement implements IGameEngineEvolve{
         }
         return true;
     }
-
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
         move();

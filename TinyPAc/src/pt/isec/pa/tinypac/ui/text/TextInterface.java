@@ -49,6 +49,11 @@ public class TextInterface {
             while (!finish) {
                 DrawInfoSection();
                 DrawMoveableElement();
+                if(fsm.WinLevel()){
+                    terminal.clearScreen();
+                    terminal.flush();
+                    continue;
+                }
                 KeyStroke keyStroke = terminal.pollInput();
                 if (keyStroke == null)continue;
 
@@ -121,12 +126,13 @@ public class TextInterface {
     }
     public void DrawInfoSection(){
         try{
-            textGraphics.putString(fsm.getBoardHeight(),5,"Nivel: "+fsm.getLevel());
-           textGraphics.putString(fsm.getBoardHeight(),6,"Pontuação: "+fsm.getPacManPoints());
-           textGraphics.putString(fsm.getBoardHeight(),7,"Vidas: "+fsm.getPacManLives());
-            textGraphics.putString(fsm.getBoardHeight(),8,"Press'esc' to exit");
-          ;
-           terminal.flush();
+            textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
+            textGraphics.putString(1, fsm.getBoardHeight()+1, "Nivel: "+fsm.getLevel());
+            textGraphics.putString(1, fsm.getBoardHeight()+2, "Pontuação: "+fsm.getPacManPoints());
+            textGraphics.putString(1, fsm.getBoardHeight()+3, "Vidas: "+fsm.getPacManLives());
+            textGraphics.putString(1, fsm.getBoardHeight()+4, "Estado do Jogo: "+fsm.getGameEngineState()+" ");
+            textGraphics.putString(1, fsm.getBoardHeight()+5, "Pressiona 'esc' para sair");
+            terminal.flush();
         }catch (IOException e){
             e.printStackTrace();
         }

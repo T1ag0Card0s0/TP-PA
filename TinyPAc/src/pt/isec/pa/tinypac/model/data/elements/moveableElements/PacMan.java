@@ -11,12 +11,14 @@ public class PacMan extends MoveableElement implements IGameEngineEvolve {
     private int lives;
     private boolean power;
     private int points;
+    private int numOfFood;
     public PacMan(int x, int y, Maze maze) {
         super(x, y, maze,TextColor.ANSI.GREEN);
         this.lives=3;
         this.power=false;
         this.wraperCoordinates=new int[2][2];
         this.points=0;
+        this.numOfFood=0;
     }
     public void setLives(int value){this.lives=value;}
     public void setPower(boolean value){this.power=value;}
@@ -48,12 +50,23 @@ public class PacMan extends MoveableElement implements IGameEngineEvolve {
     public int getPoints() {
         return points;
     }
+    public int getNumOfFood(){return numOfFood;}
     public void IdentifyAction(){
         IMazeElement element=getMazeElement(getX(),getY());
         if(element==null)return;
         switch (element.getSymbol()){
             case 'W'-> teleTransport();
-            case 'o'->{setMazeElement(getY(),getX(),null);points++;}
+            case 'o'->{
+                setMazeElement(getY(),getX(),null);
+                points++;
+                numOfFood++;
+            }
+            case 'O'->{
+                setPower(true);
+                setMazeElement(getY(),getX(),null);
+                points+=10;
+                numOfFood++;
+            }
         }
     }
     @Override

@@ -7,7 +7,7 @@ import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
 
 public class MoveableElement implements IMazeElement {
-    private Maze maze;
+    private final Maze maze;
     private int x,y;
     private int lastX,lastY;
     private final TextColor color;
@@ -63,9 +63,9 @@ public class MoveableElement implements IMazeElement {
             }
             return true;
         }
+        currentDirection=-1;
         return false;
     }
-
     public int getX() {
         return x;
     }
@@ -74,9 +74,6 @@ public class MoveableElement implements IMazeElement {
     }
     public int getLastX(){return lastX;}
     public int getLastY(){return lastY;}
-    public boolean getInCave(){return false;}
-    public boolean[] getNeighboors() {return neighboors;}
-    public int getCurrentDirection() {return currentDirection;}
     public boolean getNeighboorValue(int index){
         return neighboors[index];
     }
@@ -89,9 +86,9 @@ public class MoveableElement implements IMazeElement {
     }
     public void setX(int x) {this.x = x;}
     public void setY(int y) {this.y = y;}
-    public void setNeighboors(int index,boolean value){neighboors[index]=value;}
-    public void setMaze(Maze maze) {
-        this.maze = maze;
+
+    public void setNextDirection(int newDirection){
+        this.nextDirection=newDirection;
     }
     @Override
     public char getSymbol() {

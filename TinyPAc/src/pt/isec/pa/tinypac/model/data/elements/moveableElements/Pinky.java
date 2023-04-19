@@ -8,18 +8,12 @@ import pt.isec.pa.tinypac.model.data.Maze;
 
 import java.util.Random;
 
-public class Pinky extends MoveableElement implements IGameEngineEvolve {
-    private boolean inCave;
+public class Pinky extends Ghost implements IGameEngineEvolve {
+
     public Pinky(int x, int y, Maze maze) {
         super(x, y, maze,TextColor.ANSI.MAGENTA);
     }
-    public void setInCave(boolean inCave) {
-        this.inCave = inCave;
-    }
-    @Override
-    public boolean getInCave(){
-        return inCave;
-    }
+
     @Override
     public boolean move(){
         if(!super.move()){

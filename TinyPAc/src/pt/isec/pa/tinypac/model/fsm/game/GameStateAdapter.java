@@ -5,6 +5,7 @@ import pt.isec.pa.tinypac.model.data.Game;
 public class GameStateAdapter implements IGameState{
     protected Game game;
      protected GameContext context;
+     protected final int MAX_LEVEL=20;
     public GameStateAdapter(GameContext context,Game game){
         this.context=context;
         this.game=game;

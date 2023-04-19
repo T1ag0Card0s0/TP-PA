@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm.game.states;
 
 import pt.isec.pa.tinypac.model.data.Game;
+import pt.isec.pa.tinypac.model.data.Maze;
 import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 import pt.isec.pa.tinypac.model.fsm.game.GameStateAdapter;
@@ -8,7 +9,7 @@ import pt.isec.pa.tinypac.model.fsm.game.GameStateAdapter;
 public class GameStarted extends GameStateAdapter {
     public GameStarted(GameContext context, Game game) {
         super(context, game);
-        context.startGameEngine(500);
+        context.startGameEngine(100);
     }
     @Override
     public boolean KeyIsPressed(String keyPressed){
@@ -27,10 +28,16 @@ public class GameStarted extends GameStateAdapter {
     }
     @Override
     public boolean WinLevel() {
-        changeState(new InitialState(context,game));
+        if(game.thereIsFood()) return false;
+        if(game.getCurrentLevel()<MAX_LEVEL){
+            game.NextLevel();
+            changeState(new InitialState(context,game));
+        }else{
+            changeState(new GameWin(context,game));
+        }
+
         return false;
     }
-
     @Override
     public boolean WinGame() {
         changeState(new GameWin(context,game));

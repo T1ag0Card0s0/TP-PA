@@ -6,6 +6,7 @@ import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Game;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
+import pt.isec.pa.tinypac.model.data.elements.moveableElements.Ghost;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.fsm.game.states.InitialState;
 
@@ -26,7 +27,11 @@ public class GameContext{
         return state.getGameState();
     }
     public IMazeElement getMazeElement(int x, int y){return game.getMazeElement(x,y);}
-    public ArrayList<MoveableElement> getMoveableElements(){return game.getMoveableElements();}
+    public ArrayList<MoveableElement> getMoveableElements(){
+        ArrayList<MoveableElement>tmp=new ArrayList<>(game.getGhosts());
+        tmp.add(game.getPacMan());
+        return tmp;
+    }
     public MoveableElement getPacMan(){return game.getPacMan();}
     public int getPacManPoints(){return game.getPoints();}
     public int getLevel(){return game.getCurrentLevel();}
@@ -37,8 +42,11 @@ public class GameContext{
     public boolean allGhostsReachedCave(){return game.allGhostsInCave();}
 
     public void registEngineClients(){
-        for(MoveableElement newClient:game.getMoveableElements())
+        for(Ghost newClient:game.getGhosts()) {
+            newClient.setStartTime();
             gameEngine.registerClient((IGameEngineEvolve) newClient);
+        }
+        gameEngine.registerClient((IGameEngineEvolve) game.getPacMan());
     }
     public void unregistEngineClient(IGameEngineEvolve client){gameEngine.unregisterClient(client);}
     public void startGameEngine(long interval){gameEngine.start(interval);}
@@ -53,7 +61,7 @@ public class GameContext{
     public boolean LostCurrentLevel(){//RestartLevel
         return state.LostCurrentLevel();
     }
-    public boolean WinLevel(){//ReturnToLevel1
+    public boolean WinLevel(){
         return state.WinLevel();
     }
     public boolean WinGame(){
