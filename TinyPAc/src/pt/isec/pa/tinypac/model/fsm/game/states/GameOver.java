@@ -9,6 +9,12 @@ public class GameOver extends GameStateAdapter {
     public GameOver(GameContext context, Game game) {
         super(context, game);
     }
+
+    @Override
+    public boolean waitForTheEnd(){
+        context.waitForTheEnd();
+        return true;
+    }
     @Override
     public EGameState getGameState(){return EGameState.GAME_OVER;}
 }

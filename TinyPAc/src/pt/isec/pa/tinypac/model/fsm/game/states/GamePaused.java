@@ -11,10 +11,14 @@ public class GamePaused extends GameStateAdapter {
         super(context, game);
     }
     @Override
-    public boolean UnPauseGame(){
-        changeState(new GameStarted(context,game));
+    public boolean KeyIsPressed(String s){
+        if(s.equals(" ")){
+            context.resumeGameEngine();
+            changeState(new GameStarted(context,game));
+        }
         return true;
     }
+
     @Override
     public EGameState getGameState(){return EGameState.GAME_PAUSED;}
 }

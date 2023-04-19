@@ -1,10 +1,12 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import com.googlecode.lanterna.TextColor;
+import pt.isec.pa.tinypac.gameengine.IGameEngine;
+import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
 
-public class PacMan extends MoveableElement{
+public class PacMan extends MoveableElement implements IGameEngineEvolve {
     private int[][] wraperCoordinates;
     private int lives;
     private boolean power;
@@ -49,19 +51,15 @@ public class PacMan extends MoveableElement{
     public void IdentifyAction(){
         IMazeElement element=getMazeElement(getX(),getY());
         if(element==null)return;
-        System.out.println(element.getSymbol());
         switch (element.getSymbol()){
             case 'W'-> teleTransport();
             case 'o'->{setMazeElement(getY(),getX(),null);points++;}
         }
     }
     @Override
-    public boolean move(){
+    public void evolve(IGameEngine gameEngine, long currentTime) {
         if(super.move()){
             IdentifyAction();
-            return true;
         }
-        return false;
     }
-
 }

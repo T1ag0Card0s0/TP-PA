@@ -50,11 +50,15 @@ public class TextInterface {
                 DrawInfoSection();
                 DrawMoveableElement();
                 KeyStroke keyStroke = terminal.pollInput();
-                if (keyStroke != null) {
-                    fsm.DirectionKeyIsPressed(keyStroke.getKeyType().toString());
-                    if (Objects.requireNonNull(keyStroke.getKeyType()) == KeyType.Escape) {
-                        finish = true;
-                    }
+                if (keyStroke == null)continue;
+
+                if(keyStroke.getCharacter()!=null){
+                    fsm.KeyIsPressed(keyStroke.getCharacter().toString());
+                }else{
+                    fsm.KeyIsPressed(keyStroke.getKeyType().toString());
+                }
+                if (keyStroke.getKeyType() == KeyType.Escape) {
+                    finish = true;
                 }
             }
             CloseTerminal();
@@ -97,21 +101,19 @@ public class TextInterface {
     }
     public void DrawMoveableElement(){
         try {
-           /* for(MoveableElement element:fsm.getMoveableElements()){
-                if(element.getCurrentDirection()==-1) {
+           for(MoveableElement element:fsm.getMoveableElements()){
                     int lastX=element.getLastX(),lastY= element.getLastY();
                     int x=element.getX(),y=element.getY();
                     textGraphics.setForegroundColor(element.getColor());
                     textGraphics.putString(x,y, element.getSymbol() + "");
-                    //DrawMazeElement(fsm.getMazeElement(lastX, lastY), lastX, lastY);
-                }
-            }*/
-            MoveableElement element = fsm.getPacMan();
+                    DrawMazeElement(fsm.getMazeElement(lastX, lastY), lastX, lastY);
+            }
+            /*MoveableElement element = fsm.getPacMan();
             int lastX=element.getLastX(),lastY= element.getLastY();
             int x=element.getX(),y=element.getY();
             textGraphics.setForegroundColor(element.getColor());
             textGraphics.putString(x,y, element.getSymbol() + "");
-            DrawMazeElement(fsm.getMazeElement(lastX, lastY), lastX, lastY);
+            DrawMazeElement(fsm.getMazeElement(lastX, lastY), lastX, lastY);*/
             terminal.flush();
         }catch (IOException e){
             e.printStackTrace();
@@ -119,28 +121,16 @@ public class TextInterface {
     }
     public void DrawInfoSection(){
         try{
-            textGraphics.putString(fsm.getBoardHeight()+1,5,"Nivel: "+fsm.getLevel());
-           textGraphics.putString(fsm.getBoardHeight()+1,6,"Pontuação: "+fsm.getPacManPoints());
-           textGraphics.putString(fsm.getBoardHeight()+1,7,"Vidas: "+fsm.getPacManLives());
+            textGraphics.putString(fsm.getBoardHeight(),5,"Nivel: "+fsm.getLevel());
+           textGraphics.putString(fsm.getBoardHeight(),6,"Pontuação: "+fsm.getPacManPoints());
+           textGraphics.putString(fsm.getBoardHeight(),7,"Vidas: "+fsm.getPacManLives());
+            textGraphics.putString(fsm.getBoardHeight(),8,"Press'esc' to exit");
+          ;
            terminal.flush();
         }catch (IOException e){
             e.printStackTrace();
         }
     }
-    public String ReadKey() {
-        String Key="Character";
-        try {
-            KeyStroke keyStroke =terminal.pollInput();
-            if(keyStroke!=null){
-                Key= keyStroke.getKeyType().toString();
-                System.out.println(Key);
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return Key;
-    }
-
     public void CloseTerminal(){
         if(terminal!=null){
             try{

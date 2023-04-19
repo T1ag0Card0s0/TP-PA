@@ -18,7 +18,7 @@ public class GameStateAdapter implements IGameState{
     }
 
     @Override
-    public boolean DirectionKeyIsPressed(String keyPressed) {
+    public boolean KeyIsPressed(String keyPressed) {
         return false;
     }
 
@@ -26,17 +26,6 @@ public class GameStateAdapter implements IGameState{
     public boolean LostCurrentLevel() {
         return false;
     }
-
-    @Override
-    public boolean PauseGame() {
-        return false;
-    }
-
-    @Override
-    public boolean UnPauseGame() {
-        return false;
-    }
-
     @Override
     public boolean WinLevel() {
         return false;
@@ -46,4 +35,7 @@ public class GameStateAdapter implements IGameState{
     public boolean WinGame() {
         return false;
     }
+
+    @Override
+    public boolean waitForTheEnd() {return false;}
 }

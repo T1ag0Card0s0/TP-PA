@@ -1,6 +1,8 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import com.googlecode.lanterna.TextColor;
+import pt.isec.pa.tinypac.gameengine.IGameEngine;
+import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
 
@@ -40,6 +42,7 @@ public class MoveableElement implements IMazeElement {
         this.nextDirection = newDirection;
     }
     public void changeDirection(){
+        if(nextDirection==-1)return;
         if(!neighboors[nextDirection]){
             currentDirection=nextDirection;
         }
@@ -90,7 +93,6 @@ public class MoveableElement implements IMazeElement {
     public void setMaze(Maze maze) {
         this.maze = maze;
     }
-
     @Override
     public char getSymbol() {
         return symbol;

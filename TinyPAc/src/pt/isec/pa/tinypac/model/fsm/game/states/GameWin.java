@@ -10,7 +10,8 @@ public class GameWin extends GameStateAdapter {
         super(context, game);
     }
     @Override
-    public boolean WinLevel(){
+    public boolean waitForTheEnd(){
+        context.waitForTheEnd();
         return true;
     }
     @Override

@@ -1,12 +1,14 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import com.googlecode.lanterna.TextColor;
+import pt.isec.pa.tinypac.gameengine.IGameEngine;
+import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Maze;
 
 
 import java.util.Random;
 
-public class Pinky extends MoveableElement  {
+public class Pinky extends MoveableElement implements IGameEngineEvolve {
     private boolean inCave;
     public Pinky(int x, int y, Maze maze) {
         super(x, y, maze,TextColor.ANSI.MAGENTA);
@@ -18,7 +20,7 @@ public class Pinky extends MoveableElement  {
     public boolean getInCave(){
         return inCave;
     }
-  /*  @Override
+    @Override
     public boolean move(){
         if(!super.move()){
             Random rnd=new Random();
@@ -29,6 +31,11 @@ public class Pinky extends MoveableElement  {
             return false;
         }
         return true;
-    }*/
+    }
+    @Override
+    public void evolve(IGameEngine gameEngine, long currentTime) {
+        move();
+    }
+
 
 }

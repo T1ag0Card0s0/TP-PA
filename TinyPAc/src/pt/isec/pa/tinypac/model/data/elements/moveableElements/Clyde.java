@@ -7,7 +7,7 @@ import pt.isec.pa.tinypac.model.data.Maze;
 
 import java.util.Random;
 
-public class Clyde extends MoveableElement {
+public class Clyde extends MoveableElement implements IGameEngineEvolve{
     private boolean inCave;
     public Clyde(int x, int y, Maze maze) {
         super(x, y,maze,new TextColor.RGB(255,184,82));
@@ -19,7 +19,7 @@ public class Clyde extends MoveableElement {
     public boolean getInCave(){
         return inCave;
     }
-  /*  @Override
+   @Override
     public boolean move(){
         if(!super.move()){
             Random rnd=new Random();
@@ -30,6 +30,10 @@ public class Clyde extends MoveableElement {
             return false;
         }
         return true;
-    }*/
+    }
 
+    @Override
+    public void evolve(IGameEngine gameEngine, long currentTime) {
+        move();
+    }
 }

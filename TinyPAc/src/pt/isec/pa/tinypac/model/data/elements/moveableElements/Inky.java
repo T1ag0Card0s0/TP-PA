@@ -7,7 +7,7 @@ import pt.isec.pa.tinypac.model.data.Maze;
 
 import java.util.Random;
 
-public class Inky extends MoveableElement  {
+public class Inky extends MoveableElement implements IGameEngineEvolve {
     private boolean inCave;
     public Inky(int x, int y, Maze maze) {
         super(x, y,maze,TextColor.ANSI.CYAN);
@@ -19,7 +19,7 @@ public class Inky extends MoveableElement  {
     public boolean getInCave(){
         return inCave;
     }
-  /*  @Override
+    @Override
     public boolean move(){
         if(!super.move()){
             Random rnd=new Random();
@@ -30,7 +30,9 @@ public class Inky extends MoveableElement  {
             return false;
         }
         return true;
-    }*/
-
-
+    }
+    @Override
+    public void evolve(IGameEngine gameEngine, long currentTime) {
+        move();
+    }
 }
