@@ -8,6 +8,7 @@ import pt.isec.pa.tinypac.model.data.Maze;
 
 public class MoveableElement implements IMazeElement {
     private final Maze maze;
+    private long ticks;
     private int x,y;
     private int lastX,lastY;
     private final TextColor color;
@@ -24,6 +25,7 @@ public class MoveableElement implements IMazeElement {
         this.neighboors=new boolean[]{true,true,true,true};
         this.currentDirection=-1;
         this.maze=maze;
+        this.ticks=0;
     }
     public void checkNeighboors() {
         neighboors[0] = maze.get(x, y - 1) != null && maze.get(x, y - 1).getSymbol() == 'x';
@@ -48,6 +50,7 @@ public class MoveableElement implements IMazeElement {
         }
     }
     public boolean move(){
+        ticks++;
         checkNeighboors();
         changeDirection();
         if(currentDirection==-1) { return false;}
@@ -81,6 +84,7 @@ public class MoveableElement implements IMazeElement {
     public IMazeElement getMazeElement(int x,int y){
         return maze.get(x,y);
     }
+    public long getTicks(){return ticks;}
     public void setMazeElement(int x, int y, IMazeElement mazeElement){
         maze.set(y, x, mazeElement);
     }

@@ -13,6 +13,7 @@ public class Blinky extends Ghost implements IGameEngineEvolve{
     private final Random rnd;
     public Blinky(int x, int y, Maze maze) {
         super(x,y, maze,TextColor.ANSI.RED);
+
         this.rnd=new Random();
     }
 
@@ -32,8 +33,7 @@ public class Blinky extends Ghost implements IGameEngineEvolve{
 
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
-        System.out.println(currentTime-getStartTime());
-        if(currentTime-getStartTime()<5000){
+        if(getTicks()*gameEngine.getInterval()<5000){
             move();
         }else{
             if(getMazeElement(getX(),getY())==null){

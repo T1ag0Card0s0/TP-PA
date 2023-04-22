@@ -56,7 +56,7 @@ public class PacMan extends MoveableElement implements IGameEngineEvolve {
         if(element==null)return;
         switch (element.getSymbol()){
             case 'W'-> teleTransport();
-            case 'o'->{
+            case '.'->{
                 setMazeElement(getY(),getX(),null);
                 points++;
                 numOfFood++;

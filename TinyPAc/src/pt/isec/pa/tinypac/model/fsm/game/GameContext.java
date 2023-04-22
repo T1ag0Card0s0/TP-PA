@@ -43,7 +43,6 @@ public class GameContext{
 
     public void registEngineClients(){
         for(Ghost newClient:game.getGhosts()) {
-            newClient.setStartTime();
             gameEngine.registerClient((IGameEngineEvolve) newClient);
         }
         gameEngine.registerClient((IGameEngineEvolve) game.getPacMan());

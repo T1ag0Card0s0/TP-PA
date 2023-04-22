@@ -9,12 +9,9 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
-import pt.isec.pa.tinypac.model.data.elements.moveableElements.PacMan;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.util.Objects;
 
 public class TextInterface {
     static GameContext fsm;
@@ -76,7 +73,7 @@ public class TextInterface {
         switch (c){
             case 'x'->color = TextColor.ANSI.BLUE;
             case 'W'->color =TextColor.ANSI.WHITE;
-            case 'o', 'O' ->color = TextColor.ANSI.YELLOW;
+            case '.', 'O' ->color = TextColor.ANSI.YELLOW;
             case 'F', 'Y' ->color=TextColor.ANSI.MAGENTA;
         }
         return color;
@@ -113,12 +110,6 @@ public class TextInterface {
                     textGraphics.putString(x,y, element.getSymbol() + "");
                     DrawMazeElement(fsm.getMazeElement(lastX, lastY), lastX, lastY);
             }
-            /*MoveableElement element = fsm.getPacMan();
-            int lastX=element.getLastX(),lastY= element.getLastY();
-            int x=element.getX(),y=element.getY();
-            textGraphics.setForegroundColor(element.getColor());
-            textGraphics.putString(x,y, element.getSymbol() + "");
-            DrawMazeElement(fsm.getMazeElement(lastX, lastY), lastX, lastY);*/
             terminal.flush();
         }catch (IOException e){
             e.printStackTrace();

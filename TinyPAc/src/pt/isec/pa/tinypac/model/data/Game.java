@@ -67,7 +67,8 @@ public class Game {
             case 'M'->pacMan=new PacMan(x,y,maze);
             case 'y'->{addGhost(x,y);}
             case 'W'->storeWraperCoordinates(x,y);
-            case 'O','o'->numOfFood++;
+            case 'O'->numOfFood++;
+            case 'o'->{numOfFood++;element.setSymbol('.');}
             case 'Y'->{caveDoorCoords[0]=x;caveDoorCoords[1]=y;}
         }
         return element;
