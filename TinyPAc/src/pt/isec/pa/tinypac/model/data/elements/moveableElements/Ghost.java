@@ -1,41 +1,42 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
-import com.googlecode.lanterna.TextColor;
-import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
+
+import java.util.Random;
 
 
 public class Ghost extends MoveableElement{
+    private final Random rnd;
     private int[] caveDoorCoords;
     private boolean inCave;
-    public Ghost(int x, int y, Maze maze, TextColor color) {
-        super(x, y, maze, color);
+    public Ghost(int x, int y,char symbol, Maze maze) {
+        super(x, y,symbol, maze);
         this.caveDoorCoords=new int[2];
-        this.inCave=false;
+        this.inCave=true;
+        this.rnd=new Random();
     }
     public void travelTo(int x,int y){
-        if(getX()==x&&getY()==y)return;
         if(getX()<x){
-            x++;
+            setNextDirection(1);
         }else if(getY()<y){
-            y++;
+            setNextDirection(2);
         }else if(getX()>x){
-            x--;
+            setNextDirection(3);
         }else{
-            y--;
+            setNextDirection(0);
         }
-        setX(x);
-        setY(y);
+        move();
     }
-    public void checkIfInCave(){
-        IMazeElement element=getMazeElement(getX(),getY());
-        if(element==null){
-            inCave=false;
+    public void lockedMovement(){
+        if(getTicks()<50&&!super.move()) {
+            int newDirection;
+            do {
+                newDirection = rnd.nextInt(4);
+            } while (getNeighboorValue(newDirection));
+            setNextDirection(newDirection);
             return;
         }
-        inCave=true;
     }
-
     public boolean getInCave(){return inCave;}
     public int getCaveDoorCoords(int index){
         return caveDoorCoords[index];
@@ -43,7 +44,7 @@ public class Ghost extends MoveableElement{
     public void setCaveDoorCoords(int []doorCoords){
         this.caveDoorCoords=doorCoords;
     }
-    public void setInCave(boolean inCave) {
-        this.inCave = inCave;
-    }
+    public void setInCave(boolean inCave) {this.inCave = inCave;}
+
+
 }

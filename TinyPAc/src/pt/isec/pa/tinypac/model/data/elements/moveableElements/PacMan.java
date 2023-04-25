@@ -1,24 +1,22 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
-import com.googlecode.lanterna.TextColor;
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
-import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
-import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.Maze;
 
-public class PacMan extends MoveableElement implements IGameEngineEvolve {
+public class PacMan extends MoveableElement  {
     private int[][] wraperCoordinates;
     private int lives;
     private boolean power;
+    private int powerTime;
     private int points;
     private int numOfFood;
     public PacMan(int x, int y, Maze maze) {
-        super(x, y, maze,TextColor.ANSI.GREEN);
+        super(x, y, 'P',maze);
         this.lives=3;
         this.power=false;
         this.wraperCoordinates=new int[2][2];
         this.points=0;
         this.numOfFood=0;
+        this.powerTime=5000;
     }
     public void setLives(int value){this.lives=value;}
     public void setPower(boolean value){this.power=value;}
@@ -51,10 +49,9 @@ public class PacMan extends MoveableElement implements IGameEngineEvolve {
         return points;
     }
     public int getNumOfFood(){return numOfFood;}
+    public int getPowerTime(){return powerTime;}
     public void IdentifyAction(){
-        IMazeElement element=getMazeElement(getX(),getY());
-        if(element==null)return;
-        switch (element.getSymbol()){
+        switch (getMazeElementSymbol(getX(),getY())){
             case 'W'-> teleTransport();
             case '.'->{
                 setMazeElement(getY(),getX(),null);
@@ -62,6 +59,9 @@ public class PacMan extends MoveableElement implements IGameEngineEvolve {
                 numOfFood++;
             }
             case 'O'->{
+                if(power)powerTime=powerTime+5000;
+                else powerTime=5000;
+                System.out.println("power: "+power+" powerTime:"+powerTime);
                 setPower(true);
                 setMazeElement(getY(),getX(),null);
                 points+=10;
@@ -70,9 +70,11 @@ public class PacMan extends MoveableElement implements IGameEngineEvolve {
         }
     }
     @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
+    public boolean move() {
         if(super.move()){
             IdentifyAction();
+            return true;
         }
+        return false;
     }
 }

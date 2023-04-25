@@ -7,13 +7,12 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 
 import java.io.IOException;
 
-public class TextInterface {
+public class TextInterface   {
     static GameContext fsm;
     private static TextGraphics textGraphics;
     private static Terminal terminal;
@@ -46,21 +45,17 @@ public class TextInterface {
             while (!finish) {
                 DrawInfoSection();
                 DrawMoveableElement();
-                if(fsm.WinLevel()){
-                    terminal.clearScreen();
-                    terminal.flush();
-                    continue;
-                }
-                KeyStroke keyStroke = terminal.pollInput();
-                if (keyStroke == null)continue;
 
-                if(keyStroke.getCharacter()!=null){
+                KeyStroke keyStroke = terminal.pollInput();
+                if (keyStroke == null) continue;
+
+                if (keyStroke.getCharacter() != null) {
                     fsm.KeyIsPressed(keyStroke.getCharacter().toString());
-                }else{
+                } else {
                     fsm.KeyIsPressed(keyStroke.getKeyType().toString());
                 }
                 if (keyStroke.getKeyType() == KeyType.Escape) {
-                    finish = true;
+                    finish=true;
                 }
             }
             CloseTerminal();
@@ -69,21 +64,27 @@ public class TextInterface {
         }
     }
     public TextColor getColor(char c){
-        TextColor color=TextColor.ANSI.BLACK;
-        switch (c){
-            case 'x'->color = TextColor.ANSI.BLUE;
-            case 'W'->color =TextColor.ANSI.WHITE;
-            case '.', 'O' ->color = TextColor.ANSI.YELLOW;
-            case 'F', 'Y' ->color=TextColor.ANSI.MAGENTA;
-        }
-        return color;
+
+        return (
+                switch (c){
+                    case 'x'-> TextColor.ANSI.BLUE;
+                    case 'W'->TextColor.ANSI.WHITE;
+                    case '.', 'O' -> TextColor.ANSI.YELLOW;
+                    case 'F', 'Y' ->TextColor.ANSI.MAGENTA;
+                    case 'P'->TextColor.ANSI.GREEN;
+                    case 'p'-> new TextColor.RGB(222,161,133);
+                    case 'b'->TextColor.ANSI.RED;
+                    case 'c'->new TextColor.RGB(255,140,0);
+                    case 'i'->new TextColor.RGB(0,255,255);
+                    default -> TextColor.ANSI.BLACK;
+                }
+                );
     }
     public void DrawMaze() {
         try {
             for (int i = 0; i < fsm.getBoardHeight(); i++) {
                 for (int j = 0; j < fsm.getBoardWidth(); j++) {
-                    IMazeElement temp = fsm.getMazeElement(i,j);
-                    DrawMazeElement(temp,i,j);
+                    DrawMazeElement(i,j);
                 }
             }
             textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -92,23 +93,23 @@ public class TextInterface {
             e.printStackTrace();
         }
     }
-    public void DrawMazeElement(IMazeElement element, int x, int y){
-        if (element != null) {
-            textGraphics.setForegroundColor(getColor(element.getSymbol()));
-            textGraphics.putString(x, y, element.getSymbol() + "");
-        } else {
-            textGraphics.putString(x, y, " ");
-            textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        }
+    public void DrawMazeElement( int x, int y){
+        char symbol=fsm.getMazeSymbols()[x][y];
+        textGraphics.setForegroundColor(getColor(symbol));
+        textGraphics.putString(x, y, symbol + "");
     }
     public void DrawMoveableElement(){
         try {
            for(MoveableElement element:fsm.getMoveableElements()){
-                    int lastX=element.getLastX(),lastY= element.getLastY();
-                    int x=element.getX(),y=element.getY();
-                    textGraphics.setForegroundColor(element.getColor());
-                    textGraphics.putString(x,y, element.getSymbol() + "");
-                    DrawMazeElement(fsm.getMazeElement(lastX, lastY), lastX, lastY);
+               int lastX=element.getLastX(),lastY= element.getLastY();
+               int x=element.getX(),y=element.getY();
+               char c= element.getSymbol();
+               DrawMazeElement(lastX, lastY);
+               if(element.getVulnerable())
+                   textGraphics.setForegroundColor(TextColor.ANSI.BLUE);
+               else
+                    textGraphics.setForegroundColor(getColor(c));
+               textGraphics.putString(x,y, "█");
             }
             terminal.flush();
         }catch (IOException e){
@@ -121,7 +122,7 @@ public class TextInterface {
             textGraphics.putString(1, fsm.getBoardHeight()+1, "Nivel: "+fsm.getLevel());
             textGraphics.putString(1, fsm.getBoardHeight()+2, "Pontuação: "+fsm.getPacManPoints());
             textGraphics.putString(1, fsm.getBoardHeight()+3, "Vidas: "+fsm.getPacManLives());
-            textGraphics.putString(1, fsm.getBoardHeight()+4, "Estado do Jogo: "+fsm.getGameEngineState()+" ");
+            textGraphics.putString(1, fsm.getBoardHeight()+4, "Estado do Jogo: "+fsm.getState()+"    ");
             textGraphics.putString(1, fsm.getBoardHeight()+5, "Pressiona 'esc' para sair");
             terminal.flush();
         }catch (IOException e){
@@ -137,4 +138,5 @@ public class TextInterface {
             }
         }
     }
+
 }
