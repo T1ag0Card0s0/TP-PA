@@ -12,6 +12,7 @@ public class MoveableElement implements IMazeElement {
     private int currentDirection,nextDirection;//0=TOP 1=RIGHT 2=BOTTOM 3=LEFT -1=STOP
     private final boolean []neighboors;//TOP,RIGHT,BOTTOM,LEFT Check if there are walls around
     private boolean vulnerable;
+    private long interval;
     public MoveableElement(int x,int y,char symbol,Maze maze){
         this.symbol=symbol;
         this.x=x;
@@ -22,6 +23,7 @@ public class MoveableElement implements IMazeElement {
         this.currentDirection=-1;
         this.maze=maze;
         this.ticks=0;
+        this.interval=0;
         this.vulnerable=false;
         checkNeighboors();
     }
@@ -31,16 +33,13 @@ public class MoveableElement implements IMazeElement {
         neighboors[2] = getMazeElementSymbol(x,y+1) == 'x';
         neighboors[3] = getMazeElementSymbol(x-1,y) == 'x';
     }
-    public void setNextDirection(String directionKey) {
-        int newDirection=-1;
-        switch (directionKey){
-            case "ArrowUp"->newDirection=0;
-            case "ArrowRight"->newDirection=1;
-            case "ArrowDown"->newDirection=2;
-            case "ArrowLeft"->newDirection=3;
-        }
-        this.nextDirection = newDirection;
+    public void checkNeighboorsWithExtraConstraint(char c) {
+        neighboors[0] = neighboors[0]||getMazeElementSymbol(x,y-1) == c;
+        neighboors[1] = neighboors[1]||getMazeElementSymbol(x + 1,y) == c;
+        neighboors[2] = neighboors[2]||getMazeElementSymbol(x,y+1) == x;
+        neighboors[3] = neighboors[3]||getMazeElementSymbol(x-1,y) == c;
     }
+    public boolean[] getNeighboors(){return neighboors;}
     public void changeDirection(){
         if(nextDirection==-1)return;
         if(!neighboors[nextDirection]){
@@ -81,8 +80,6 @@ public class MoveableElement implements IMazeElement {
         return maze.getMaze()[x][y];
     }
     public long getTicks(){return ticks;}
-    public int getCurrentDirection(){return currentDirection;}
-    public boolean[] getNeighboors(){return neighboors;}
     public void setMazeElement(int x, int y, IMazeElement mazeElement){
         maze.set(y, x, mazeElement);
     }
@@ -93,6 +90,8 @@ public class MoveableElement implements IMazeElement {
     }
     public void setVulnerable(boolean value){vulnerable=value;}
     public boolean getVulnerable(){return vulnerable;}
+    public void setGameEngineInterval(long interval){this.interval=interval;}
+    public long getInterval(){return interval;}
     @Override
     public char getSymbol() {
         return symbol;

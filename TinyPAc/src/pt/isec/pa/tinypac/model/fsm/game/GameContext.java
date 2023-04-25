@@ -1,7 +1,6 @@
 package pt.isec.pa.tinypac.model.fsm.game;
 
 import pt.isec.pa.tinypac.gameengine.GameEngine;
-import pt.isec.pa.tinypac.gameengine.GameEngineState;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.GameManager;
@@ -29,18 +28,15 @@ public class GameContext implements IGameEngineEvolve{
     public int getBoardWidth(){return gameManager.getBoardWidth();}
    public int getPacManLives(){return gameManager.getPacManLives();}
     public char [][]getMazeSymbols(){return  gameManager.getMazeSymbols();}
-    public boolean pacManHasPower(){return gameManager.pacManHasPower();}
-   // public boolean allGhostsReachedCave(){return gameManager.allGhostsInCave();}
     public MoveableElement[] getMoveableElements(){return gameManager.getMoveableElements();}
     public void registEngineClients(){
         gameEngine.registerClient(gameManager);
     }
-    public void unregistEngineClient(IGameEngineEvolve client){gameEngine.unregisterClient(client);}
     public void startGameEngine(long interval){
+        gameManager.setGameEngineInterval(interval);
         gameEngine.registerClient(this);
         gameEngine.registerClient(gameManager);
         gameEngine.start(interval);}
-    public GameEngineState getGameEngineState(){return gameEngine.getCurrentState();}
     public void waitForTheEnd(){gameEngine.waitForTheEnd();}
     public void pauseGameEngine(){gameEngine.pause();}
     public void resumeGameEngine(){gameEngine.resume();}

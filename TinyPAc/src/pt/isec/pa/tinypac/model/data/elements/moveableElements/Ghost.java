@@ -2,10 +2,11 @@ package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import pt.isec.pa.tinypac.model.data.Maze;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-
 public class Ghost extends MoveableElement{
+    private ArrayList<Integer> directions;
     private final Random rnd;
     private int[] caveDoorCoords;
     private boolean inCave;
@@ -15,29 +16,31 @@ public class Ghost extends MoveableElement{
         this.inCave=true;
         this.rnd=new Random();
     }
-    public void travelTo(int x,int y){
-        if(getX()<x){
+    public boolean travelTo(int x,int y){
+        if(getMazeElementSymbol(getX(),getY())=='Y')return true;
+        if(x==getX()) {
+            if (y < getY()) setNextDirection(0);
+            else setNextDirection(2);
+        }else if(y==getY()){
+            if (x < getX()) setNextDirection(1);
+            else setNextDirection(3);
+        }
+        /*if(getMazeElementSymbol(getX(),getY())=='Y')return true;
+        if(getX()<=x){
             setNextDirection(1);
-        }else if(getY()<y){
+        }else if(getY()>=y){
             setNextDirection(2);
-        }else if(getX()>x){
+        }else if(getX()>=x){
             setNextDirection(3);
         }else{
             setNextDirection(0);
-        }
-        move();
+        }*/
+        return false;
     }
-    public void lockedMovement(){
-        if(getTicks()<50&&!super.move()) {
-            int newDirection;
-            do {
-                newDirection = rnd.nextInt(4);
-            } while (getNeighboorValue(newDirection));
-            setNextDirection(newDirection);
-            return;
-        }
+    public boolean getInCave(){
+        inCave= getMazeElementSymbol(getX(), getY()) == 'y';
+        return inCave;
     }
-    public boolean getInCave(){return inCave;}
     public int getCaveDoorCoords(int index){
         return caveDoorCoords[index];
     }
@@ -45,6 +48,21 @@ public class Ghost extends MoveableElement{
         this.caveDoorCoords=doorCoords;
     }
     public void setInCave(boolean inCave) {this.inCave = inCave;}
-
+    public void choseRandDirection(){
+        int nextDirection;
+        do{
+            nextDirection=rnd.nextInt(4);
+        }while (getNeighboorValue(nextDirection));
+        setNextDirection(nextDirection);
+    }
+    public void lockedMovement(){
+        if(!super.move()){
+            choseRandDirection();
+        }else{
+            if(getTicks()*getInterval()>5000){
+               travelTo(caveDoorCoords[0],caveDoorCoords[1]);
+            }
+        }
+    }
 
 }

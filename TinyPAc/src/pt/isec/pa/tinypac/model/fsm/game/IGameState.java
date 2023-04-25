@@ -7,6 +7,4 @@ public interface IGameState {
      boolean WinLevel();
      boolean beVulnerable(long currentTime);
      boolean WinGame();
-     boolean waitForTheEnd();
-
 }

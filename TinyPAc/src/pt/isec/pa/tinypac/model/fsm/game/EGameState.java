@@ -1,6 +1,5 @@
 package pt.isec.pa.tinypac.model.fsm.game;
 
-import pt.isec.pa.tinypac.model.data.Game;
 import pt.isec.pa.tinypac.model.data.GameManager;
 import pt.isec.pa.tinypac.model.fsm.game.states.*;
 
@@ -15,7 +14,6 @@ public enum EGameState {
             case GAME_PAUSED -> new GamePaused(context,gameManager);
             case GAME_OVER -> new GameOver(context,gameManager);
             case VULNERABLE -> new Vulnerable(context,gameManager);
-            default -> null;
         };
     }
     @Override

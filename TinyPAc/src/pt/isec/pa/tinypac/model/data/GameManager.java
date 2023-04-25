@@ -17,11 +17,13 @@ public class GameManager implements IGameEngineEvolve {
     private int currentLevel;
     private MoveableElement[] elements;
     private int vulnerableTicks;
+    private long interval;
     public GameManager(){
         currentLevel=1;
         game=initSize(getLevelFilePath());
         elements=new MoveableElement[5];
         vulnerableTicks=0;
+        this.interval=0;
     }
     private Game initSize(String filepath){
         int row = 0, column = 0;
@@ -69,6 +71,7 @@ public class GameManager implements IGameEngineEvolve {
             }
             br.close();
             reader.close();
+
             PacMan pacMan = (PacMan) game.getPacMan();
             pacMan.setWraperCoordinates(game.getWraperCoordinates());
             elements[0]=pacMan;
@@ -123,14 +126,15 @@ public class GameManager implements IGameEngineEvolve {
     public int getBoardWidth(){return game.getBoardWidth();}
     public int getPacManLives(){return game.getPacManLives();}
     public char[][]getMazeSymbols(){return  game.getMazeSymbols();}
-    public MoveableElement[] getMoveableElements(){
-        return elements;
-    }
-    public void setVulnerable(boolean value){
-        game.setGhostsVulnerable(value);
+    public MoveableElement[] getMoveableElements(){return elements;}
+    public void setVulnerable(boolean value){game.setGhostsVulnerable(value);}
+    public void setGameEngineInterval(long interval){
+        this.interval=interval;
+        for (MoveableElement element: elements){
+            element.setGameEngineInterval(interval);
+        }
     }
     public boolean endOfVulnerability(long interval){
-        System.out.println("TimePassed: "+(interval*vulnerableTicks));
         if(interval*(vulnerableTicks++)>game.getVulnerableTime()){
             vulnerableTicks=0;
             return true;

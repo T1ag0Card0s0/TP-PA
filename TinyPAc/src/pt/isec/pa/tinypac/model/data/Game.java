@@ -10,11 +10,9 @@ public class Game {
     private int index;
     private PacMan pacMan;
     private final ArrayList<Ghost> ghosts;
-    private Maze maze;
-    private int currentLevel;
+    private final Maze maze;
     private int numOfFood;
     public Game(int height,int width){
-        this.currentLevel = 1;
         this.maze=new Maze(height,width);
         this.pacMan=null;
         this.ghosts=new ArrayList<>();
@@ -29,26 +27,18 @@ public class Game {
         index++;
     }
     public void storeCaveDoorCoords(int x,int y){caveDoorCoords[0]=x;caveDoorCoords[1]=y;}
-    public void setPacmanNextDirection(String keyPressed){if(pacMan!=null)pacMan.setNextDirection(keyPressed);}
     public void addGhost(int x,int y){
-        if(ghosts.size()>4)return;
-        switch (ghosts.size()){
-            case 0-> ghosts.add(new Blinky(x,y,maze));
-            case 1-> ghosts.add(new Clyde(x,y,maze));
-            case 2-> ghosts.add(new Inky(x,y,maze));
-            case 3-> ghosts.add(new Pinky(x,y,maze));
-        }
-    }
-    public void NextLevel(){
-        if(currentLevel>20)return;
-        currentLevel++;
+        if(ghosts.size()!=0)return;
+        ghosts.add(new Blinky(x,y,maze));
+        ghosts.add(new Clyde(x,y,maze));
+        ghosts.add(new Inky(x,y,maze));
+        ghosts.add(new Pinky(x,y,maze));
     }
     public boolean thereIsFood(){
         if(pacMan==null)return false;
         return !(numOfFood==pacMan.getNumOfFood());
     }
     public int[]getCaveDoorCoords(){return caveDoorCoords;}
-    public int getCurrentLevel(){return currentLevel;}
     public int getPacManLives(){return pacMan.getLives();}
     public int getPoints(){return pacMan.getPoints();}
     public int getBoardHeight(){return maze.getMaze().length;}
@@ -58,7 +48,6 @@ public class Game {
     public void setNumOfFood(int value){numOfFood=value;}
     public void setPacMan(PacMan pacMan){this.pacMan=pacMan;}
     public Maze getMaze() {return maze;}
-    public void setMaze(Maze newMaze){this.maze=newMaze;}
     public boolean pacManHasPower(){return pacMan.getPowerValue();}
     public ArrayList<Ghost> getGhosts() {
         return ghosts;
@@ -88,4 +77,5 @@ public class Game {
     public int getVulnerableTime(){
         return pacMan.getPowerTime();
     }
+
 }

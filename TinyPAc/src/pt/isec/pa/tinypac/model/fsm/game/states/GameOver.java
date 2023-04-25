@@ -1,6 +1,5 @@
 package pt.isec.pa.tinypac.model.fsm.game.states;
 
-import pt.isec.pa.tinypac.model.data.Game;
 import pt.isec.pa.tinypac.model.data.GameManager;
 import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
@@ -11,11 +10,6 @@ public class GameOver extends GameStateAdapter {
         super(context, gameManager);
     }
 
-    @Override
-    public boolean waitForTheEnd(){
-        context.waitForTheEnd();
-        return true;
-    }
     @Override
     public EGameState getGameState(){return EGameState.GAME_OVER;}
 }
