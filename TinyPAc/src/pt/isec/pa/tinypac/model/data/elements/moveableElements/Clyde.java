@@ -1,6 +1,8 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import pt.isec.pa.tinypac.model.data.Maze;
+
+
 public class Clyde extends Ghost {
     int xPCoord,yPCoord;
     public Clyde(int x, int y, Maze maze) {
@@ -10,7 +12,7 @@ public class Clyde extends Ghost {
     public boolean pacManInFieldOfVision(){
         int i = 0;
         for(boolean b: getNeighboors()){
-            if(b){
+            if(!b){
                 int x=getX(),y=getY();
                 while (getMazeElementSymbol(x,y)!='x'){
                     switch (i){
@@ -35,12 +37,14 @@ public class Clyde extends Ghost {
     }
     @Override
     public void evolve() {
-        if(getInCave()) {
+        if (getInCave()) {
             lockedMovement();
-        }else if(pacManInFieldOfVision()){
-            super.move();
-        }else if(!super.move()){
-            choseRandDirection();
+        } else{
+            if (pacManInFieldOfVision()) {
+                super.move();
+            } else if (!super.move()) {
+                choseRandDirection();
+            }
         }
     }
 }

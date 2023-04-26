@@ -39,7 +39,7 @@ public class MoveableElement implements IMazeElement {
         neighboors[2] = neighboors[2]||getMazeElementSymbol(x,y+1) == x;
         neighboors[3] = neighboors[3]||getMazeElementSymbol(x-1,y) == c;
     }
-    public boolean[] getNeighboors(){return neighboors;}
+    public boolean[] getNeighboors(){checkNeighboors();return neighboors;}
     public void changeDirection(){
         if(nextDirection==-1)return;
         if(!neighboors[nextDirection]){
