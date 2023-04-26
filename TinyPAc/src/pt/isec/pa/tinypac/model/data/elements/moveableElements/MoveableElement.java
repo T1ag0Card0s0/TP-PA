@@ -73,12 +73,14 @@ public class MoveableElement implements IMazeElement {
     }
     public int getLastX(){return lastX;}
     public int getLastY(){return lastY;}
+    public int getCurrentDirection(){return currentDirection;}
     public boolean getNeighboorValue(int index){
         return neighboors[index];
     }
     public char getMazeElementSymbol(int x,int y){
         return maze.getMaze()[x][y];
     }
+    public char  [][]getMaze(){return maze.getMaze();}
     public long getTicks(){return ticks;}
     public void setMazeElement(int x, int y, IMazeElement mazeElement){
         maze.set(y, x, mazeElement);

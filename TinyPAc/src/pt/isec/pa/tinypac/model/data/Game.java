@@ -64,6 +64,9 @@ public class Game {
     public boolean evolve(){
         pacMan.move();
         for(Ghost ghost: ghosts){
+            if(ghost instanceof Clyde c){
+                c.setPCoords(pacMan.getX(),pacMan.getY());
+            }
             ghost.move();
         }
         return false;
