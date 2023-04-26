@@ -9,12 +9,11 @@ public class Inky extends Ghost {
     }
 
     @Override
-    public boolean move() {
+    public void evolve() {
         if(getInCave()) {
             lockedMovement();
         } else if(!super.move()){
             choseRandDirection();
         }
-        return true;
     }
 }

@@ -70,11 +70,9 @@ public class PacMan extends MoveableElement  {
         }
     }
     @Override
-    public boolean move() {
+    public void evolve() {
         if(super.move()){
             IdentifyAction();
-            return true;
         }
-        return false;
     }
 }

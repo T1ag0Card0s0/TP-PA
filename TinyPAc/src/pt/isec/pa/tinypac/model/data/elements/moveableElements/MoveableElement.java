@@ -65,6 +65,7 @@ public class MoveableElement implements IMazeElement {
         currentDirection=-1;
         return false;
     }
+    public void evolve(){}
     public int getX() {
         return x;
     }

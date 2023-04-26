@@ -14,13 +14,12 @@ public class Pinky extends Ghost {
         this.nextConner=0;
     }
     @Override
-    public boolean move() {
+    public void evolve() {
         if(getInCave()) {
             lockedMovement();
         } else if(!super.move()){
             choseRandDirection();
         }
-        return true;
     }
 
 }

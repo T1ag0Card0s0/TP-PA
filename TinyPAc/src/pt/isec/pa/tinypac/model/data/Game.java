@@ -62,12 +62,12 @@ public class Game {
     }
     public void setMazeElement(int y,int x,IMazeElement element){maze.set(y,x,element);}
     public boolean evolve(){
-        pacMan.move();
+        pacMan.evolve();
         for(Ghost ghost: ghosts){
             if(ghost instanceof Clyde c){
                 c.setPCoords(pacMan.getX(),pacMan.getY());
             }
-            ghost.move();
+            ghost.evolve();
         }
         return false;
     }

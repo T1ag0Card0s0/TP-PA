@@ -8,18 +8,11 @@ public class Clyde extends Ghost {
 
     }
     public boolean pacManInFieldOfVision(){
-        char[][] c=getMaze();
-        /*for(int i = 0; i<c[i].length;i++){
-            for (char[] chars : c) {
-                System.out.print(chars[i]);
-            }
-            //System.out.println();
-        }*/
         int i = 0;
         for(boolean b: getNeighboors()){
             if(b){
                 int x=getX(),y=getY();
-                while (c[x][y]!='x'){
+                while (getMazeElementSymbol(x,y)!='x'){
                     switch (i){
                         case 0-> y--;
                         case 1-> x++;
@@ -41,14 +34,13 @@ public class Clyde extends Ghost {
         yPCoord=y;
     }
     @Override
-    public boolean move() {
+    public void evolve() {
         if(getInCave()) {
             lockedMovement();
-        } else if(!pacManInFieldOfVision()&&!super.move()){
+        }else if(pacManInFieldOfVision()){
+            super.move();
+        }else if(!super.move()){
             choseRandDirection();
-            return true;
         }
-
-        return true;
     }
 }
