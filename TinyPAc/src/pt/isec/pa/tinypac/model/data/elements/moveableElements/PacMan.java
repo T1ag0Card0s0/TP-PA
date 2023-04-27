@@ -61,7 +61,6 @@ public class PacMan extends MoveableElement  {
             case 'O'->{
                 if(power)powerTime=powerTime+5000;
                 else powerTime=5000;
-                System.out.println("power: "+power+" powerTime:"+powerTime);
                 setPower(true);
                 setMazeElement(getY(),getX(),null);
                 points+=10;
