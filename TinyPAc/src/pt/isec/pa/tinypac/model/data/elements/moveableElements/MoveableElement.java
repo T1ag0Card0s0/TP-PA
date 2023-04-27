@@ -33,11 +33,14 @@ public class MoveableElement implements IMazeElement {
         neighboors[2] = getMazeElementSymbol(x,y+1) == 'x';
         neighboors[3] = getMazeElementSymbol(x-1,y) == 'x';
     }
-    public void checkNeighboorsWithExtraConstraint(char c) {
-        neighboors[0] = neighboors[0]||getMazeElementSymbol(x,y-1) == c;
-        neighboors[1] = neighboors[1]||getMazeElementSymbol(x + 1,y) == c;
-        neighboors[2] = neighboors[2]||getMazeElementSymbol(x,y+1) == x;
-        neighboors[3] = neighboors[3]||getMazeElementSymbol(x-1,y) == c;
+    public void checkNeighboorsWithExtraConstraint(char constraint) {
+        char top=getMazeElementSymbol(x,y-1),right=getMazeElementSymbol(x + 1,y)
+                ,bottom=getMazeElementSymbol(x,y+1),left=getMazeElementSymbol(x-1,y);
+            neighboors[0] = top=='x'||top==constraint;
+            neighboors[1] = right=='x'||right==constraint;
+            neighboors[2] = bottom=='x'||bottom==constraint;
+            neighboors[3] = left=='x'||left==constraint;
+
     }
     public void changeDirection(){
         if(nextDirection==-1)return;

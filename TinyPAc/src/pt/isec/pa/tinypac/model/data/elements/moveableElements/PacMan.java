@@ -68,6 +68,12 @@ public class PacMan extends MoveableElement  {
             }
         }
     }
+
+    @Override
+    public void checkNeighboors() {
+        super.checkNeighboorsWithExtraConstraint('Y');
+    }
+
     @Override
     public void evolve() {
         if(super.move()){
