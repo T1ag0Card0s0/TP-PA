@@ -71,7 +71,7 @@ public class TextInterface   {
                     case 'W'->TextColor.ANSI.WHITE;
                     case '.', 'O' -> TextColor.ANSI.YELLOW;
                     case 'F', 'Y' ->TextColor.ANSI.MAGENTA;
-                    case 'P'->TextColor.ANSI.GREEN;
+                    case 'P'->new TextColor.RGB(255,255,0);
                     case 'p'-> new TextColor.RGB(222,161,133);
                     case 'b'->TextColor.ANSI.RED;
                     case 'c'->new TextColor.RGB(255,140,0);

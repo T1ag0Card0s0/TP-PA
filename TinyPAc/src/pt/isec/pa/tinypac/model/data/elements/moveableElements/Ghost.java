@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Ghost extends MoveableElement{
-    private ArrayList<Integer> directions;
     private final Random rnd;
     private int[] caveDoorCoords;
     private boolean inCave;
@@ -25,29 +24,8 @@ public class Ghost extends MoveableElement{
             if (x < getX()) setNextDirection(1);
             else setNextDirection(3);
         }
-        /*if(getMazeElementSymbol(getX(),getY())=='Y')return true;
-        if(getX()<=x){
-            setNextDirection(1);
-        }else if(getY()>=y){
-            setNextDirection(2);
-        }else if(getX()>=x){
-            setNextDirection(3);
-        }else{
-            setNextDirection(0);
-        }*/
         return false;
     }
-    public boolean getInCave(){
-        inCave= getMazeElementSymbol(getX(), getY()) == 'y';
-        return inCave;
-    }
-    public int getCaveDoorCoords(int index){
-        return caveDoorCoords[index];
-    }
-    public void setCaveDoorCoords(int []doorCoords){
-        this.caveDoorCoords=doorCoords;
-    }
-    public void setInCave(boolean inCave) {this.inCave = inCave;}
     public void choseRandDirection(){
         int nextDirection;
         do{
@@ -60,9 +38,20 @@ public class Ghost extends MoveableElement{
             choseRandDirection();
         }else{
             if(getTicks()*getInterval()>5000){
-               travelTo(caveDoorCoords[0],caveDoorCoords[1]);
+                travelTo(caveDoorCoords[0],caveDoorCoords[1]);
             }
         }
     }
+    public boolean getInCave(){
+        inCave= getMazeElementSymbol(getX(), getY()) == 'y';
+        return inCave;
+    }
+    public int getCaveDoorCoords(int index){
+        return caveDoorCoords[index];
+    }
+    public void setCaveDoorCoords(int []doorCoords){
+        this.caveDoorCoords=doorCoords;
+    }
+    public void setInCave(boolean inCave) {this.inCave = inCave;}
 
 }

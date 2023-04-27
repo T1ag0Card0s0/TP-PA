@@ -39,7 +39,6 @@ public class MoveableElement implements IMazeElement {
         neighboors[2] = neighboors[2]||getMazeElementSymbol(x,y+1) == x;
         neighboors[3] = neighboors[3]||getMazeElementSymbol(x-1,y) == c;
     }
-    public boolean[] getNeighboors(){checkNeighboors();return neighboors;}
     public void changeDirection(){
         if(nextDirection==-1)return;
         if(!neighboors[nextDirection]){
@@ -81,8 +80,17 @@ public class MoveableElement implements IMazeElement {
     public char getMazeElementSymbol(int x,int y){
         return maze.getMaze()[x][y];
     }
+    public boolean[] getNeighboors(){checkNeighboors();return neighboors;}
     public char  [][]getMaze(){return maze.getMaze();}
     public long getTicks(){return ticks;}
+    public boolean getVulnerable(){return vulnerable;}
+    public long getInterval(){return interval;}
+    @Override
+    public char getSymbol() {
+        return symbol;
+    }
+
+
     public void setMazeElement(int x, int y, IMazeElement mazeElement){
         maze.set(y, x, mazeElement);
     }
@@ -92,11 +100,5 @@ public class MoveableElement implements IMazeElement {
         this.nextDirection=newDirection;
     }
     public void setVulnerable(boolean value){vulnerable=value;}
-    public boolean getVulnerable(){return vulnerable;}
     public void setGameEngineInterval(long interval){this.interval=interval;}
-    public long getInterval(){return interval;}
-    @Override
-    public char getSymbol() {
-        return symbol;
-    }
 }
