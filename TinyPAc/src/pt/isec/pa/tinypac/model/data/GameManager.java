@@ -2,7 +2,7 @@ package pt.isec.pa.tinypac.model.data;
 
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
-import pt.isec.pa.tinypac.model.data.elements.ZoneElement;
+import pt.isec.pa.tinypac.model.data.elements.zoneElement.ZoneElement;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.Ghost;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.PacMan;

@@ -1,4 +1,4 @@
-package pt.isec.pa.tinypac.model.data.elements;
+package pt.isec.pa.tinypac.model.data.elements.zoneElement;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 
 public class ZoneElement implements IMazeElement {
