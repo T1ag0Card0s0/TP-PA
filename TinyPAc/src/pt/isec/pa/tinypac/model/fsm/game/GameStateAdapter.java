@@ -16,24 +16,16 @@ public class GameStateAdapter implements IGameState{
     public EGameState getGameState() {
         return null;
     }
-
     @Override
     public boolean KeyIsPressed(String keyPressed) {
         return false;
     }
 
     @Override
-    public boolean LostCurrentLevel() {
-        return false;
-    }
-    @Override
     public boolean WinLevel() {
         return false;
     }
     @Override
     public boolean beVulnerable(long currentTime) {return false;}
-    @Override
-    public boolean WinGame() {
-        return false;
-    }
+
 }

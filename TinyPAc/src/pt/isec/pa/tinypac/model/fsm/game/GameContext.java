@@ -44,14 +44,8 @@ public class GameContext implements IGameEngineEvolve{
     public void KeyIsPressed(String s){//StartPlaying||Playing
         state.KeyIsPressed(s);
     }
-    public boolean LostCurrentLevel(){//RestartLevel
-        return state.LostCurrentLevel();
-    }
     public boolean WinLevel(){
         return state.WinLevel();
-    }
-    public boolean WinGame(){
-        return state.WinGame();
     }
 
     @Override
@@ -61,13 +55,14 @@ public class GameContext implements IGameEngineEvolve{
                 if(state.beVulnerable(gameEngine.getInterval())){
                     gameManager.setVulnerable(true);
                 }
+                state.WinLevel();
             }
             case VULNERABLE -> {
                 if(!state.beVulnerable(gameEngine.getInterval())){
                     gameManager.setVulnerable(false);
                 }
+                state.WinLevel();
             }
-
         }
     }
     @Override

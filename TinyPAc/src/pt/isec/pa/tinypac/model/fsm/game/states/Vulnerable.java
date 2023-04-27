@@ -11,17 +11,20 @@ public class Vulnerable extends GameStateAdapter {
     }
     @Override
     public boolean WinLevel() {
-        if(gameManager.WinLevel()&&!gameManager.LastLevel()){
-            changeState(new InitialState(context,gameManager));
-        }else if(gameManager.WinLevel()&&gameManager.LastLevel()){
-            changeState(new GameWin(context,gameManager));
+        if(!gameManager.thereIsFood()){
+            if(!gameManager.LastLevel()){
+                gameManager.changelevel();
+                changeState(new InitialState(context,gameManager));
+            }else{
+                changeState(new GameWin(context,gameManager));
+            }
         }
         return true;
     }
     @Override
     public boolean beVulnerable(long interval) {
         if(gameManager.endOfVulnerability(interval)){
-            changeState(EGameState.GAME_STARTED.createState(context,gameManager));
+            changeState(new GameStarted(context,gameManager));
             return false;
         }
         return true;

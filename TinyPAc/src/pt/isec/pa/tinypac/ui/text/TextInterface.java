@@ -8,6 +8,7 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
+import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class TextInterface   {
         }
     }
     public void start() {
+        boolean mazeDrawn=true;
         createWindow();
         DrawMaze();
         DrawMoveableElement();
@@ -45,7 +47,14 @@ public class TextInterface   {
             while (!finish) {
                 DrawInfoSection();
                 DrawMoveableElement();
-
+                if(fsm.getState()== EGameState.INITIAL_STATE){
+                    if(!mazeDrawn) {
+                        DrawMaze();
+                        mazeDrawn = true;
+                    }
+                }else{
+                    mazeDrawn=false;
+                }
                 KeyStroke keyStroke = terminal.pollInput();
                 if (keyStroke == null) continue;
 

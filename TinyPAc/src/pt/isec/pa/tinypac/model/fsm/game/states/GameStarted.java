@@ -20,32 +20,32 @@ public class GameStarted extends GameStateAdapter {
         return true;
     }
     @Override
-    public boolean LostCurrentLevel() {
-        changeState(new InitialState(context,gameManager));
-        return false;
-    }
-    @Override
     public boolean WinLevel() {
-        if(gameManager.WinLevel()&&!gameManager.LastLevel()){
-            changeState(new InitialState(context,gameManager));
-        }else if(gameManager.WinLevel()&&gameManager.LastLevel()){
-            changeState(new GameWin(context,gameManager));
+        if(!gameManager.thereIsFood()){
+            if(!gameManager.LastLevel()) {
+                gameManager.changelevel();
+                changeState(new InitialState(context, gameManager));
+            }else{
+                changeState(new GameWin(context,gameManager));
+            }
+            return true;
+        }
+        if(gameManager.pacManWasEaten()){
+            if(gameManager.getPacManLives()>0) {
+                changeState(new InitialState(context, gameManager));
+            }else{
+                changeState(new GameOver(context,gameManager));
+            }
+            return false;
         }
         return true;
     }
-
     @Override
     public boolean beVulnerable(long interval) {
         if(gameManager.pacManHasPower()){
             changeState(new Vulnerable(context,gameManager));
             return true;
         }
-        return false;
-    }
-
-    @Override
-    public boolean WinGame() {
-        changeState(new GameWin(context,gameManager));
         return false;
     }
     @Override

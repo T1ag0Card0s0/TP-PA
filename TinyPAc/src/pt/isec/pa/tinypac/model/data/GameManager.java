@@ -5,7 +5,6 @@ import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.*;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.ZoneElement;
 
-import javax.swing.plaf.PanelUI;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,13 +14,11 @@ public class GameManager implements IGameEngineEvolve {
     private MazeInfo mazeInfo;
     private int currentLevel;
     private int vulnerableTicks;
-    private int ticks;
     private long interval;
     private MoveableElement [] elements;
     public GameManager(){
         this.currentLevel=1;
         this.vulnerableTicks=0;
-        this.ticks=0;
         this.interval=0;
         this.mazeInfo=null;
         this.elements=new MoveableElement[5];
@@ -92,10 +89,14 @@ public class GameManager implements IGameEngineEvolve {
         return element;
     }
     private void initElementsPosition(){
-        elements[4]=new PacMan(mazeInfo.getInitPacManPosition()[0],
-                mazeInfo.getInitPacManPosition()[1],mazeInfo.getMaze());
-        ((PacMan)elements[4]).setWraperCoordinates(mazeInfo.getWrapperCoordinates());
-
+        if(elements[4]==null) {
+            elements[4] = new PacMan(mazeInfo.getInitPacManPosition()[0],
+                    mazeInfo.getInitPacManPosition()[1], mazeInfo.getMaze());
+            ((PacMan) elements[4]).setWraperCoordinates(mazeInfo.getWrapperCoordinates());
+        }else{
+            elements[4].setX(mazeInfo.getInitPacManPosition()[0]);
+            elements[4].setY(mazeInfo.getInitPacManPosition()[1]);
+        }
         int x = mazeInfo.getInitGhostsPosition()[0],y=mazeInfo.getInitGhostsPosition()[1];
         elements[0]=new Blinky(x,y,mazeInfo.getMaze());
         elements[1]=new Clyde(x,y,mazeInfo.getMaze());
@@ -109,8 +110,8 @@ public class GameManager implements IGameEngineEvolve {
         if(currentLevel<10)return "Levels\\Level0"+currentLevel+".txt";
         return "Levels\\Level"+currentLevel+".txt";
     }
-    public boolean WinLevel(){
-        return (mazeInfo.getNumOfFood()==((PacMan)getElement('P')).getNumOfFood());
+    public boolean thereIsFood(){
+        return !(mazeInfo.getNumOfFood()==((PacMan)getElement('P')).getNumOfFood());
     }
     public MoveableElement getElement(char c){
         for (MoveableElement e: elements)
@@ -129,15 +130,28 @@ public class GameManager implements IGameEngineEvolve {
             case "ArrowLeft"->pacMan.setNextDirection(3);
         }
     }
+    public boolean pacManWasEaten(){
+        PacMan pacMan = (PacMan) getElement('P');
+        if(pacMan.getPowerValue())return false;
+        for(MoveableElement e: elements)
+            if(e instanceof Ghost)
+                if(e.getX()==pacMan.getX()&&e.getY()==pacMan.getY()) {
+                    pacMan.setLives(pacMan.getLives()-1);
+                    return true;
+                }
+        return false;
+    }
     public void changelevel(){
         currentLevel++;
         elements=new MoveableElement[5];
         initGame();
     }
-    public void setGhostsVulnerable(boolean value){
+    public void setVulnerable(boolean value){
         for(MoveableElement e: elements)
             if(e instanceof Ghost g)
                 g.setVulnerable(value);
+            else
+                ((PacMan)e).setPower(value);
     }
     public int getPoints(){return ((PacMan)getElement('P')).getPoints();}
     public int getCurrentLevel(){return currentLevel;}
@@ -146,7 +160,6 @@ public class GameManager implements IGameEngineEvolve {
     public int getPacManLives(){return ((PacMan)getElement('P')).getLives();}
     public char[][]getMazeSymbols(){return  mazeInfo.getMazeSymbols();}
     public MoveableElement[] getMoveableElements(){return elements;}
-    public void setVulnerable(boolean value){setGhostsVulnerable(value);}
     public void setGameEngineInterval(long interval){
         this.interval=interval;
         for (MoveableElement element: elements){
@@ -156,6 +169,7 @@ public class GameManager implements IGameEngineEvolve {
     public boolean endOfVulnerability(long interval){
         if(interval*(vulnerableTicks++)>((PacMan)getElement('P')).getPowerTime()){
             vulnerableTicks=0;
+            setVulnerable(false);
             return true;
         }else{
             return false;
