@@ -93,18 +93,8 @@ public class GameManager implements IGameEngineEvolve {
     public boolean thereIsFood(){
         return mazeInfo.getNumOfFood() == ((PacMan) mazeInfo.getElement('P')).getNumOfFood();
     }
-
     public boolean LastLevel(){
-        return currentLevel < 20;}
-    public void setPacmanNextDirection(String keyPressed){
-        PacMan pacMan = (PacMan) mazeInfo.getElement('P');
-        switch (keyPressed){
-            case "ArrowUp"->pacMan.setNextDirection(0);
-            case "ArrowRight"->pacMan.setNextDirection(1);
-            case "ArrowDown"->pacMan.setNextDirection(2);
-            case "ArrowLeft"->pacMan.setNextDirection(3);
-        }
-    }
+        return currentLevel >= 20;}
     public boolean pacManWasEaten(){
         PacMan pacMan = (PacMan) mazeInfo.getElement('P');
         if(pacMan.getPowerValue())return false;
@@ -120,13 +110,6 @@ public class GameManager implements IGameEngineEvolve {
         currentLevel++;
         initGame();
     }
-    public void setVulnerable(boolean value){
-        for(MoveableElement e: mazeInfo.getElements())
-            if(e instanceof Ghost g)
-                g.setVulnerable(value);
-            else
-                ((PacMan)e).setPower(value);
-    }
     public int getPoints(){return ((PacMan)mazeInfo.getElement('P')).getPoints();}
     public int getCurrentLevel(){return currentLevel;}
     public int getBoardHeight(){return mazeInfo.getBoardHeight();}
@@ -140,6 +123,8 @@ public class GameManager implements IGameEngineEvolve {
             element.setGameEngineInterval(interval);
         }
     }
+    public void setVulnerable(boolean value){mazeInfo.setVulnerable(value);}
+    public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
     public boolean endOfVulnerability(long interval){
         if(interval*(vulnerableTicks++)>((PacMan)mazeInfo.getElement('P')).getPowerTime()){
             vulnerableTicks=0;

@@ -10,10 +10,10 @@ public class Inky extends Ghost {
 
     @Override
     public void evolve() {
-        if(getInCave()) {
+        if (getInCave()) {
             lockedMovement();
-        } else if(!super.move()){
-            if(!getVulnerable()) {
+        } else if (!super.move()) {
+            if (!getVulnerable()) {
                 choseRandDirection();
             }
         }

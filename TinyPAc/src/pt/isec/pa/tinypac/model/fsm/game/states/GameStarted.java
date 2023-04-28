@@ -22,7 +22,7 @@ public class GameStarted extends GameStateAdapter {
     @Override
     public boolean WinLevel() {
         if(gameManager.thereIsFood()){
-            if(!gameManager.LastLevel()) {
+            if(gameManager.LastLevel()) {
                 gameManager.changelevel();
                 changeState(new InitialState(context, gameManager));
             }else{

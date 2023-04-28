@@ -55,13 +55,13 @@ public class GameContext implements IGameEngineEvolve{
                 if(state.beVulnerable(gameEngine.getInterval())){
                     gameManager.setVulnerable(true);
                 }
-                state.WinLevel();
+                WinLevel();
             }
             case VULNERABLE -> {
                 if(!state.beVulnerable(gameEngine.getInterval())){
                     gameManager.setVulnerable(false);
                 }
-                state.WinLevel();
+                WinLevel();
             }
         }
     }

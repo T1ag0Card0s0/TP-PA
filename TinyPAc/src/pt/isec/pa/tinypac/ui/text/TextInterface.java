@@ -47,7 +47,6 @@ public class TextInterface   {
             while (!finish) {
                 DrawInfoSection();
                 DrawMoveableElement();
-               // DrawMaze();
                 if(fsm.getState()== EGameState.INITIAL_STATE){
                     if(!mazeDrawn) {
                         DrawMaze();
@@ -105,6 +104,7 @@ public class TextInterface   {
     }
     public void DrawMazeElement( int x, int y){
         char symbol=fsm.getMazeSymbols()[x][y];
+        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
         textGraphics.setForegroundColor(getColor(symbol));
         textGraphics.putString(x, y, symbol + "");
     }
@@ -116,10 +116,12 @@ public class TextInterface   {
                char c= element.getSymbol();
                DrawMazeElement(lastX, lastY);
                if(element.getVulnerable())
-                   textGraphics.setForegroundColor(TextColor.ANSI.BLUE);
-               else
-                    textGraphics.setForegroundColor(getColor(c));
-               textGraphics.putString(x,y, "█");
+                   textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
+               else {
+                   textGraphics.setBackgroundColor(getColor(c));
+                   textGraphics.setForegroundColor(TextColor.ANSI.BLACK);
+               }
+               textGraphics.putString(x,y, c+"");
             }
             terminal.flush();
         }catch (IOException e){
@@ -129,6 +131,7 @@ public class TextInterface   {
     public void DrawInfoSection(){
         try{
             textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
+            textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
             textGraphics.putString(1, fsm.getBoardHeight()+1, "Nivel: "+fsm.getLevel());
             textGraphics.putString(1, fsm.getBoardHeight()+2, "Pontuação: "+fsm.getPacManPoints());
             textGraphics.putString(1, fsm.getBoardHeight()+3, "Vidas: "+fsm.getPacManLives());

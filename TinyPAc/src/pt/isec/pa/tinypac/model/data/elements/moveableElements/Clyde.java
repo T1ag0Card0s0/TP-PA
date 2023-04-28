@@ -45,7 +45,6 @@ public class Clyde extends Ghost {
             } else if (!super.move()) {
                 if(!getVulnerable()) {
                     choseRandDirection();
-                }
             }
         }
     }

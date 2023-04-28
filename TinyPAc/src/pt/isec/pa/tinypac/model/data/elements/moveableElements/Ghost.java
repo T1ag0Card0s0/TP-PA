@@ -43,6 +43,7 @@ public class Ghost extends MoveableElement{
             }
         }
     }
+
     public boolean getInCave(){
         inCave= getMazeElementSymbol(getX(), getY()) == 'y';
         return inCave;

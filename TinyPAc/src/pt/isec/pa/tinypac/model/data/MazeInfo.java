@@ -65,6 +65,22 @@ public class MazeInfo {
     }
     public void setMazeElement(int i,int j,IMazeElement element){maze.set(i,j,element);}
     public void setNumOfFood(int value){numOfFood=value;}
+    public void setVulnerable(boolean value){
+        for(MoveableElement e: elements)
+            if(e instanceof Ghost g)
+                g.setVulnerable(value);
+            else
+                ((PacMan)e).setPower(value);
+    }
+    public void setPacmanNextDirection(String keyPressed){
+        PacMan pacMan = (PacMan)getElement('P');
+        switch (keyPressed){
+            case "ArrowUp"->pacMan.setNextDirection(0);
+            case "ArrowRight"->pacMan.setNextDirection(1);
+            case "ArrowDown"->pacMan.setNextDirection(2);
+            case "ArrowLeft"->pacMan.setNextDirection(3);
+        }
+    }
     public void initElementsPosition(){
         elements[0]=new Blinky(this);
         elements[1]=new Clyde(this);
@@ -87,12 +103,6 @@ public class MazeInfo {
     }
 
     public void evolve(){
-      /*  for(char arr[]: maze.getMaze()){
-            for(char c: arr){
-                System.out.print(c);
-            }
-            System.out.println();
-        }*/
         for(MoveableElement e: elements) {
             if(e instanceof Clyde c){
                 c.setPCoords(getElement('P').getX(),getElement('P').getY());
