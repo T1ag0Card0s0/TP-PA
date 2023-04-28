@@ -47,6 +47,7 @@ public class TextInterface   {
             while (!finish) {
                 DrawInfoSection();
                 DrawMoveableElement();
+               // DrawMaze();
                 if(fsm.getState()== EGameState.INITIAL_STATE){
                     if(!mazeDrawn) {
                         DrawMaze();

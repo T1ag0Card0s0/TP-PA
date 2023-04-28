@@ -53,12 +53,13 @@ public class PacMan extends MoveableElement  {
         switch (getMazeElementSymbol(getX(),getY())){
             case 'W'-> teleTransport();
             case '.'->{
-                setMazeElement(getY(),getX(),null);
+                setUnderElement(null);
+                //setMazeElement(getY(),getX(),null);
                 points++;
                 numOfFood++;
             }
             case 'O'->{
-                setMazeElement(getY(),getX(),null);
+                setUnderElement(null);
                 if(power)powerTime=powerTime+5000;
                 else powerTime=5000;
                 setPower(true);
@@ -72,7 +73,6 @@ public class PacMan extends MoveableElement  {
     public void checkNeighboors() {
         super.checkNeighboorsWithExtraConstraint('Y');
     }
-
     @Override
     public void evolve() {
         if(super.move()){
