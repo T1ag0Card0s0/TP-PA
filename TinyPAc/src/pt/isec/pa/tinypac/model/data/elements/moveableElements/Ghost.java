@@ -1,22 +1,24 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
-import pt.isec.pa.tinypac.model.data.Maze;
+import pt.isec.pa.tinypac.model.data.MazeInfo;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Ghost extends MoveableElement{
     private final Random rnd;
-    private int[] caveDoorCoords;
+    private ArrayList<Integer> directions;
+    private final int[] caveDoorCoords;
     private boolean inCave;
-    public Ghost(int x, int y,char symbol, Maze maze) {
-        super(x, y,symbol, maze);
-        this.caveDoorCoords=new int[2];
+    public Ghost(char symbol, MazeInfo maze) {
+        super(maze.getInitGhostsPosition()[0],maze.getInitGhostsPosition()[1],symbol, maze);
+        this.caveDoorCoords= maze.getCaveDoorCoords();
         this.inCave=true;
         this.rnd=new Random();
+        this.directions=new ArrayList<>();
     }
-    public boolean travelTo(int x,int y){
-        if(getMazeElementSymbol(getX(),getY())=='Y')return true;
+    public void travelTo(int x, int y){
+        if(getMazeElementSymbol(getX(),getY())=='Y')return;
         if(x==getX()) {
             if (y < getY()) setNextDirection(0);
             else setNextDirection(2);
@@ -24,7 +26,6 @@ public class Ghost extends MoveableElement{
             if (x < getX()) setNextDirection(1);
             else setNextDirection(3);
         }
-        return false;
     }
     public void choseRandDirection(){
         int nextDirection;
@@ -46,12 +47,5 @@ public class Ghost extends MoveableElement{
         inCave= getMazeElementSymbol(getX(), getY()) == 'y';
         return inCave;
     }
-    public int getCaveDoorCoords(int index){
-        return caveDoorCoords[index];
-    }
-    public void setCaveDoorCoords(int []doorCoords){
-        this.caveDoorCoords=doorCoords;
-    }
-    public void setInCave(boolean inCave) {this.inCave = inCave;}
 
 }

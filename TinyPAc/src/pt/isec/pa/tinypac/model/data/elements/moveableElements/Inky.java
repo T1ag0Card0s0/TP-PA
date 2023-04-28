@@ -1,11 +1,11 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
-import pt.isec.pa.tinypac.model.data.Maze;
+import pt.isec.pa.tinypac.model.data.MazeInfo;
 
 public class Inky extends Ghost {
 
-    public Inky(int x, int y, Maze maze) {
-        super(x, y,'i',maze);
+    public Inky(MazeInfo maze) {
+        super('i',maze);
     }
 
     @Override
@@ -13,7 +13,9 @@ public class Inky extends Ghost {
         if(getInCave()) {
             lockedMovement();
         } else if(!super.move()){
-            choseRandDirection();
+            if(!getVulnerable()) {
+                choseRandDirection();
+            }
         }
     }
 }

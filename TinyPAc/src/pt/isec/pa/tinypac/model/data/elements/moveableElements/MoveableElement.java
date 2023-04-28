@@ -1,10 +1,10 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import pt.isec.pa.tinypac.model.data.IMazeElement;
-import pt.isec.pa.tinypac.model.data.Maze;
+import pt.isec.pa.tinypac.model.data.MazeInfo;
 
 public class MoveableElement implements IMazeElement {
-    private final Maze maze;
+    private MazeInfo maze;
     private long ticks;
     private int x,y;
     private int lastX,lastY;
@@ -13,7 +13,7 @@ public class MoveableElement implements IMazeElement {
     private final boolean []neighboors;//TOP,RIGHT,BOTTOM,LEFT Check if there are walls around
     private boolean vulnerable;
     private long interval;
-    public MoveableElement(int x,int y,char symbol,Maze maze){
+    public MoveableElement(int x, int y, char symbol, MazeInfo maze){
         this.symbol=symbol;
         this.x=x;
         this.y=y;
@@ -81,10 +81,9 @@ public class MoveableElement implements IMazeElement {
         return neighboors[index];
     }
     public char getMazeElementSymbol(int x,int y){
-        return maze.getMaze()[x][y];
+        return maze.getMazeSymbols()[x][y];
     }
     public boolean[] getNeighboors(){checkNeighboors();return neighboors;}
-    public char  [][]getMaze(){return maze.getMaze();}
     public long getTicks(){return ticks;}
     public boolean getVulnerable(){return vulnerable;}
     public long getInterval(){return interval;}
@@ -95,7 +94,7 @@ public class MoveableElement implements IMazeElement {
 
 
     public void setMazeElement(int x, int y, IMazeElement mazeElement){
-        maze.set(y, x, mazeElement);
+        maze.setMazeElement(y, x, mazeElement);
     }
     public void setX(int x) {this.x = x;}
     public void setY(int y) {this.y = y;}
@@ -104,4 +103,5 @@ public class MoveableElement implements IMazeElement {
     }
     public void setVulnerable(boolean value){vulnerable=value;}
     public void setGameEngineInterval(long interval){this.interval=interval;}
+    public void setMaze(MazeInfo newMaze){maze=newMaze;}
 }

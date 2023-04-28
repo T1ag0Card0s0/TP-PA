@@ -1,12 +1,12 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
-import pt.isec.pa.tinypac.model.data.Maze;
+import pt.isec.pa.tinypac.model.data.MazeInfo;
 
 
 public class Clyde extends Ghost {
     int xPCoord,yPCoord;
-    public Clyde(int x, int y, Maze maze) {
-        super(x, y,'c',maze);
+    public Clyde( MazeInfo maze) {
+        super('c',maze);
 
     }
     public boolean pacManInFieldOfVision(){
@@ -43,7 +43,9 @@ public class Clyde extends Ghost {
             if (pacManInFieldOfVision()) {
                 super.move();
             } else if (!super.move()) {
-                choseRandDirection();
+                if(!getVulnerable()) {
+                    choseRandDirection();
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
-import pt.isec.pa.tinypac.model.data.Maze;
+import pt.isec.pa.tinypac.model.data.MazeInfo;
 
 public class PacMan extends MoveableElement  {
     private int[][] wraperCoordinates;
@@ -9,20 +9,19 @@ public class PacMan extends MoveableElement  {
     private int powerTime;
     private int points;
     private int numOfFood;
-    public PacMan(int x, int y, Maze maze) {
-        super(x, y, 'P',maze);
+    public PacMan(MazeInfo maze) {
+        super(maze.getInitPacManPosition()[0],maze.getInitPacManPosition()[1],'P',maze);
         this.lives=3;
         this.power=false;
-        this.wraperCoordinates=new int[2][2];
+        this.wraperCoordinates= maze.getWrapperCoordinates();
         this.points=0;
         this.numOfFood=0;
         this.powerTime=5000;
     }
     public void setLives(int value){this.lives=value;}
     public void setPower(boolean value){this.power=value;}
-    public void setWraperCoordinates(int[][]wraperCoordinates){
-        this.wraperCoordinates=wraperCoordinates;
-    }
+    public void setWraperCoordinates(int[][]wraperCoordinates){this.wraperCoordinates=wraperCoordinates;}
+    public void setPoints(int points){this.points=points;}
     private int wichWraperIsPacMan( ){
         for(int i = 0; i<wraperCoordinates.length;i++){
             if(getX()==wraperCoordinates[i][0]&&getY()==wraperCoordinates[i][1]){
@@ -59,10 +58,10 @@ public class PacMan extends MoveableElement  {
                 numOfFood++;
             }
             case 'O'->{
+                setMazeElement(getY(),getX(),null);
                 if(power)powerTime=powerTime+5000;
                 else powerTime=5000;
                 setPower(true);
-                setMazeElement(getY(),getX(),null);
                 points+=10;
                 numOfFood++;
             }

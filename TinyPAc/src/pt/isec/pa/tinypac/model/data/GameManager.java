@@ -20,7 +20,6 @@ public class GameManager implements IGameEngineEvolve {
         this.currentLevel=1;
         this.vulnerableTicks=0;
         this.interval=0;
-        this.mazeInfo=null;
         this.elements=new MoveableElement[5];
         initGame();
     }
@@ -89,21 +88,20 @@ public class GameManager implements IGameEngineEvolve {
         return element;
     }
     private void initElementsPosition(){
-        if(elements[4]==null) {
-            elements[4] = new PacMan(mazeInfo.getInitPacManPosition()[0],
-                    mazeInfo.getInitPacManPosition()[1], mazeInfo.getMaze());
-            ((PacMan) elements[4]).setWraperCoordinates(mazeInfo.getWrapperCoordinates());
+        elements[0]=new Blinky(mazeInfo);
+        elements[1]=new Clyde(mazeInfo);
+        elements[2]=new Inky(mazeInfo);
+        elements[3]=new Pinky(mazeInfo);
+        if(elements[4]==null){
+            elements[4]= new PacMan(mazeInfo);
         }else{
-            elements[4].setX(mazeInfo.getInitPacManPosition()[0]);
-            elements[4].setY(mazeInfo.getInitPacManPosition()[1]);
-        }
-        int x = mazeInfo.getInitGhostsPosition()[0],y=mazeInfo.getInitGhostsPosition()[1];
-        elements[0]=new Blinky(x,y,mazeInfo.getMaze());
-        elements[1]=new Clyde(x,y,mazeInfo.getMaze());
-        elements[2]=new Inky(x,y,mazeInfo.getMaze());
-        elements[3]=new Pinky(x,y,mazeInfo.getMaze());
-        for(int i = 0;i<elements.length-1;i++){
-            ((Ghost)elements[i]).setCaveDoorCoords(mazeInfo.getCaveDoorCoords());
+            PacMan pacMan=(PacMan)elements[4];
+            pacMan.setWraperCoordinates(mazeInfo.getWrapperCoordinates());
+            pacMan.setX(mazeInfo.getInitPacManPosition()[0]);
+            pacMan.setY(mazeInfo.getInitPacManPosition()[1]);
+            pacMan.setNextDirection(-1);
+            pacMan.setMaze(mazeInfo);
+            pacMan.setPoints(0);
         }
     }
     private String getLevelFilePath(){
@@ -111,7 +109,7 @@ public class GameManager implements IGameEngineEvolve {
         return "Levels\\Level"+currentLevel+".txt";
     }
     public boolean thereIsFood(){
-        return !(mazeInfo.getNumOfFood()==((PacMan)getElement('P')).getNumOfFood());
+        return mazeInfo.getNumOfFood() == ((PacMan) getElement('P')).getNumOfFood();
     }
     public MoveableElement getElement(char c){
         for (MoveableElement e: elements)

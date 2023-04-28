@@ -21,7 +21,7 @@ public class GameStarted extends GameStateAdapter {
     }
     @Override
     public boolean WinLevel() {
-        if(!gameManager.thereIsFood()){
+        if(gameManager.thereIsFood()){
             if(!gameManager.LastLevel()) {
                 gameManager.changelevel();
                 changeState(new InitialState(context, gameManager));
@@ -32,6 +32,7 @@ public class GameStarted extends GameStateAdapter {
         }
         if(gameManager.pacManWasEaten()){
             if(gameManager.getPacManLives()>0) {
+                gameManager.initGame();
                 changeState(new InitialState(context, gameManager));
             }else{
                 changeState(new GameOver(context,gameManager));
