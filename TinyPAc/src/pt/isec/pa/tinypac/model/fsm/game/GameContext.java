@@ -29,24 +29,20 @@ public class GameContext implements IGameEngineEvolve{
    public int getPacManLives(){return game.getPacManLives();}
     public char [][]getMazeSymbols(){return  game.getMazeSymbols();}
     public MoveableElement[] getMoveableElements(){return game.getMoveableElements();}
-    public void registEngineClients(){
-        gameEngine.registerClient(game);
-    }
+    public void registEngineClient(IGameEngineEvolve newClient){gameEngine.registerClient(newClient);}
     public void startGameEngine(long interval){
         game.setGameEngineInterval(interval);
         gameEngine.registerClient(this);
         gameEngine.registerClient(game);
         gameEngine.start(interval);}
-    public void waitForTheEnd(){gameEngine.waitForTheEnd();}
+    public void stopGame(){gameEngine.stop();gameEngine.waitForTheEnd();}
     public void pauseGameEngine(){gameEngine.pause();}
     public void resumeGameEngine(){gameEngine.resume();}
 
     public void KeyIsPressed(String s){//StartPlaying||Playing
         state.KeyIsPressed(s);
     }
-    public boolean WinLevel(){
-        return state.WinLevel();
-    }
+    public boolean WinLevel(){return state.WinLevel();}
 
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
@@ -56,6 +52,7 @@ public class GameContext implements IGameEngineEvolve{
                     game.setVulnerable(true);
                 }
                 WinLevel();
+
             }
             case VULNERABLE -> {
                 if(!state.beVulnerable(gameEngine.getInterval())){

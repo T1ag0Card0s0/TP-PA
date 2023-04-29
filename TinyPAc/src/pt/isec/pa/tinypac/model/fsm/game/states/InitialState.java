@@ -12,7 +12,6 @@ public class InitialState extends GameStateAdapter   {
     @Override
     public boolean KeyIsPressed(String keyPressed) {
         if(keyPressed.length()>1) {
-            context.registEngineClients();
             game.setPacmanNextDirection(keyPressed);
             changeState(new GameStarted(context, game));
             return true;

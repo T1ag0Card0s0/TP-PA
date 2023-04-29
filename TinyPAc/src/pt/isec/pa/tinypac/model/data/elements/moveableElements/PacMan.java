@@ -19,6 +19,7 @@ public class PacMan extends MoveableElement  {
     public void setPower(boolean value){this.power=value;}
     public void setWraperCoordinates(int[][]wraperCoordinates){this.wraperCoordinates=wraperCoordinates;}
     public void setPoints(int points){this.points=points;}
+    public void setNumOfFood(int numOfFood){this.numOfFood=numOfFood;}
     private int wichWraperIsPacMan( ){
         for(int i = 0; i<wraperCoordinates.length;i++){
             if(getX()==wraperCoordinates[i][0]&&getY()==wraperCoordinates[i][1]){

@@ -7,13 +7,15 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import pt.isec.pa.tinypac.gameengine.IGameEngine;
+import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 
 import java.io.IOException;
 
-public class TextInterface   {
+public class TextInterface  implements IGameEngineEvolve {
     static GameContext fsm;
     private static TextGraphics textGraphics;
     private static Terminal terminal;
@@ -39,23 +41,15 @@ public class TextInterface   {
         }
     }
     public void start() {
-        boolean mazeDrawn=true;
         createWindow();
-        DrawMaze();
-        DrawMoveableElement();
+        try{
+            DrawMaze();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        fsm.registEngineClient(this);
         try {
             while (!finish) {
-                DrawInfoSection();//quando perco os MoveableElements aprentam estar a null
-                DrawMaze();
-                //DrawMoveableElement();
-                if(fsm.getState()== EGameState.INITIAL_STATE){
-                    if(!mazeDrawn) {
-                        DrawMaze();
-                        mazeDrawn = true;
-                    }
-                }else{
-                    mazeDrawn=false;
-                }
                 KeyStroke keyStroke = terminal.pollInput();
                 if (keyStroke == null) continue;
 
@@ -65,6 +59,7 @@ public class TextInterface   {
                     fsm.KeyIsPressed(keyStroke.getKeyType().toString());
                 }
                 if (keyStroke.getKeyType() == KeyType.Escape) {
+                    fsm.stopGame();
                     finish=true;
                 }
             }
@@ -90,51 +85,46 @@ public class TextInterface   {
                 }
                 );
     }
-    public void DrawMaze() {
-        try {
-            for (int i = 0; i < fsm.getBoardHeight(); i++) {
-                for (int j = 0; j < fsm.getBoardWidth(); j++) {
-                    DrawMazeElement(i,j);
+    public void DrawMaze() throws IOException {
+        for (int i = 0; i < fsm.getBoardHeight(); i++) {
+            for (int j = 0; j < fsm.getBoardWidth(); j++) {
+                char symbol=fsm.getMazeSymbols()[i][j];
+                switch (symbol){
+                    case 'b','c','i','p'->{
+                        if(fsm.getState()==EGameState.VULNERABLE) textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
+                        else textGraphics.setBackgroundColor(getColor(symbol));
+                    }
+                    case 'P'-> textGraphics.setBackgroundColor(getColor(symbol));
+                    default -> {
+                        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+                        textGraphics.setForegroundColor(getColor(symbol));
+                    }
                 }
+                textGraphics.putString(i, j, symbol + "");
             }
-            textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-            terminal.flush();
-        }catch (IOException e){
-            e.printStackTrace();
         }
+        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        terminal.flush();
     }
     public void DrawMazeElement( int x, int y){
-        char symbol=fsm.getMazeSymbols()[x][y];
-        switch (symbol){
-            case 'b','c','i','p','P'->  textGraphics.setBackgroundColor(getColor(symbol));
-            default -> {
-                textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                textGraphics.setForegroundColor(getColor(symbol));
-            }
-        }
 
-        textGraphics.putString(x, y, symbol + "");
     }
-    public void DrawMoveableElement(){
-        try {
-           for(MoveableElement element:fsm.getMoveableElements()){
-               if(element == null)continue;
-               int lastX=element.getLastX(),lastY= element.getLastY();
-               int x=element.getX(),y=element.getY();
-               char c= element.getSymbol();
-               DrawMazeElement(lastX, lastY);
-               if(element.getVulnerable())
-                   textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-               else {
-                   textGraphics.setBackgroundColor(getColor(c));
-                   textGraphics.setForegroundColor(TextColor.ANSI.BLACK);
-               }
-               textGraphics.putString(x,y, c+"");
+    public void DrawMoveableElement() throws IOException {
+        for(MoveableElement element:fsm.getMoveableElements()){
+            if(element == null)continue;
+            int lastX=element.getLastX(),lastY= element.getLastY();
+            int x=element.getX(),y=element.getY();
+            char c= element.getSymbol();
+            DrawMazeElement(lastX, lastY);
+            if(element.getVulnerable())
+                textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
+            else {
+                textGraphics.setBackgroundColor(getColor(c));
+                textGraphics.setForegroundColor(TextColor.ANSI.BLACK);
             }
-            terminal.flush();
-        }catch (IOException e){
-            e.printStackTrace();
+            textGraphics.putString(x,y, c+"");
         }
+        terminal.flush();
     }
     public void DrawInfoSection(){
         try{
@@ -160,4 +150,14 @@ public class TextInterface   {
         }
     }
 
+    @Override
+    public void evolve(IGameEngine gameEngine, long currentTime) {
+        try {
+            DrawInfoSection();
+            DrawMaze();
+            //DrawMoveableElement();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -17,12 +17,14 @@ public class Game implements IGameEngineEvolve {
     private long interval;
     private int lives;
     private int points;
+    private int numOfEatenFood;
     public Game(){
         this.currentLevel=1;
         this.vulnerableTicks=0;
         this.interval=0;
         this.lives=3;
         this.points=0;
+        this.numOfEatenFood=0;
         initGame();
     }
     public void initGame(){
@@ -92,13 +94,15 @@ public class Game implements IGameEngineEvolve {
     public void initElementsPosition(){
         mazeInfo.initElementsPosition();
         ((PacMan)mazeInfo.getMoveableElement('P')).setPoints(points);
+        ((PacMan)mazeInfo.getMoveableElement('P')).setNumOfFood(numOfEatenFood);
     }
     private String getLevelFilePath(){
         if(currentLevel<10)return "Levels\\Level0"+currentLevel+".txt";
         return "Levels\\Level"+currentLevel+".txt";
     }
-    public boolean thereIsFood(){
-        return mazeInfo.getNumOfFood() == ((PacMan)mazeInfo.getMoveableElement('P')).getNumOfFood();
+    public boolean thereIsNoFood(){
+        numOfEatenFood=((PacMan)mazeInfo.getMoveableElement('P')).getNumOfFood();
+        return (mazeInfo.getNumOfFood() == numOfEatenFood);
     }
     public boolean LastLevel(){
         return currentLevel >= 20;}
@@ -115,6 +119,7 @@ public class Game implements IGameEngineEvolve {
     }
     public void changelevel(){
         points=0;
+        numOfEatenFood=0;
         lives=3;
         currentLevel++;
         initGame();

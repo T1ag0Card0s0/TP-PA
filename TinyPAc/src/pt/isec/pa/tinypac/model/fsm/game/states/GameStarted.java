@@ -13,16 +13,13 @@ public class GameStarted extends GameStateAdapter {
     @Override
     public boolean KeyIsPressed(String keyPressed){
         if(keyPressed.equals(" "))changeState(new GamePaused(context,game));
-
-        if(keyPressed.equals("Escape"))changeState(new GameOver(context,game));
-
         game.setPacmanNextDirection(keyPressed);
         return true;
     }
     @Override
     public boolean WinLevel() {
-        if(game.thereIsFood()){
-            if(game.LastLevel()) {
+        if(game.thereIsNoFood()){
+            if(!game.LastLevel()) {
                 game.changelevel();
                 changeState(new InitialState(context, game));
             }else{

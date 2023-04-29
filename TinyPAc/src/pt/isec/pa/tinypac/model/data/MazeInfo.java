@@ -97,7 +97,6 @@ public class MazeInfo {
             maze.set(e.getX(),e.getY(),e);
         }
     }
-
     public void evolve(){
         for(MoveableElement e: elements) {
             if(e instanceof Clyde c){
