@@ -8,6 +8,7 @@ import pt.isec.pa.tinypac.model.fsm.game.GameStateAdapter;
 public class GameOver extends GameStateAdapter {
     public GameOver(GameContext context, Game game) {
         super(context, game);
+        context.stopGame();
     }
 
     @Override

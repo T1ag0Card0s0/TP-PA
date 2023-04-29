@@ -6,9 +6,9 @@ public class Blinky extends Ghost {
     public Blinky( MazeInfo maze) {
         super('b', maze);
     }
+
     @Override
     public void evolve() {
-
         if(getInCave()) {
             lockedMovement();
         } else if(!super.move()){

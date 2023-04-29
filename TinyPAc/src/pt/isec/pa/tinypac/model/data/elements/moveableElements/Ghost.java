@@ -2,12 +2,13 @@ package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import pt.isec.pa.tinypac.model.data.MazeInfo;
 
+import javax.swing.plaf.PanelUI;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Ghost extends MoveableElement{
     private final Random rnd;
-    private ArrayList<Integer> directions;
+    private final ArrayList<Integer> directions;
     private final int[] caveDoorCoords;
     private boolean inCave;
     public Ghost(char symbol, MazeInfo maze) {
@@ -17,7 +18,7 @@ public class Ghost extends MoveableElement{
         this.rnd=new Random();
         this.directions=new ArrayList<>();
     }
-    public void travelTo(int x, int y){
+    public void travelTo(int x,int y){
         if(getUnderElement()==null)return;
         if(getUnderElement().getSymbol()=='Y')return;
         if(x==getX()) {
@@ -43,10 +44,18 @@ public class Ghost extends MoveableElement{
             travelTo(caveDoorCoords[0],caveDoorCoords[1]);
         }
     }
-
     public boolean getInCave(){
-        inCave= getMazeElementSymbol(getX(), getY()) == 'y';
+        if(getUnderElement()==null)inCave = false;
+        else inCave= (getUnderElement().getSymbol() == 'y'||getUnderElement().getSymbol() == 'Y');
         return inCave;
     }
 
+    @Override
+    public void checkNeighboors() {
+        if(getInCave()){
+            super.checkNeighboors();
+        }else{
+            super.checkNeighboorsWithExtraConstraint('Y');
+        }
+    }
 }
