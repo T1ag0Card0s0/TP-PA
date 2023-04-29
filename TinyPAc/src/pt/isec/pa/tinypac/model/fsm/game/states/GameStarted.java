@@ -1,41 +1,41 @@
 package pt.isec.pa.tinypac.model.fsm.game.states;
 
-import pt.isec.pa.tinypac.model.data.GameManager;
+import pt.isec.pa.tinypac.model.data.Game;
 import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 import pt.isec.pa.tinypac.model.fsm.game.GameStateAdapter;
 
 public class GameStarted extends GameStateAdapter {
-    public GameStarted(GameContext context, GameManager gameManager) {
-        super(context, gameManager);
+    public GameStarted(GameContext context, Game game) {
+        super(context, game);
         context.startGameEngine(100);
     }
     @Override
     public boolean KeyIsPressed(String keyPressed){
-        if(keyPressed.equals(" "))changeState(new GamePaused(context,gameManager));
+        if(keyPressed.equals(" "))changeState(new GamePaused(context,game));
 
-        if(keyPressed.equals("Escape"))changeState(new GameOver(context,gameManager));
+        if(keyPressed.equals("Escape"))changeState(new GameOver(context,game));
 
-        gameManager.setPacmanNextDirection(keyPressed);
+        game.setPacmanNextDirection(keyPressed);
         return true;
     }
     @Override
     public boolean WinLevel() {
-        if(gameManager.thereIsFood()){
-            if(gameManager.LastLevel()) {
-                gameManager.changelevel();
-                changeState(new InitialState(context, gameManager));
+        if(game.thereIsFood()){
+            if(game.LastLevel()) {
+                game.changelevel();
+                changeState(new InitialState(context, game));
             }else{
-                changeState(new GameWin(context,gameManager));
+                changeState(new GameWin(context,game));
             }
             return true;
         }
-        if(gameManager.pacManWasEaten()){
-            if(gameManager.getPacManLives()>0) {
-                gameManager.initGame();
-                changeState(new InitialState(context, gameManager));
+        if(game.pacManWasEaten()){
+            if(game.getPacManLives()>0) {
+                game.initGame();
+                changeState(new InitialState(context, game));
             }else{
-                changeState(new GameOver(context,gameManager));
+                changeState(new GameOver(context,game));
             }
             return false;
         }
@@ -43,8 +43,8 @@ public class GameStarted extends GameStateAdapter {
     }
     @Override
     public boolean beVulnerable(long interval) {
-        if(gameManager.pacManHasPower()){
-            changeState(new Vulnerable(context,gameManager));
+        if(game.pacManHasPower()){
+            changeState(new Vulnerable(context,game));
             return true;
         }
         return false;

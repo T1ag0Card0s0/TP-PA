@@ -8,6 +8,7 @@ public class Blinky extends Ghost {
     }
     @Override
     public void evolve() {
+
         if(getInCave()) {
             lockedMovement();
         } else if(!super.move()){

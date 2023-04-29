@@ -18,7 +18,8 @@ public class Ghost extends MoveableElement{
         this.directions=new ArrayList<>();
     }
     public void travelTo(int x, int y){
-        if(getMazeElementSymbol(getX(),getY())=='Y')return;
+        if(getUnderElement()==null)return;
+        if(getUnderElement().getSymbol()=='Y')return;
         if(x==getX()) {
             if (y < getY()) setNextDirection(0);
             else setNextDirection(2);
@@ -37,10 +38,9 @@ public class Ghost extends MoveableElement{
     public void lockedMovement(){
         if(!super.move()){
             choseRandDirection();
-        }else{
-            if(getTicks()*getInterval()>5000){
-                travelTo(caveDoorCoords[0],caveDoorCoords[1]);
-            }
+        }
+        if(getTicks()*getInterval()>5000){
+            travelTo(caveDoorCoords[0],caveDoorCoords[1]);
         }
     }
 

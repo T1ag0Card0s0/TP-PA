@@ -10,13 +10,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class GameManager implements IGameEngineEvolve {
+public class Game implements IGameEngineEvolve {
     private MazeInfo mazeInfo;
     private int currentLevel;
     private int vulnerableTicks;
     private long interval;
 
-    public GameManager(){
+    public Game(){
         this.currentLevel=1;
         this.vulnerableTicks=0;
         this.interval=0;
@@ -91,14 +91,14 @@ public class GameManager implements IGameEngineEvolve {
         return "Levels\\Level"+currentLevel+".txt";
     }
     public boolean thereIsFood(){
-        return mazeInfo.getNumOfFood() == ((PacMan) mazeInfo.getElement('P')).getNumOfFood();
+        return mazeInfo.getNumOfFood() == ((PacMan) mazeInfo.getMoveableElement('P')).getNumOfFood();
     }
     public boolean LastLevel(){
         return currentLevel >= 20;}
     public boolean pacManWasEaten(){
-        PacMan pacMan = (PacMan) mazeInfo.getElement('P');
+        PacMan pacMan = (PacMan) mazeInfo.getMoveableElement('P');
         if(pacMan.getPowerValue())return false;
-        for(MoveableElement e: mazeInfo.getElements())
+        for(MoveableElement e: mazeInfo.getMoveableElements())
             if(e instanceof Ghost)
                 if(e.getX()==pacMan.getX()&&e.getY()==pacMan.getY()) {
                     pacMan.setLives(pacMan.getLives()-1);
@@ -110,23 +110,23 @@ public class GameManager implements IGameEngineEvolve {
         currentLevel++;
         initGame();
     }
-    public int getPoints(){return ((PacMan)mazeInfo.getElement('P')).getPoints();}
+    public int getPoints(){return ((PacMan)mazeInfo.getMoveableElement('P')).getPoints();}
     public int getCurrentLevel(){return currentLevel;}
     public int getBoardHeight(){return mazeInfo.getBoardHeight();}
     public int getBoardWidth(){return mazeInfo.getBoardWidth();}
-    public int getPacManLives(){return ((PacMan)mazeInfo.getElement('P')).getLives();}
+    public int getPacManLives(){return ((PacMan)mazeInfo.getMoveableElement('P')).getLives();}
     public char[][]getMazeSymbols(){return  mazeInfo.getMazeSymbols();}
-    public MoveableElement[] getMoveableElements(){return mazeInfo.getElements();}
+    public MoveableElement[] getMoveableElements(){return mazeInfo.getMoveableElements();}
     public void setGameEngineInterval(long interval){
         this.interval=interval;
-        for (MoveableElement element: mazeInfo.getElements()){
+        for (MoveableElement element: mazeInfo.getMoveableElements()){
             element.setGameEngineInterval(interval);
         }
     }
     public void setVulnerable(boolean value){mazeInfo.setVulnerable(value);}
     public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
     public boolean endOfVulnerability(long interval){
-        if(interval*(vulnerableTicks++)>((PacMan)mazeInfo.getElement('P')).getPowerTime()){
+        if(interval*(vulnerableTicks++)>((PacMan)mazeInfo.getMoveableElement('P')).getPowerTime()){
             vulnerableTicks=0;
             setVulnerable(false);
             return true;
@@ -134,7 +134,7 @@ public class GameManager implements IGameEngineEvolve {
             return false;
         }
     }
-    public boolean pacManHasPower(){return ((PacMan)mazeInfo.getElement('P')).getPowerValue();}
+    public boolean pacManHasPower(){return ((PacMan)mazeInfo.getMoveableElement('P')).getPowerValue();}
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
        mazeInfo.evolve();

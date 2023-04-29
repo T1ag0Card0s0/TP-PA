@@ -50,8 +50,9 @@ public class PacMan extends MoveableElement  {
     public int getNumOfFood(){return numOfFood;}
     public int getPowerTime(){return powerTime;}
     public void IdentifyAction(){
-        switch (getMazeElementSymbol(getX(),getY())){
-            case 'W'-> teleTransport();
+        if(getUnderElement()==null)return;
+        switch (getUnderElement().getSymbol()){
+            case 'W'->{ teleTransport();setMazeElement(getUnderElement().getX(),getUnderElement().getY(),getUnderElement());}
             case '.'->{
                 setUnderElement(null);
                 //setMazeElement(getY(),getX(),null);

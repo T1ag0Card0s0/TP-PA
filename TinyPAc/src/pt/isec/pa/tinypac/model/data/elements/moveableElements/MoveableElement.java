@@ -47,25 +47,28 @@ public class MoveableElement extends Element {
             currentDirection=nextDirection;
         }
     }
+    public Element getUnderElement(){return underElement;}
     public boolean move(){
         ticks++;
         checkNeighboors();
         changeDirection();
         if(currentDirection==-1) { return false;}
         if (!neighboors[currentDirection]) {
-            lastX=getX();
-            lastY=getY();
+            lastX=getX();lastY=getY();
             int x=getX(),y=getY();
-            maze.setMazeElement(getX(),getY(),underElement);
+            setMazeElement(x,y,underElement);
             switch (currentDirection) {
                 case 0 -> y--;//UP
                 case 1 -> x++;//RIGHT
                 case 2 -> y++;//BOTTOM
                 case 3 -> x--;//LEFT
             }
-            setX(x);
-            setY(y);
-            underElement=new Element(maze.getSymbol(x,y),x,y);
+            setX(x);setY(y);
+
+            if(maze.getMazeElement(x,y) instanceof MoveableElement m)underElement=m.getUnderElement();
+            else underElement = new Element(maze.getSymbol(x, y), x, y);
+
+            setMazeElement(getX(),getY(),this);
             return true;
         }
         currentDirection=-1;
@@ -85,4 +88,5 @@ public class MoveableElement extends Element {
     public void setGameEngineInterval(long interval){this.interval=interval;}
     public void setMaze(MazeInfo newMaze){maze=newMaze;}
     public void setUnderElement(Element underElement){this.underElement=underElement;}
+    public void setMazeElement(int x,int y, Element newElement){maze.setMazeElement(x,y,newElement);}
 }

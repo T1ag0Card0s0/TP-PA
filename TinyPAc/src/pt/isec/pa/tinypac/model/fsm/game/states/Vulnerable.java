@@ -1,30 +1,30 @@
 package pt.isec.pa.tinypac.model.fsm.game.states;
 
-import pt.isec.pa.tinypac.model.data.GameManager;
+import pt.isec.pa.tinypac.model.data.Game;
 import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 import pt.isec.pa.tinypac.model.fsm.game.GameStateAdapter;
 
 public class Vulnerable extends GameStateAdapter {
-    public Vulnerable(GameContext context, GameManager gameManager) {
-        super(context, gameManager);
+    public Vulnerable(GameContext context, Game game) {
+        super(context, game);
     }
     @Override
     public boolean WinLevel() {
-        if(gameManager.thereIsFood()){
-            if(gameManager.LastLevel()){
-                gameManager.changelevel();
-                changeState(new InitialState(context,gameManager));
+        if(game.thereIsFood()){
+            if(game.LastLevel()){
+                game.changelevel();
+                changeState(new InitialState(context,game));
             }else{
-                changeState(new GameWin(context,gameManager));
+                changeState(new GameWin(context,game));
             }
         }
         return true;
     }
     @Override
     public boolean beVulnerable(long interval) {
-        if(gameManager.endOfVulnerability(interval)){
-            changeState(new GameStarted(context,gameManager));
+        if(game.endOfVulnerability(interval)){
+            changeState(new GameStarted(context,game));
             return false;
         }
         return true;
@@ -32,11 +32,11 @@ public class Vulnerable extends GameStateAdapter {
 
     @Override
     public boolean KeyIsPressed(String keyPressed){
-        if(keyPressed.equals(" "))changeState(new GamePaused(context,gameManager));
+        if(keyPressed.equals(" "))changeState(new GamePaused(context,game));
 
-        if(keyPressed.equals("Escape"))changeState(new GameOver(context,gameManager));
+        if(keyPressed.equals("Escape"))changeState(new GameOver(context,game));
 
-        gameManager.setPacmanNextDirection(keyPressed);
+        game.setPacmanNextDirection(keyPressed);
         return true;
     }
     @Override

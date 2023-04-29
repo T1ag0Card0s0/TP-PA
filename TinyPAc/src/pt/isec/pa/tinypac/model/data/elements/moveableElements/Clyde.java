@@ -39,12 +39,13 @@ public class Clyde extends Ghost {
     public void evolve() {
         if (getInCave()) {
             lockedMovement();
-        } else{
+        } else {
             if (pacManInFieldOfVision()) {
                 super.move();
             } else if (!super.move()) {
-                if(!getVulnerable()) {
+                if (!getVulnerable()) {
                     choseRandDirection();
+                }
             }
         }
     }

@@ -45,8 +45,8 @@ public class TextInterface   {
         DrawMoveableElement();
         try {
             while (!finish) {
-                DrawInfoSection();
-                DrawMoveableElement();
+               // DrawInfoSection();//quando perco os MoveableElements aprentam estar a null
+                DrawMaze();
                 if(fsm.getState()== EGameState.INITIAL_STATE){
                     if(!mazeDrawn) {
                         DrawMaze();
@@ -104,13 +104,20 @@ public class TextInterface   {
     }
     public void DrawMazeElement( int x, int y){
         char symbol=fsm.getMazeSymbols()[x][y];
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.setForegroundColor(getColor(symbol));
+        switch (symbol){
+            case 'b','c','i','p','P'->  textGraphics.setBackgroundColor(getColor(symbol));
+            default -> {
+                textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+                textGraphics.setForegroundColor(getColor(symbol));
+            }
+        }
+
         textGraphics.putString(x, y, symbol + "");
     }
     public void DrawMoveableElement(){
         try {
            for(MoveableElement element:fsm.getMoveableElements()){
+               if(element == null)continue;
                int lastX=element.getLastX(),lastY= element.getLastY();
                int x=element.getX(),y=element.getY();
                char c= element.getSymbol();
@@ -133,7 +140,7 @@ public class TextInterface   {
             textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
             textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
             textGraphics.putString(1, fsm.getBoardHeight()+1, "Nivel: "+fsm.getLevel());
-            textGraphics.putString(1, fsm.getBoardHeight()+2, "Pontuação: "+fsm.getPacManPoints());
+            textGraphics.putString(1, fsm.getBoardHeight()+2, "Pontuação: "+fsm.getPacManPoints()+" ");
             textGraphics.putString(1, fsm.getBoardHeight()+3, "Vidas: "+fsm.getPacManLives());
             textGraphics.putString(1, fsm.getBoardHeight()+4, "Estado do Jogo: "+fsm.getState()+"    ");
             textGraphics.putString(1, fsm.getBoardHeight()+5, "Pressiona 'esc' para sair");

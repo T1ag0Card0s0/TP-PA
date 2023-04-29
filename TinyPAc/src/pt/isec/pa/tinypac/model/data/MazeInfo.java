@@ -32,19 +32,20 @@ public class MazeInfo {
     public int[] getInitPacManPosition(){return initPacManPosition;}
     public int[] getInitGhostsPosition(){return initGhostsPosition;}
     public int[] getCaveDoorCoords(){return caveDoorCoords;}
-    public MoveableElement[] getElements() {return elements;}
-
+    public MoveableElement[] getMoveableElements() {return elements;}
     public int[][] getWrapperCoordinates() {return wrapperCoordinates;}
     public int getWidth(){return width;}
     public int getHeight() {return height;}
-    public MoveableElement getElement(char c){
-        for (MoveableElement e: elements)
-            if(e.getSymbol()==c)
+    public MoveableElement getMoveableElement(char c){
+        for (MoveableElement e: elements) {
+            if (e == null) continue;
+            if (e.getSymbol() == c)
                 return e;
+        }
         return null;
     }
     public char getSymbol(int i,int j){return maze.getMaze()[i][j];}
-
+    public IMazeElement getMazeElement(int i,int j){return maze.get(i,j);}
     public void setWraperCoordinates(int x, int y){
         if(numOfWrapperCoordinates>wrapperCoordinates.length)return;
         wrapperCoordinates[numOfWrapperCoordinates][0]=x;
@@ -73,7 +74,7 @@ public class MazeInfo {
                 ((PacMan)e).setPower(value);
     }
     public void setPacmanNextDirection(String keyPressed){
-        PacMan pacMan = (PacMan)getElement('P');
+        PacMan pacMan = (PacMan)getMoveableElement('P');
         switch (keyPressed){
             case "ArrowUp"->pacMan.setNextDirection(0);
             case "ArrowRight"->pacMan.setNextDirection(1);
@@ -86,17 +87,7 @@ public class MazeInfo {
         elements[1]=new Clyde(this);
         elements[2]=new Inky(this);
         elements[3]=new Pinky(this);
-        if(elements[4]==null){
-            elements[4]= new PacMan(this);
-        }else{
-            PacMan pacMan=(PacMan)elements[4];
-            pacMan.setWraperCoordinates(getWrapperCoordinates());
-            pacMan.setX(getInitPacManPosition()[0]);
-            pacMan.setY(getInitPacManPosition()[1]);
-            pacMan.setNextDirection(-1);
-            pacMan.setMaze(this);
-            pacMan.setPoints(0);
-        }
+        elements[4]= new PacMan(this);
         for(MoveableElement e: elements){
             maze.set(e.getX(),e.getY(),e);
         }
@@ -105,7 +96,7 @@ public class MazeInfo {
     public void evolve(){
         for(MoveableElement e: elements) {
             if(e instanceof Clyde c){
-                c.setPCoords(getElement('P').getX(),getElement('P').getY());
+                c.setPCoords(getMoveableElement('P').getX(),getMoveableElement('P').getY());
             }
             e.evolve();
         }

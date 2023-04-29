@@ -1,13 +1,13 @@
 package pt.isec.pa.tinypac.model.fsm.game;
 
-import pt.isec.pa.tinypac.model.data.GameManager;
+import pt.isec.pa.tinypac.model.data.Game;
 
 public class GameStateAdapter implements IGameState{
-    protected GameManager gameManager;
+    protected Game game;
      protected GameContext context;
-    public GameStateAdapter(GameContext context, GameManager game){
+    public GameStateAdapter(GameContext context, Game game){
         this.context=context;
-        this.gameManager=game;
+        this.game=game;
     }
      protected void changeState(IGameState newState){
         context.changeState(newState);

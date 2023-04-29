@@ -1,20 +1,20 @@
 package pt.isec.pa.tinypac.model.fsm.game.states;
 
-import pt.isec.pa.tinypac.model.data.GameManager;
+import pt.isec.pa.tinypac.model.data.Game;
 import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 import pt.isec.pa.tinypac.model.fsm.game.GameStateAdapter;
 
 public class InitialState extends GameStateAdapter   {
-    public InitialState(GameContext context, GameManager gameManager) {
-        super(context, gameManager);
+    public InitialState(GameContext context, Game game) {
+        super(context, game);
     }
     @Override
     public boolean KeyIsPressed(String keyPressed) {
         if(keyPressed.length()>1) {
             context.registEngineClients();
-            gameManager.setPacmanNextDirection(keyPressed);
-            changeState(new GameStarted(context, gameManager));
+            game.setPacmanNextDirection(keyPressed);
+            changeState(new GameStarted(context, game));
             return true;
         }
         return false;

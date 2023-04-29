@@ -3,18 +3,18 @@ package pt.isec.pa.tinypac.model.fsm.game;
 import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
-import pt.isec.pa.tinypac.model.data.GameManager;
+import pt.isec.pa.tinypac.model.data.Game;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.fsm.game.states.InitialState;
 
 public class GameContext implements IGameEngineEvolve{
     private final IGameEngine gameEngine;
     private IGameState state;
-    private final GameManager gameManager;
+    private final Game game;
 
     public GameContext(){
-        gameManager=new GameManager();
-        state=new InitialState(this,gameManager);
+        game=new Game();
+        state=new InitialState(this,game);
         this.gameEngine=new GameEngine();
     }
     void changeState(IGameState newState){this.state=newState;}
@@ -22,20 +22,20 @@ public class GameContext implements IGameEngineEvolve{
         if(state==null)return null;
         return state.getGameState();
     }
-    public int getPacManPoints(){return gameManager.getPoints();}
-    public int getLevel(){return gameManager.getCurrentLevel();}
-    public int getBoardHeight(){return gameManager.getBoardHeight();}
-    public int getBoardWidth(){return gameManager.getBoardWidth();}
-   public int getPacManLives(){return gameManager.getPacManLives();}
-    public char [][]getMazeSymbols(){return  gameManager.getMazeSymbols();}
-    public MoveableElement[] getMoveableElements(){return gameManager.getMoveableElements();}
+    public int getPacManPoints(){return game.getPoints();}
+    public int getLevel(){return game.getCurrentLevel();}
+    public int getBoardHeight(){return game.getBoardHeight();}
+    public int getBoardWidth(){return game.getBoardWidth();}
+   public int getPacManLives(){return game.getPacManLives();}
+    public char [][]getMazeSymbols(){return  game.getMazeSymbols();}
+    public MoveableElement[] getMoveableElements(){return game.getMoveableElements();}
     public void registEngineClients(){
-        gameEngine.registerClient(gameManager);
+        gameEngine.registerClient(game);
     }
     public void startGameEngine(long interval){
-        gameManager.setGameEngineInterval(interval);
+        game.setGameEngineInterval(interval);
         gameEngine.registerClient(this);
-        gameEngine.registerClient(gameManager);
+        gameEngine.registerClient(game);
         gameEngine.start(interval);}
     public void waitForTheEnd(){gameEngine.waitForTheEnd();}
     public void pauseGameEngine(){gameEngine.pause();}
@@ -53,13 +53,13 @@ public class GameContext implements IGameEngineEvolve{
         switch (state.getGameState()){
             case GAME_STARTED -> {
                 if(state.beVulnerable(gameEngine.getInterval())){
-                    gameManager.setVulnerable(true);
+                    game.setVulnerable(true);
                 }
                 WinLevel();
             }
             case VULNERABLE -> {
                 if(!state.beVulnerable(gameEngine.getInterval())){
-                    gameManager.setVulnerable(false);
+                    game.setVulnerable(false);
                 }
                 WinLevel();
             }
@@ -67,6 +67,6 @@ public class GameContext implements IGameEngineEvolve{
     }
     @Override
     public String toString() {
-        return gameManager+"\nEstado do jogo: "+ state;
+        return game+"\nEstado do jogo: "+ state;
     }
 }
