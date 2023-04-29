@@ -100,12 +100,8 @@ public class Game implements IGameEngineEvolve {
         if(currentLevel<10)return "Levels\\Level0"+currentLevel+".txt";
         return "Levels\\Level"+currentLevel+".txt";
     }
-    public boolean thereIsNoFood(){
-        numOfEatenFood=((PacMan)mazeInfo.getMoveableElement('P')).getNumOfFood();
-        return (mazeInfo.getNumOfFood() == numOfEatenFood);
-    }
-    public boolean LastLevel(){
-        return currentLevel >= 20;}
+    public boolean thereIsNoFood(){return (mazeInfo.getNumOfFood() == mazeInfo.getNumOfEatenFood());}
+    public boolean LastLevel(){return currentLevel >= 20;}
     public boolean pacManWasEaten(){
         PacMan pacMan = (PacMan) mazeInfo.getMoveableElement('P');
         if(pacMan.getPowerValue())return false;
@@ -118,13 +114,11 @@ public class Game implements IGameEngineEvolve {
         return false;
     }
     public void changelevel(){
-        points=0;
         numOfEatenFood=0;
-        lives=3;
         currentLevel++;
         initGame();
     }
-    public int getPoints(){return points=((PacMan)mazeInfo.getMoveableElement('P')).getPoints();}
+    public int getPoints(){return points=mazeInfo.getPacManPoints();}
     public int getCurrentLevel(){return currentLevel;}
     public int getBoardHeight(){return mazeInfo.getBoardHeight();}
     public int getBoardWidth(){return mazeInfo.getBoardWidth();}
@@ -139,8 +133,6 @@ public class Game implements IGameEngineEvolve {
     }
     public void setVulnerable(boolean value){mazeInfo.setVulnerable(value);}
     public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
-    public void setLives(int value){this.lives=value;}
-    public void setPoints(int points){this.points=points;}
     public boolean endOfVulnerability(long interval){
         if(interval*(vulnerableTicks++)>((PacMan)mazeInfo.getMoveableElement('P')).getPowerTime()){
             vulnerableTicks=0;
@@ -150,7 +142,7 @@ public class Game implements IGameEngineEvolve {
             return false;
         }
     }
-    public boolean pacManHasPower(){return ((PacMan)mazeInfo.getMoveableElement('P')).getPowerValue();}
+    public boolean pacManHasPower(){return mazeInfo.pacManHasPower();}
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
        mazeInfo.evolve();

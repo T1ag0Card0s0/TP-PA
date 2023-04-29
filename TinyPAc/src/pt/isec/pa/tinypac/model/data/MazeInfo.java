@@ -26,6 +26,7 @@ public class MazeInfo {
         this.elements=new MoveableElement[5];
         System.out.println("Fui Construido");
     }
+
     public int getBoardHeight(){return maze.getMaze().length;}
     public int getBoardWidth(){return maze.getMaze()[0].length;}
     public char [][]getMazeSymbols(){return maze.getMaze();}
@@ -37,6 +38,9 @@ public class MazeInfo {
     public int[][] getWrapperCoordinates() {return wrapperCoordinates;}
     public int getWidth(){return width;}
     public int getHeight() {return height;}
+    public int getPacManPoints(){return ((PacMan)getMoveableElement('P')).getPoints();}
+    public boolean pacManHasPower(){return ((PacMan)getMoveableElement('P')).getPowerValue();}
+    public int getNumOfEatenFood(){return ((PacMan)getMoveableElement('P')).getNumOfFood();}
     public MoveableElement getMoveableElement(char c){
         for (MoveableElement e: elements) {
             if (e == null) continue;
