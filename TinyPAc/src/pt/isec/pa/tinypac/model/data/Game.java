@@ -93,8 +93,8 @@ public class Game implements IGameEngineEvolve {
     }
     public void initElementsPosition(){
         mazeInfo.initElementsPosition();
-        ((PacMan)mazeInfo.getMoveableElement('P')).setPoints(points);
-        ((PacMan)mazeInfo.getMoveableElement('P')).setNumOfFood(numOfEatenFood);
+        mazeInfo.setPoints(points);
+        mazeInfo.setEatenFood(numOfEatenFood);
     }
     private String getLevelFilePath(){
         if(currentLevel<10)return "Levels\\Level0"+currentLevel+".txt";
