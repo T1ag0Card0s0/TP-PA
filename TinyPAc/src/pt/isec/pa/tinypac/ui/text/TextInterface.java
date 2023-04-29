@@ -45,8 +45,9 @@ public class TextInterface   {
         DrawMoveableElement();
         try {
             while (!finish) {
-               // DrawInfoSection();//quando perco os MoveableElements aprentam estar a null
+                DrawInfoSection();//quando perco os MoveableElements aprentam estar a null
                 DrawMaze();
+                //DrawMoveableElement();
                 if(fsm.getState()== EGameState.INITIAL_STATE){
                     if(!mazeDrawn) {
                         DrawMaze();

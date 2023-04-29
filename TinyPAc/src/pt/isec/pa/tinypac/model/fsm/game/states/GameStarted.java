@@ -32,7 +32,7 @@ public class GameStarted extends GameStateAdapter {
         }
         if(game.pacManWasEaten()){
             if(game.getPacManLives()>0) {
-                game.initGame();
+                game.initElementsPosition();
                 changeState(new InitialState(context, game));
             }else{
                 changeState(new GameOver(context,game));

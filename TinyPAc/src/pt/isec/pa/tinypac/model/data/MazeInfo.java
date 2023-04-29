@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.model.data;
 
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.*;
+import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
 public class MazeInfo {
     private final Maze maze;
@@ -83,6 +84,10 @@ public class MazeInfo {
         }
     }
     public void initElementsPosition(){
+        for(MoveableElement m: elements)
+            if(m!=null)
+                maze.set(m.getX(),m.getY(),m.getUnderElement());
+
         elements[0]=new Blinky(this);
         elements[1]=new Clyde(this);
         elements[2]=new Inky(this);
