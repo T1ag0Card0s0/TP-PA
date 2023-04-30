@@ -84,6 +84,7 @@ public class Ghost extends MoveableElement{
             if(getX()==getxPCoord()&&getY()==getyPCoord()) {
                 setXY(getInitCoords());
                 setVulnerable(false);
+                index=0;
                 positions=new ArrayList<>();
             }else{
                 int nextX=positions.get(index)[0],nextY=positions.get(index)[1];

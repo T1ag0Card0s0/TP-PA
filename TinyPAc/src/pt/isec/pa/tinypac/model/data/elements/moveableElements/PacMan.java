@@ -74,6 +74,7 @@ public class PacMan extends MoveableElement  {
         if(numOfGhost>=4)numOfGhost=0;
         numOfGhost++;
         points+=numOfGhost*50;
+        System.out.println(numOfGhost*50);
     }
     @Override
     public void checkNeighboors() {
