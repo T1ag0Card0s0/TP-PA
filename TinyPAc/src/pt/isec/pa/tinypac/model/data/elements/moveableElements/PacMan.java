@@ -8,6 +8,7 @@ public class PacMan extends MoveableElement  {
     private int powerTime;
     private int points;
     private int numOfFood;
+    private int numOfGhost;
     public PacMan(MazeInfo maze) {
         super(maze.getInitPacManPosition()[0],maze.getInitPacManPosition()[1],'P',maze);
         this.power=false;
@@ -15,6 +16,7 @@ public class PacMan extends MoveableElement  {
         this.points=0;
         this.numOfFood=0;
         this.powerTime=5000;
+        this.numOfGhost=0;
     }
     public void setPower(boolean value){this.power=value;}
     public void setWraperCoordinates(int[][]wraperCoordinates){this.wraperCoordinates=wraperCoordinates;}
@@ -68,7 +70,11 @@ public class PacMan extends MoveableElement  {
             default -> setPower(false);
         }
     }
-
+    public void ateAGhost(){
+        if(numOfGhost>=4)numOfGhost=0;
+        numOfGhost++;
+        points+=numOfGhost*50;
+    }
     @Override
     public void checkNeighboors() {
         super.checkNeighboorsWithExtraConstraint('Y');

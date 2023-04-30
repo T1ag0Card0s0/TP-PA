@@ -122,7 +122,9 @@ public class MazeInfo {
     public void evolve(){
         for(MoveableElement e: elements) {
             if(e instanceof Ghost g){
-                g.setPCoords(getMoveableElement('P').getX(),getMoveableElement('P').getY());
+                g.setPCoords(elements[4].getX(),elements[4].getY());
+                if(g.getVulnerable()&&g.getX()==elements[4].getX()&&g.getY()==elements[4].getY())
+                    ((PacMan)elements[4]).ateAGhost();
             }
             if(e instanceof PacMan p){
                 if(p.getPowerValue())
