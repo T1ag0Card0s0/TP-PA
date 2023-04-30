@@ -27,6 +27,7 @@ public class Ghost extends MoveableElement{
         this.index=0;
     }
     public void travelTo(int x,int y){
+        if(getX()==x&&getY()==y)return;
         if(x==getX()) {
             if (y < getY()) setNextDirection(0);
             else setNextDirection(2);
@@ -78,12 +79,11 @@ public class Ghost extends MoveableElement{
             super.checkNeighboorsWithExtraConstraint('Y');
         }
     }
-    public boolean vulnerableMove(){
-        if(index<positions.size()){
+    public void vulnerableMove(){
+        if(index>0){
             if(getX()==getxPCoord()&&getY()==getyPCoord()) {
                 setXY(getInitCoords());
                 setVulnerable(false);
-                index=0;
                 positions=new ArrayList<>();
             }else{
                 int nextX=positions.get(index)[0],nextY=positions.get(index)[1];
@@ -92,28 +92,23 @@ public class Ghost extends MoveableElement{
                 else setUnderElement(new Element(getSymbol(nextX, nextY), nextX, nextY));
                 setX(nextX);setY(nextY);
                 setMazeElement(getX(),getY(),this);
-                index++;
+                positions.remove(index);
+                index--;
             }
         }else{
-            positions=new ArrayList<>();
-            index=0;
-            setVulnerable(false);
+           setVulnerable(false);
         }
-        if(getInCave()){
-            positions=new ArrayList<>();
-            index=0;
-            setVulnerable(false);
-        }
-        return false;
     }
     @Override
     public boolean move() {
         if(getVulnerable()){
-           return vulnerableMove();
+           vulnerableMove();
+           positions.add(new int[]{getX(),getY()});
         }else{
-            positions.add(0,new int[]{getX(),getY()});
+            index=positions.size();
+            positions.add(new int[]{getX(),getY()});
             return super.move();
         }
-
+        return false;
     }
 }

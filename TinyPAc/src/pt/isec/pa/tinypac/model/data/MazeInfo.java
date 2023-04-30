@@ -51,6 +51,16 @@ public class MazeInfo {
     }
     public char getSymbol(int i,int j){return maze.getMaze()[i][j];}
     public IMazeElement getMazeElement(int i,int j){return maze.get(i,j);}
+    public boolean allGhostsNotVulnerable(){
+        for(MoveableElement e: elements){
+            if(e instanceof Ghost g){
+                if(g.getVulnerable()){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public void setWraperCoordinates(int x, int y){
         if(numOfWrapperCoordinates>wrapperCoordinates.length)return;
         wrapperCoordinates[numOfWrapperCoordinates][0]=x;

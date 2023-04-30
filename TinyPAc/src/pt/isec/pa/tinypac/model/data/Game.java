@@ -135,6 +135,10 @@ public class Game {
     public void setVulnerable(boolean value){mazeInfo.setVulnerable(value);}
     public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
     public boolean endOfVulnerability(long interval){
+        if(mazeInfo.allGhostsNotVulnerable()){
+            System.out.println("passei aqui");
+            return true;
+        }
         if(interval*(vulnerableTicks++)>((PacMan)mazeInfo.getMoveableElement('P')).getPowerTime()){
             vulnerableTicks=0;
             setVulnerable(false);
