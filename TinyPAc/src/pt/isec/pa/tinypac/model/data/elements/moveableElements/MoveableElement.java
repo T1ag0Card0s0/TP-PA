@@ -1,5 +1,6 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
+import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeInfo;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
@@ -74,6 +75,8 @@ public class MoveableElement extends Element {
     public long getTicks(){return ticks;}
     public long getInterval(){return interval;}
     public int getCurrentDirection(){return currentDirection;}
+    public IMazeElement getMazeElement(int x,int y){return maze.getMazeElement(x,y);}
+    public char getSymbol(int x,int y){return maze.getSymbol(x,y);}
     public void setNextDirection(int newDirection){this.nextDirection=newDirection;}
     public void setGameEngineInterval(long interval){this.interval=interval;}
     public void setUnderElement(Element underElement){this.underElement=underElement;}

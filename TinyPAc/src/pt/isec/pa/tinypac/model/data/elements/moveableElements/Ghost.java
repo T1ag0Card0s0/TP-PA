@@ -1,14 +1,15 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
 import pt.isec.pa.tinypac.model.data.MazeInfo;
+import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
-import javax.swing.plaf.PanelUI;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Ghost extends MoveableElement{
     private final Random rnd;
-    private ArrayList<Integer> directions;
+    private List<int[]> positions;
     private final int[] caveDoorCoords;
     private boolean inCave;
     private final int[] initCoords;
@@ -21,13 +22,11 @@ public class Ghost extends MoveableElement{
         this.caveDoorCoords= maze.getCaveDoorCoords();
         this.inCave=true;
         this.rnd=new Random();
-        this.directions=new ArrayList<>();
+        this.positions =new ArrayList<>();
         this.vulnerable=false;
         this.index=0;
     }
     public void travelTo(int x,int y){
-        if(getUnderElement()==null)return;
-        if(getUnderElement().getSymbol()=='Y')return;
         if(x==getX()) {
             if (y < getY()) setNextDirection(0);
             else setNextDirection(2);
@@ -44,10 +43,12 @@ public class Ghost extends MoveableElement{
         setNextDirection(nextDirection);
     }
     public void lockedMovement(){
-        if(!super.move()){
+        if(!move()){
             choseRandDirection();
         }
         if(getTicks()*getInterval()>5000){
+            if(getUnderElement()==null)return;
+            if(getUnderElement().getSymbol()=='Y')return;
             travelTo(caveDoorCoords[0],caveDoorCoords[1]);
         }
     }
@@ -77,28 +78,42 @@ public class Ghost extends MoveableElement{
             super.checkNeighboorsWithExtraConstraint('Y');
         }
     }
-    @Override
-    public boolean move() {
-        super.move();
-        if(getVulnerable()){
-            if(index<directions.size()) {
-                setNextDirection(directions.get(index++));
-            }
+    public boolean vulnerableMove(){
+        if(index<positions.size()){
             if(getX()==getxPCoord()&&getY()==getyPCoord()) {
                 setXY(getInitCoords());
                 setVulnerable(false);
                 index=0;
-                directions=new ArrayList<>();
+                positions=new ArrayList<>();
+            }else{
+                int nextX=positions.get(index)[0],nextY=positions.get(index)[1];
+                setMazeElement(getX(),getY(),getUnderElement());
+                if(getMazeElement(nextX,nextY) instanceof MoveableElement m)setUnderElement(m.getUnderElement());
+                else setUnderElement(new Element(getSymbol(nextX, nextY), nextX, nextY));
+                setX(nextX);setY(nextY);
+                setMazeElement(getX(),getY(),this);
+                index++;
             }
-        }else {
-            switch (getCurrentDirection()) {
-                case 0 -> directions.add(0, 2);
-                case 1 -> directions.add(0, 3);
-                case 2 -> directions.add(0, 0);
-                case 3 -> directions.add(0, 1);
-                case -1 -> directions.add(0, -1);
-            }
+        }else{
+            positions=new ArrayList<>();
+            index=0;
+            setVulnerable(false);
         }
-        return getCurrentDirection()!=-1 ;
+        if(getInCave()){
+            positions=new ArrayList<>();
+            index=0;
+            setVulnerable(false);
+        }
+        return false;
+    }
+    @Override
+    public boolean move() {
+        if(getVulnerable()){
+           return vulnerableMove();
+        }else{
+            positions.add(0,new int[]{getX(),getY()});
+            return super.move();
+        }
+
     }
 }

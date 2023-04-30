@@ -36,13 +36,14 @@ public class Clyde extends Ghost {
             lockedMovement();
             return;
         }
-
-        if (pacManInFieldOfVision()) {
-            move();
-        } else if (!move()) {
-            if (!getVulnerable()) {
-                choseRandDirection();
+        if (!getVulnerable()) {
+            pacManInFieldOfVision();
+             if (getCurrentDirection()==-1) {
+                if (!getVulnerable()) {
+                    choseRandDirection();
+                }
             }
         }
+        move();
     }
 }
