@@ -105,8 +105,10 @@ public class Ghost extends MoveableElement{
            vulnerableMove();
            positions.add(new int[]{getX(),getY()});
         }else{
-            index=positions.size();
-            positions.add(new int[]{getX(),getY()});
+            if(!inCave) {
+                index = positions.size();
+                positions.add(new int[]{getX(), getY()});
+            }
             return super.move();
         }
         return false;
