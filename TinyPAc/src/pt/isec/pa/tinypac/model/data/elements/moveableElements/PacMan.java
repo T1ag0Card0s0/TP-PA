@@ -61,6 +61,7 @@ public class PacMan extends MoveableElement  {
                 points+=10;
                 numOfFood++;
             }
+            default -> setPower(false);
         }
     }
 

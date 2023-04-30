@@ -6,7 +6,6 @@ import pt.isec.pa.tinypac.model.data.MazeInfo;
 public class Clyde extends Ghost {
     public Clyde( MazeInfo maze) {
         super('c',maze);
-
     }
     public boolean pacManInFieldOfVision(){
         int i = 0;
@@ -39,8 +38,8 @@ public class Clyde extends Ghost {
         }
 
         if (pacManInFieldOfVision()) {
-            super.move();
-        } else if (!super.move()) {
+            move();
+        } else if (!move()) {
             if (!getVulnerable()) {
                 choseRandDirection();
             }

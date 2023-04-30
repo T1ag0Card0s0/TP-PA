@@ -13,6 +13,7 @@ public class Ghost extends MoveableElement{
     private boolean inCave;
     private final int[] initCoords;
     private int xPCoord,yPCoord;
+    private boolean vulnerable;
     public Ghost(char symbol, MazeInfo maze) {
         super(maze.getInitGhostsPosition()[0],maze.getInitGhostsPosition()[1],symbol, maze);
         this.initCoords=maze.getInitGhostsPosition();
@@ -20,6 +21,7 @@ public class Ghost extends MoveableElement{
         this.inCave=true;
         this.rnd=new Random();
         this.directions=new ArrayList<>();
+        this.vulnerable=false;
     }
     public void travelTo(int x,int y){
         if(getUnderElement()==null)return;
@@ -52,23 +54,15 @@ public class Ghost extends MoveableElement{
         else inCave= (getUnderElement().getSymbol() == 'y'||getUnderElement().getSymbol() == 'Y');
         return inCave;
     }
-
-    public int[] getInitCoords() {
-        return initCoords;
-    }
-
-    public int getxPCoord() {
-        return xPCoord;
-    }
-
-    public int getyPCoord() {
-        return yPCoord;
-    }
-
+    public int[] getInitCoords() {return initCoords;}
+    public int getxPCoord() {return xPCoord;}
+    public int getyPCoord() {return yPCoord;}
+    public boolean getVulnerable(){return vulnerable;}
     public void setPCoords(int x, int y){
         xPCoord=x;
         yPCoord=y;
     }
+    public void setVulnerable(boolean value){vulnerable=value;}
     @Override
     public void checkNeighboors() {
         if(getInCave()){
@@ -77,7 +71,6 @@ public class Ghost extends MoveableElement{
             super.checkNeighboorsWithExtraConstraint('Y');
         }
     }
-
     @Override
     public boolean move() {
         if(getVulnerable()){

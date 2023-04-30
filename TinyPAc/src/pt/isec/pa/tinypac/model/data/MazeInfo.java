@@ -105,8 +105,12 @@ public class MazeInfo {
     }
     public void evolve(){
         for(MoveableElement e: elements) {
-            if(e instanceof Clyde c){
-                c.setPCoords(getMoveableElement('P').getX(),getMoveableElement('P').getY());
+            if(e instanceof Ghost g){
+                g.setPCoords(getMoveableElement('P').getX(),getMoveableElement('P').getY());
+            }
+            if(e instanceof PacMan p){
+                if(p.getPowerValue())
+                    setVulnerable(true);
             }
             e.evolve();
         }

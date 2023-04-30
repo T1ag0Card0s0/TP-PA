@@ -112,26 +112,6 @@ public class TextInterface  implements IGameEngineEvolve {
         textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
         terminal.flush();
     }
-    public void DrawMazeElement( int x, int y){
-
-    }
-    public void DrawMoveableElement() throws IOException {
-        for(MoveableElement element:fsm.getMoveableElements()){
-            if(element == null)continue;
-            int lastX=element.getLastX(),lastY= element.getLastY();
-            int x=element.getX(),y=element.getY();
-            char c= element.getSymbol();
-            DrawMazeElement(lastX, lastY);
-            if(element.getVulnerable())
-                textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-            else {
-                textGraphics.setBackgroundColor(getColor(c));
-                textGraphics.setForegroundColor(TextColor.ANSI.BLACK);
-            }
-            textGraphics.putString(x,y, c+"");
-        }
-        terminal.flush();
-    }
     public void DrawInfoSection(){
         try{
             textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
@@ -161,7 +141,6 @@ public class TextInterface  implements IGameEngineEvolve {
         try {
             DrawInfoSection();
             DrawMaze();
-            //DrawMoveableElement();
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -25,7 +25,7 @@ public class Pinky extends Ghost {
             lockedMovement();
             return;
         }
-        if(!super.move()) {
+        if(!move()) {
             if (!getVulnerable()) {
                 choseRandDirection();
             }

@@ -10,7 +10,6 @@ public class MoveableElement extends Element {
     private int lastX,lastY;
     private int currentDirection,nextDirection;//0=TOP 1=RIGHT 2=BOTTOM 3=LEFT -1=STOP
     private final boolean []neighboors;//TOP,RIGHT,BOTTOM,LEFT Check if there are walls around
-    private boolean vulnerable;
     private long interval;
     private Element underElement;
     public MoveableElement(int x, int y, char symbol, MazeInfo maze){
@@ -22,7 +21,6 @@ public class MoveableElement extends Element {
         this.maze=maze;
         this.ticks=0;
         this.interval=0;
-        this.vulnerable=false;
         this.underElement=null;
         checkNeighboors();
     }
@@ -81,10 +79,9 @@ public class MoveableElement extends Element {
     public char getMazeElementSymbol(int x,int y){return maze.getMazeSymbols()[x][y];}
     public boolean[] getNeighboors(){checkNeighboors();return neighboors;}
     public long getTicks(){return ticks;}
-    public boolean getVulnerable(){return vulnerable;}
     public long getInterval(){return interval;}
     public void setNextDirection(int newDirection){this.nextDirection=newDirection;}
-    public void setVulnerable(boolean value){vulnerable=value;}
+
     public void setGameEngineInterval(long interval){this.interval=interval;}
     public void setMaze(MazeInfo newMaze){maze=newMaze;}
     public void setUnderElement(Element underElement){this.underElement=underElement;}

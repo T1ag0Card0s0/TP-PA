@@ -14,7 +14,7 @@ public class Inky extends Ghost {
             lockedMovement();
             return;
         }
-        if (!super.move()) {
+        if (!move()) {
             if (!getVulnerable()) {
                 choseRandDirection();
             }
