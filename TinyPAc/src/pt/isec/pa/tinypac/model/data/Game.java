@@ -1,7 +1,5 @@
 package pt.isec.pa.tinypac.model.data;
 
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
-import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.*;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
@@ -77,7 +75,7 @@ public class Game {
         }catch (IOException e){
             e.printStackTrace();
         }
-        return new MazeInfo(row+2,column+2);
+        return new MazeInfo(row+2,column+2,currentLevel);
     }
     private IMazeElement elementFinder(char c, int x, int y){
         Element element=new Element(c,x,y);
@@ -88,6 +86,7 @@ public class Game {
             case 'O'->mazeInfo.setNumOfFood(mazeInfo.getNumOfFood()+1);
             case 'o'->{mazeInfo.setNumOfFood(mazeInfo.getNumOfFood()+1);element.setSymbol('.');}
             case 'Y'->mazeInfo.setCaveDoorCoords(x,y);
+            case 'F'->{element.setSymbol(' ');mazeInfo.setFruitElement(element);}
         }
         return element;
     }
@@ -136,7 +135,8 @@ public class Game {
     public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
     public boolean endOfVulnerability(long interval){
         if(mazeInfo.allGhostsNotVulnerable()){
-            System.out.println("passei aqui");
+            vulnerableTicks=0;
+            setVulnerable(false);
             return true;
         }
         if(interval*(vulnerableTicks++)>((PacMan)mazeInfo.getMoveableElement('P')).getPowerTime()){

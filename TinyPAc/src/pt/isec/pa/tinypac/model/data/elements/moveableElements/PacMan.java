@@ -61,6 +61,10 @@ public class PacMan extends MoveableElement  {
                 points+=10;
                 numOfFood++;
             }
+            case 'F' -> {
+                getUnderElement().setSymbol(' ');
+                points+=getCurrentLevel()*25;
+            }
             default -> setPower(false);
         }
     }

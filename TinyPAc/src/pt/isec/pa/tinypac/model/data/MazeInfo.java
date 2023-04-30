@@ -3,17 +3,21 @@ package pt.isec.pa.tinypac.model.data;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.*;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
+import javax.swing.plaf.PanelUI;
+
 public class MazeInfo {
     private final Maze maze;
     private final MoveableElement [] elements;
+    private Element fruit;
     private int numOfFood;
     private final int []caveDoorCoords;
     private final int [][]wrapperCoordinates;
     private int numOfWrapperCoordinates;
     private final int []initPacManPosition;
     private final int []initGhostsPosition;
+    private final int currentLevel;
     private final int width,height;
-    public MazeInfo(int height,int width){
+    public MazeInfo(int height,int width,int currentLevel){
         this.width=width;
         this.height=height;
         this.maze=new Maze(height,width);
@@ -24,6 +28,7 @@ public class MazeInfo {
         this.initPacManPosition=new int[2];
         this.initGhostsPosition=new int[2];
         this.elements=new MoveableElement[5];
+        this.currentLevel=currentLevel;
         System.out.println("Fui Construido");
     }
 
@@ -51,6 +56,7 @@ public class MazeInfo {
     }
     public char getSymbol(int i,int j){return maze.getMaze()[i][j];}
     public IMazeElement getMazeElement(int i,int j){return maze.get(i,j);}
+    public int getCurrentLevel(){return currentLevel;}
     public boolean allGhostsNotVulnerable(){
         for(MoveableElement e: elements){
             if(e instanceof Ghost g){
@@ -99,7 +105,7 @@ public class MazeInfo {
         }
     }
     public void setPoints(int points){((PacMan)getMoveableElement('P')).setPoints(points);}
-
+    public void setFruitElement(Element fruit){this.fruit=fruit;}
     public void initElementsPosition(){
         for(MoveableElement m: elements)
             if(m!=null)
@@ -121,8 +127,14 @@ public class MazeInfo {
             if(e instanceof PacMan p){
                 if(p.getPowerValue())
                     setVulnerable(true);
+                if(p.getNumOfFood()%20==0&&p.getNumOfFood()!=0){
+                    fruit.setSymbol('F');
+                    maze.set(fruit.getX(),fruit.getY(),fruit);
+                }
             }
+
             e.evolve();
         }
+
     }
 }

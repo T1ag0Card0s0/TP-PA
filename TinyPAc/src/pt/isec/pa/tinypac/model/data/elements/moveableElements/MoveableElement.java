@@ -76,6 +76,7 @@ public class MoveableElement extends Element {
     public long getInterval(){return interval;}
     public int getCurrentDirection(){return currentDirection;}
     public IMazeElement getMazeElement(int x,int y){return maze.getMazeElement(x,y);}
+    public int getCurrentLevel(){return maze.getCurrentLevel();}
     public char getSymbol(int x,int y){return maze.getSymbol(x,y);}
     public void setNextDirection(int newDirection){this.nextDirection=newDirection;}
     public void setGameEngineInterval(long interval){this.interval=interval;}
