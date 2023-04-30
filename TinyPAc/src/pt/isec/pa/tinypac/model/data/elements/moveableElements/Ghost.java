@@ -52,6 +52,10 @@ public class Ghost extends MoveableElement{
         return inCave;
     }
 
+    public int[] getInitCoords() {
+        return initCoords;
+    }
+
     @Override
     public void checkNeighboors() {
         if(getInCave()){

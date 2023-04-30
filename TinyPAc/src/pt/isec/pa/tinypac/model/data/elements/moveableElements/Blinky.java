@@ -11,7 +11,9 @@ public class Blinky extends Ghost {
     public void evolve() {
         if(getInCave()) {
             lockedMovement();
-        } else if(!super.move()){
+            return;
+        }
+        if(!super.move()){
             if(!getVulnerable())
                 choseRandDirection();
         }
