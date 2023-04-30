@@ -35,7 +35,6 @@ public class GameContext implements IGameEngineEvolve{
     public void startGameEngine(long interval){
         game.setGameEngineInterval(interval);
         gameEngine.registerClient(this);
-        gameEngine.registerClient(game);
         gameEngine.start(interval);}
     public void stopGame(){gameEngine.stop();gameEngine.waitForTheEnd();}
     public void pauseGameEngine(){gameEngine.pause();}
@@ -54,13 +53,14 @@ public class GameContext implements IGameEngineEvolve{
                     game.setVulnerable(true);
                 }
                 WinLevel();
-
+                game.evolve();
             }
             case VULNERABLE -> {
                 if(!state.beVulnerable(gameEngine.getInterval())){
                     game.setVulnerable(false);
                 }
                 WinLevel();
+                game.evolve();
             }
         }
     }

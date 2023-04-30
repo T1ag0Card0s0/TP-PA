@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Game implements IGameEngineEvolve {
+public class Game {
     private MazeInfo mazeInfo;
     private int currentLevel;
     private int vulnerableTicks;
@@ -144,8 +144,7 @@ public class Game implements IGameEngineEvolve {
         }
     }
     public boolean pacManHasPower(){return mazeInfo.pacManHasPower();}
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
+    public void evolve() {
        mazeInfo.evolve();
     }
 }
