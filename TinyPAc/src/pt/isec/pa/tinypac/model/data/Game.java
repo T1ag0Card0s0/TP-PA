@@ -12,14 +12,12 @@ public class Game {
     private MazeInfo mazeInfo;
     private int currentLevel;
     private int vulnerableTicks;
-    private long interval;
     private int lives;
     private int points;
     private int numOfEatenFood;
     public Game(){
         this.currentLevel=1;
         this.vulnerableTicks=0;
-        this.interval=0;
         this.lives=3;
         this.points=0;
         this.numOfEatenFood=0;
@@ -126,7 +124,6 @@ public class Game {
     public MoveableElement[] getMoveableElements(){return mazeInfo.getMoveableElements();}
     public IMazeElement getMazeElement(int x,int y){return mazeInfo.getMazeElement(x,y);}
     public void setGameEngineInterval(long interval){
-        this.interval=interval;
         for (MoveableElement element: mazeInfo.getMoveableElements()){
             element.setGameEngineInterval(interval);
         }

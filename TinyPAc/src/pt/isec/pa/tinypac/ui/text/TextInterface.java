@@ -11,9 +11,7 @@ import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.Ghost;
-import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.PacMan;
-import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 
 import java.io.IOException;

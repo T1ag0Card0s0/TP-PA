@@ -7,7 +7,7 @@ public class Clyde extends Ghost {
     public Clyde( MazeInfo maze) {
         super('c',maze);
     }
-    public boolean pacManInFieldOfVision(){
+    public void pacManInFieldOfVision(){
         int i = 0;
         for(boolean b: getNeighboors()){
             if(!b){
@@ -21,13 +21,12 @@ public class Clyde extends Ghost {
                     }
                     if(x==getxPCoord()&&getyPCoord()==y){
                         setNextDirection(i);
-                        return true;
+                        return;
                     }
                 }
             }
             i++;
         }
-        return false;
     }
 
     @Override

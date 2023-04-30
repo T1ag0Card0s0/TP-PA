@@ -3,7 +3,6 @@ package pt.isec.pa.tinypac.model.data;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.*;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
-import javax.swing.plaf.PanelUI;
 
 public class MazeInfo {
     private final Maze maze;

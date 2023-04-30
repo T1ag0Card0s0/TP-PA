@@ -3,7 +3,7 @@ package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 import pt.isec.pa.tinypac.model.data.MazeInfo;
 
 public class PacMan extends MoveableElement  {
-    private int[][] wraperCoordinates;
+    private final int[][] wraperCoordinates;
     private boolean power;
     private int powerTime;
     private int points;
@@ -19,7 +19,6 @@ public class PacMan extends MoveableElement  {
         this.numOfGhost=0;
     }
     public void setPower(boolean value){this.power=value;}
-    public void setWraperCoordinates(int[][]wraperCoordinates){this.wraperCoordinates=wraperCoordinates;}
     public void setPoints(int points){this.points=points;}
     public void setNumOfFood(int numOfFood){this.numOfFood=numOfFood;}
     private int wichWraperIsPacMan( ){
@@ -74,7 +73,6 @@ public class PacMan extends MoveableElement  {
         if(numOfGhost>=4)numOfGhost=0;
         numOfGhost++;
         points+=numOfGhost*50;
-        System.out.println(numOfGhost*50);
     }
     @Override
     public void checkNeighboors() {

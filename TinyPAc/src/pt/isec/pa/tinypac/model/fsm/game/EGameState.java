@@ -1,6 +1,5 @@
 package pt.isec.pa.tinypac.model.fsm.game;
 
-import pt.isec.pa.tinypac.model.fsm.game.states.*;
 
 public enum EGameState {
     INITIAL_STATE,GAME_STARTED,GAME_WIN,GAME_OVER,GAME_PAUSED,VULNERABLE;

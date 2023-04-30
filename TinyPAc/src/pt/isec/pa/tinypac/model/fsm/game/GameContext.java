@@ -29,7 +29,6 @@ public class GameContext implements IGameEngineEvolve{
     public int getBoardWidth(){return game.getBoardWidth();}
    public int getPacManLives(){return game.getPacManLives();}
     public IMazeElement getMazeElement(int x,int y){return game.getMazeElement(x,y);}
-    public char [][]getMazeSymbols(){return  game.getMazeSymbols();}
     public MoveableElement[] getMoveableElements(){return game.getMoveableElements();}
     public void registEngineClient(IGameEngineEvolve newClient){gameEngine.registerClient(newClient);}
     public void startGameEngine(long interval){
@@ -37,13 +36,12 @@ public class GameContext implements IGameEngineEvolve{
         gameEngine.registerClient(this);
         gameEngine.start(interval);}
     public void stopGame(){gameEngine.stop();gameEngine.waitForTheEnd();}
-    public void pauseGameEngine(){gameEngine.pause();}
-    public void resumeGameEngine(){gameEngine.resume();}
-
     public void KeyIsPressed(String s){//StartPlaying||Playing
         state.KeyIsPressed(s);
     }
-    public boolean WinLevel(){return state.WinLevel();}
+    public void WinLevel(){
+        state.WinLevel();
+    }
 
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
