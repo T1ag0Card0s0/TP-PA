@@ -8,12 +8,13 @@ import java.util.Random;
 
 public class Ghost extends MoveableElement{
     private final Random rnd;
-    private final ArrayList<Integer> directions;
+    private ArrayList<Integer> directions;
     private final int[] caveDoorCoords;
     private boolean inCave;
     private final int[] initCoords;
     private int xPCoord,yPCoord;
     private boolean vulnerable;
+    private int index;
     public Ghost(char symbol, MazeInfo maze) {
         super(maze.getInitGhostsPosition()[0],maze.getInitGhostsPosition()[1],symbol, maze);
         this.initCoords=maze.getInitGhostsPosition();
@@ -22,6 +23,7 @@ public class Ghost extends MoveableElement{
         this.rnd=new Random();
         this.directions=new ArrayList<>();
         this.vulnerable=false;
+        this.index=0;
     }
     public void travelTo(int x,int y){
         if(getUnderElement()==null)return;
@@ -65,6 +67,10 @@ public class Ghost extends MoveableElement{
     public void setVulnerable(boolean value){vulnerable=value;}
     @Override
     public void checkNeighboors() {
+        if(getVulnerable()){
+            super.checkNeighboors();
+            return;
+        }
         if(getInCave()){
             super.checkNeighboors();
         }else{
@@ -73,12 +79,26 @@ public class Ghost extends MoveableElement{
     }
     @Override
     public boolean move() {
+        super.move();
         if(getVulnerable()){
+            if(index<directions.size()) {
+                setNextDirection(directions.get(index++));
+            }
             if(getX()==getxPCoord()&&getY()==getyPCoord()) {
                 setXY(getInitCoords());
                 setVulnerable(false);
+                index=0;
+                directions=new ArrayList<>();
+            }
+        }else {
+            switch (getCurrentDirection()) {
+                case 0 -> directions.add(0, 2);
+                case 1 -> directions.add(0, 3);
+                case 2 -> directions.add(0, 0);
+                case 3 -> directions.add(0, 1);
+                case -1 -> directions.add(0, -1);
             }
         }
-        return super.move();
+        return getCurrentDirection()!=-1 ;
     }
 }

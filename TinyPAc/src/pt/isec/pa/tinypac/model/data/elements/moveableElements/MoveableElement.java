@@ -1,21 +1,17 @@
 package pt.isec.pa.tinypac.model.data.elements.moveableElements;
 
-import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeInfo;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
 public class MoveableElement extends Element {
-    private MazeInfo maze;
+    private final MazeInfo maze;
     private long ticks;
-    private int lastX,lastY;
     private int currentDirection,nextDirection;//0=TOP 1=RIGHT 2=BOTTOM 3=LEFT -1=STOP
     private final boolean []neighboors;//TOP,RIGHT,BOTTOM,LEFT Check if there are walls around
     private long interval;
     private Element underElement;
     public MoveableElement(int x, int y, char symbol, MazeInfo maze){
         super(symbol,x,y);
-        this.lastX=x;
-        this.lastY=y;
         this.neighboors=new boolean[]{true,true,true,true};
         this.currentDirection=-1;
         this.maze=maze;
@@ -52,7 +48,6 @@ public class MoveableElement extends Element {
         changeDirection();
         if(currentDirection==-1) { return false;}
         if (!neighboors[currentDirection]) {
-            lastX=getX();lastY=getY();
             int x=getX(),y=getY();
             setMazeElement(x,y,underElement);
             switch (currentDirection) {
@@ -73,17 +68,14 @@ public class MoveableElement extends Element {
         return false;
     }
     public void evolve(){}
-    public int getLastX(){return lastX;}
-    public int getLastY(){return lastY;}
     public boolean getNeighboorValue(int index){return neighboors[index];}
     public char getMazeElementSymbol(int x,int y){return maze.getMazeSymbols()[x][y];}
     public boolean[] getNeighboors(){checkNeighboors();return neighboors;}
     public long getTicks(){return ticks;}
     public long getInterval(){return interval;}
+    public int getCurrentDirection(){return currentDirection;}
     public void setNextDirection(int newDirection){this.nextDirection=newDirection;}
-
     public void setGameEngineInterval(long interval){this.interval=interval;}
-    public void setMaze(MazeInfo newMaze){maze=newMaze;}
     public void setUnderElement(Element underElement){this.underElement=underElement;}
     public void setMazeElement(int x,int y, Element newElement){maze.setMazeElement(x,y,newElement);}
 }
