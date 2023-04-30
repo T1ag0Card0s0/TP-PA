@@ -13,7 +13,7 @@ public class Blinky extends Ghost {
             lockedMovement();
             return;
         }
-        if(!super.move()){
+        if(!move()){
             if(!getVulnerable())
                 choseRandDirection();
         }

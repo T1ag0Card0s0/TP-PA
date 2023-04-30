@@ -4,7 +4,6 @@ import pt.isec.pa.tinypac.model.data.MazeInfo;
 
 
 public class Clyde extends Ghost {
-    int xPCoord,yPCoord;
     public Clyde( MazeInfo maze) {
         super('c',maze);
 
@@ -21,7 +20,7 @@ public class Clyde extends Ghost {
                         case 2-> y++;
                         case 3-> x--;
                     }
-                    if(x==xPCoord&&yPCoord==y){
+                    if(x==getxPCoord()&&getyPCoord()==y){
                         setNextDirection(i);
                         return true;
                     }
@@ -31,10 +30,7 @@ public class Clyde extends Ghost {
         }
         return false;
     }
-    public void setPCoords(int x,int y){
-        xPCoord=x;
-        yPCoord=y;
-    }
+
     @Override
     public void evolve() {
         if (getInCave()) {

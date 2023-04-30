@@ -12,6 +12,7 @@ public class Ghost extends MoveableElement{
     private final int[] caveDoorCoords;
     private boolean inCave;
     private final int[] initCoords;
+    private int xPCoord,yPCoord;
     public Ghost(char symbol, MazeInfo maze) {
         super(maze.getInitGhostsPosition()[0],maze.getInitGhostsPosition()[1],symbol, maze);
         this.initCoords=maze.getInitGhostsPosition();
@@ -56,6 +57,18 @@ public class Ghost extends MoveableElement{
         return initCoords;
     }
 
+    public int getxPCoord() {
+        return xPCoord;
+    }
+
+    public int getyPCoord() {
+        return yPCoord;
+    }
+
+    public void setPCoords(int x, int y){
+        xPCoord=x;
+        yPCoord=y;
+    }
     @Override
     public void checkNeighboors() {
         if(getInCave()){
@@ -63,5 +76,16 @@ public class Ghost extends MoveableElement{
         }else{
             super.checkNeighboorsWithExtraConstraint('Y');
         }
+    }
+
+    @Override
+    public boolean move() {
+        if(getVulnerable()){
+            if(getX()==getxPCoord()&&getY()==getyPCoord()) {
+                setXY(getInitCoords());
+                setVulnerable(false);
+            }
+        }
+        return super.move();
     }
 }
