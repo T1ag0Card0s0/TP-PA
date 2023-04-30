@@ -82,6 +82,7 @@ public class Ghost extends MoveableElement{
     public void vulnerableMove(){
         if(index>0){
             if(getX()==getxPCoord()&&getY()==getyPCoord()) {
+                pacManAteAGhost();
                 setXY(getInitCoords());
                 setVulnerable(false);
                 index=0;

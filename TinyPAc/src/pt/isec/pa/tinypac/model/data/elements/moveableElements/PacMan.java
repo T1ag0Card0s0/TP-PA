@@ -66,7 +66,6 @@ public class PacMan extends MoveableElement  {
                 getUnderElement().setSymbol(' ');
                 points+=getCurrentLevel()*25;
             }
-            default -> setPower(false);
         }
     }
     public void ateAGhost(){

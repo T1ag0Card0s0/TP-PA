@@ -64,6 +64,7 @@ public class MazeInfo {
                 }
             }
         }
+        ((PacMan)elements[4]).setPower(false);
         return true;
     }
     public void setWraperCoordinates(int x, int y){
@@ -118,12 +119,12 @@ public class MazeInfo {
             maze.set(e.getX(),e.getY(),e);
         }
     }
+    public void pacManAteAGhost(){((PacMan)elements[4]).ateAGhost();}
     public void evolve(){
         for(MoveableElement e: elements) {
+            e.evolve();
             if(e instanceof Ghost g){
                 g.setPCoords(elements[4].getX(),elements[4].getY());
-                if(g.getVulnerable()&&g.getX()==elements[4].getX()&&g.getY()==elements[4].getY())
-                    ((PacMan)elements[4]).ateAGhost();
             }
             if(e instanceof PacMan p){
                 if(p.getPowerValue())
@@ -133,8 +134,6 @@ public class MazeInfo {
                     maze.set(fruit.getX(),fruit.getY(),fruit);
                 }
             }
-
-            e.evolve();
         }
 
     }

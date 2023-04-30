@@ -69,6 +69,7 @@ public class MoveableElement extends Element {
         return false;
     }
     public void evolve(){}
+    public void pacManAteAGhost(){maze.pacManAteAGhost();}
     public boolean getNeighboorValue(int index){return neighboors[index];}
     public char getMazeElementSymbol(int x,int y){return maze.getMazeSymbols()[x][y];}
     public boolean[] getNeighboors(){checkNeighboors();return neighboors;}
