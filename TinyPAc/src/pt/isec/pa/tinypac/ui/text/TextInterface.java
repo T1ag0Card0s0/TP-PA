@@ -9,7 +9,10 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
+import pt.isec.pa.tinypac.model.data.IMazeElement;
+import pt.isec.pa.tinypac.model.data.elements.moveableElements.Ghost;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
+import pt.isec.pa.tinypac.model.data.elements.moveableElements.PacMan;
 import pt.isec.pa.tinypac.model.fsm.game.EGameState;
 import pt.isec.pa.tinypac.model.fsm.game.GameContext;
 
@@ -88,19 +91,22 @@ public class TextInterface  implements IGameEngineEvolve {
     public void DrawMaze() throws IOException {
         for (int i = 0; i < fsm.getBoardHeight(); i++) {
             for (int j = 0; j < fsm.getBoardWidth(); j++) {
-                char symbol=fsm.getMazeSymbols()[i][j];
-                switch (symbol){
-                    case 'b','c','i','p'->{
-                        if(fsm.getState()==EGameState.VULNERABLE) textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-                        else textGraphics.setBackgroundColor(getColor(symbol));
-                    }
-                    case 'P'-> textGraphics.setBackgroundColor(getColor(symbol));
-                    default -> {
+                IMazeElement element=fsm.getMazeElement(i,j);
+                if(element!=null) {
+                    if (element instanceof Ghost g) {
+                        if (g.getVulnerable()) textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
+                        else textGraphics.setBackgroundColor(getColor(element.getSymbol()));
+                    } else if (element instanceof PacMan) {
+                        textGraphics.setBackgroundColor(getColor(element.getSymbol()));
+                    } else {
                         textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                        textGraphics.setForegroundColor(getColor(symbol));
+                        textGraphics.setForegroundColor(getColor(element.getSymbol()));
                     }
+                    textGraphics.putString(i, j,element.getSymbol() + "");
+                }else{
+                    textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+                    textGraphics.putString(i, j," ");
                 }
-                textGraphics.putString(i, j, symbol + "");
             }
         }
         textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);

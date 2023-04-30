@@ -125,6 +125,7 @@ public class Game implements IGameEngineEvolve {
     public int getPacManLives(){return lives;}
     public char[][]getMazeSymbols(){return  mazeInfo.getMazeSymbols();}
     public MoveableElement[] getMoveableElements(){return mazeInfo.getMoveableElements();}
+    public IMazeElement getMazeElement(int x,int y){return mazeInfo.getMazeElement(x,y);}
     public void setGameEngineInterval(long interval){
         this.interval=interval;
         for (MoveableElement element: mazeInfo.getMoveableElements()){

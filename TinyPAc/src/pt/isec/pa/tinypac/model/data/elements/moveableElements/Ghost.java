@@ -11,8 +11,10 @@ public class Ghost extends MoveableElement{
     private final ArrayList<Integer> directions;
     private final int[] caveDoorCoords;
     private boolean inCave;
+    private final int[] initCoords;
     public Ghost(char symbol, MazeInfo maze) {
         super(maze.getInitGhostsPosition()[0],maze.getInitGhostsPosition()[1],symbol, maze);
+        this.initCoords=maze.getInitGhostsPosition();
         this.caveDoorCoords= maze.getCaveDoorCoords();
         this.inCave=true;
         this.rnd=new Random();

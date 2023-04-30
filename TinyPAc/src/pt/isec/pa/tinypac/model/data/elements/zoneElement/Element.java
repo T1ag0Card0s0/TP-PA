@@ -12,7 +12,10 @@ public class Element implements IMazeElement {
     public void setSymbol(char symbol){this.symbol=symbol;}
     public void setX(int x){this.x=x;}
     public void setY(int y){this.y=y;}
-
+    public void setXY(int []coords){
+        x=coords[0];
+        y=coords[1];
+    }
     public int getX(){return this.x;}
     public int getY(){return this.y;}
     @Override

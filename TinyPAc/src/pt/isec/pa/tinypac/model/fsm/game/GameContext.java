@@ -4,6 +4,7 @@ import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Game;
+import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.elements.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.fsm.game.states.InitialState;
 
@@ -27,6 +28,7 @@ public class GameContext implements IGameEngineEvolve{
     public int getBoardHeight(){return game.getBoardHeight();}
     public int getBoardWidth(){return game.getBoardWidth();}
    public int getPacManLives(){return game.getPacManLives();}
+    public IMazeElement getMazeElement(int x,int y){return game.getMazeElement(x,y);}
     public char [][]getMazeSymbols(){return  game.getMazeSymbols();}
     public MoveableElement[] getMoveableElements(){return game.getMoveableElements();}
     public void registEngineClient(IGameEngineEvolve newClient){gameEngine.registerClient(newClient);}
