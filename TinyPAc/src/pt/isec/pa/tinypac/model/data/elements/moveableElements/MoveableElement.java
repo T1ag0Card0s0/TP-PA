@@ -4,8 +4,6 @@ import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeInfo;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
-import java.util.ArrayList;
-
 public class MoveableElement extends Element {
     private final MazeInfo maze;
     private long ticks;
