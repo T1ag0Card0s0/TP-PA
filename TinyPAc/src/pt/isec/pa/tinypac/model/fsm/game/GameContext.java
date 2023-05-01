@@ -45,18 +45,18 @@ public class GameContext implements IGameEngineEvolve{
     public void evolve(IGameEngine gameEngine, long currentTime) {
         switch (state.getGameState()){
             case GAME_STARTED -> {
+                game.evolve();
                 if(state.beVulnerable(gameEngine.getInterval())){
                     game.setVulnerable(true);
                 }
                 WinLevel();
-                game.evolve();
             }
             case VULNERABLE -> {
+                game.evolve();
                 if(!state.beVulnerable(gameEngine.getInterval())){
                     game.setVulnerable(false);
                 }
                 WinLevel();
-                game.evolve();
             }
         }
     }

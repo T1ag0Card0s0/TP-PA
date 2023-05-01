@@ -94,7 +94,7 @@ public class Ghost extends MoveableElement{
                 else setUnderElement(new Element(getSymbol(nextX, nextY), nextX, nextY));
                 setX(nextX);setY(nextY);
                 setMazeElement(getX(),getY(),this);
-                //positions.remove(index);
+                positions.remove(index);
                 index--;
             }
         }else{
