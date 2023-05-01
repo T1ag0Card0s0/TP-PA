@@ -19,7 +19,6 @@ public class Pinky extends Ghost {
                 &&Math.abs(getY()-corner[currentCorner][1])<=0.15*height) currentCorner++;
         if(currentCorner> corner.length) currentCorner=0;
         travelTo(corner[currentCorner][0],corner[currentCorner][1]);
-        System.out.println(currentCorner);
    }
     @Override
     public void evolve() {
