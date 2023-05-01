@@ -28,6 +28,7 @@ public class GameContext implements IGameEngineEvolve{
     public int getBoardHeight(){return game.getBoardHeight();}
     public int getBoardWidth(){return game.getBoardWidth();}
    public int getPacManLives(){return game.getPacManLives();}
+    public boolean levelChanged(){return game.getLevelChanged();}
     public IMazeElement getMazeElement(int x,int y){return game.getMazeElement(x,y);}
     public MoveableElement[] getMoveableElements(){return game.getMoveableElements();}
     public void registEngineClient(IGameEngineEvolve newClient){gameEngine.registerClient(newClient);}
@@ -58,6 +59,7 @@ public class GameContext implements IGameEngineEvolve{
                 }
                 WinLevel();
             }
+            case INITIAL_STATE -> game.setLevelChanged(false);
         }
     }
     @Override

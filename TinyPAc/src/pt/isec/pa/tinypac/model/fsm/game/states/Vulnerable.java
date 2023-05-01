@@ -12,7 +12,7 @@ public class Vulnerable extends GameStateAdapter {
     @Override
     public boolean WinLevel() {
         if(game.thereIsNoFood()){
-            if(game.LastLevel()){
+            if(!game.LastLevel()){
                 game.changelevel();
                 changeState(new InitialState(context,game));
             }else{

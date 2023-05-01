@@ -139,6 +139,9 @@ public class TextInterface  implements IGameEngineEvolve {
         try {
             DrawInfoSection();
             DrawMaze();
+            if(fsm.levelChanged()){
+                terminal.clearScreen();
+            }
         }catch (IOException e){
             e.printStackTrace();
         }

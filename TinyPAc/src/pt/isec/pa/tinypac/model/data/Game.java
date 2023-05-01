@@ -15,12 +15,14 @@ public class Game {
     private int lives;
     private int points;
     private int numOfEatenFood;
+    private boolean levelChanged;
     public Game(){
         this.currentLevel=1;
         this.vulnerableTicks=0;
         this.lives=3;
         this.points=0;
         this.numOfEatenFood=0;
+        this.levelChanged=false;
         initGame();
     }
     public void initGame(){
@@ -93,12 +95,9 @@ public class Game {
         mazeInfo.setPoints(points);
         mazeInfo.setEatenFood(numOfEatenFood);
     }
-    private String getLevelFilePath(){
-        if(currentLevel<10)return "Levels\\Level0"+currentLevel+".txt";
-        return "Levels\\Level"+currentLevel+".txt";
-    }
     public boolean LastLevel(){return currentLevel >= 20;}
     public void changelevel(){
+        levelChanged=true;
         numOfEatenFood=0;
         currentLevel++;
         initGame();
@@ -124,6 +123,10 @@ public class Game {
             return false;
         }
     }
+    private String getLevelFilePath(){
+        if(currentLevel<10)return "Levels\\Level0"+currentLevel+".txt";
+        return "Levels\\Level"+currentLevel+".txt";
+    }
     public boolean thereIsNoFood(){return (mazeInfo.getNumOfFood() == (numOfEatenFood=mazeInfo.getNumOfEatenFood()));}
     public int getPoints(){return points=mazeInfo.getPacManPoints();}
     public int getCurrentLevel(){return currentLevel;}
@@ -133,6 +136,8 @@ public class Game {
     public MoveableElement[] getMoveableElements(){return mazeInfo.getMoveableElements();}
     public IMazeElement getMazeElement(int x,int y){return mazeInfo.getMazeElement(x,y);}
     public boolean pacManHasPower(){return mazeInfo.pacManHasPower();}
+    public boolean getLevelChanged(){return levelChanged;}
+    public void setLevelChanged(boolean levelChanged) {this.levelChanged = levelChanged;}
 
     public void setGameEngineInterval(long interval){
         for (MoveableElement element: mazeInfo.getMoveableElements()){
