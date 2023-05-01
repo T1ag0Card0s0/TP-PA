@@ -124,7 +124,7 @@ public class Game {
             return false;
         }
     }
-    public boolean thereIsNoFood(){return (mazeInfo.getNumOfFood() == mazeInfo.getNumOfEatenFood());}
+    public boolean thereIsNoFood(){return (mazeInfo.getNumOfFood() == (numOfEatenFood=mazeInfo.getNumOfEatenFood()));}
     public int getPoints(){return points=mazeInfo.getPacManPoints();}
     public int getCurrentLevel(){return currentLevel;}
     public int getBoardHeight(){return mazeInfo.getBoardHeight();}
@@ -141,6 +141,5 @@ public class Game {
     }
     public void setVulnerable(boolean value){mazeInfo.setVulnerable(value);}
     public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
-
     public void evolve() {mazeInfo.evolve();}
 }
