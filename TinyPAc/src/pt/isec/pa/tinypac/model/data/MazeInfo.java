@@ -118,12 +118,15 @@ public class MazeInfo {
             maze.set(e.getX(),e.getY(),e);
         }
     }
+    public boolean inPacManPosition(int currentX,int currentY){
+        return (currentX == elements[4].getLastX() && currentY == elements[4].getLastY())
+                || (currentX == elements[4].getX() && currentY == elements[4].getY());
+    }
     public void pacManAteAGhost(){((PacMan)elements[4]).ateAGhost();}
     public void evolve(){
         for(MoveableElement e: elements) {
             if(e instanceof Ghost g){
-                if((g.getX()==elements[4].getLastX()&&g.getY()==elements[4].getLastY())
-                        ||(g.getX()==elements[4].getX()&&g.getY()==elements[4].getY()))
+                if(inPacManPosition(g.getX(),g.getY()))
                     ((PacMan)elements[4]).setDied(true);
                 g.setPCoords(elements[4].getX(),elements[4].getY());
             }
