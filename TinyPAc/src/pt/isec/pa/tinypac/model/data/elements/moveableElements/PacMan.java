@@ -9,6 +9,7 @@ public class PacMan extends MoveableElement  {
     private int points;
     private int numOfFood;
     private int numOfGhost;
+    private boolean died;
     public PacMan(MazeInfo maze) {
         super(maze.getInitPacManPosition()[0],maze.getInitPacManPosition()[1],'P',maze);
         this.power=false;
@@ -17,6 +18,7 @@ public class PacMan extends MoveableElement  {
         this.numOfFood=0;
         this.powerTime=5000;
         this.numOfGhost=0;
+        this.died=false;
     }
     public void setPower(boolean value){this.power=value;}
     public void setPoints(int points){this.points=points;}
@@ -45,10 +47,15 @@ public class PacMan extends MoveableElement  {
     public int getPoints() {return points;}
     public int getNumOfFood(){return numOfFood;}
     public int getPowerTime(){return powerTime;}
+    public boolean Died(){return died;}
+    public void setDied(boolean value){died = value;}
     public void IdentifyAction(){
         if(getUnderElement()==null)return;
         switch (getUnderElement().getSymbol()){
-            case 'W'->{ teleTransport();setMazeElement(getUnderElement().getX(),getUnderElement().getY(),getUnderElement());}
+            case 'W'->{
+                teleTransport();
+                setMazeElement(getUnderElement().getX(),getUnderElement().getY(),getUnderElement());
+            }
             case '.'->{
                 setUnderElement(null);
                 points++;

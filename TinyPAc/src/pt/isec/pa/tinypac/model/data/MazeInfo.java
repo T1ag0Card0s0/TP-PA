@@ -28,7 +28,6 @@ public class MazeInfo {
         this.initGhostsPosition=new int[2];
         this.elements=new MoveableElement[5];
         this.currentLevel=currentLevel;
-        System.out.println("Fui Construido");
     }
 
     public int getBoardHeight(){return maze.getMaze().length;}
@@ -122,7 +121,6 @@ public class MazeInfo {
     public void pacManAteAGhost(){((PacMan)elements[4]).ateAGhost();}
     public void evolve(){
         for(MoveableElement e: elements) {
-            e.evolve();
             if(e instanceof Ghost g){
                 g.setPCoords(elements[4].getX(),elements[4].getY());
             }
@@ -132,6 +130,7 @@ public class MazeInfo {
                     maze.set(fruit.getX(),fruit.getY(),fruit);
                 }
             }
+            e.evolve();
         }
 
     }

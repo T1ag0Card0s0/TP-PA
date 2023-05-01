@@ -62,10 +62,7 @@ public class Ghost extends MoveableElement{
     public int getxPCoord() {return xPCoord;}
     public int getyPCoord() {return yPCoord;}
     public boolean getVulnerable(){return vulnerable;}
-    public void setPCoords(int x, int y){
-        xPCoord=x;
-        yPCoord=y;
-    }
+    public void setPCoords(int x, int y){xPCoord=x;yPCoord=y;}
     public void setVulnerable(boolean value){vulnerable=value;}
     @Override
     public void checkNeighboors() {
@@ -81,22 +78,25 @@ public class Ghost extends MoveableElement{
     }
     public void vulnerableMove(){
         if(index>0){
-            if(getX()==getxPCoord()&&getY()==getyPCoord()) {
-                pacManAteAGhost();
-                setXY(getInitCoords());
-                setVulnerable(false);
-                index=0;
-                positions=new ArrayList<>();
-            }else{
-                int nextX=positions.get(index)[0],nextY=positions.get(index)[1];
+            int nextX=positions.get(index)[0],nextY=positions.get(index)[1];
+            if(getMazeElement(nextX,nextY) instanceof MoveableElement m){
+                if(m instanceof PacMan p){
+                    p.pacManAteAGhost();
+                    setXY(getInitCoords());
+                    setVulnerable(false);
+                    index=0;
+                    positions=new ArrayList<>();
+                    return;
+                }
+                setUnderElement(m.getUnderElement());
+            } else{
                 setMazeElement(getX(),getY(),getUnderElement());
-                if(getMazeElement(nextX,nextY) instanceof MoveableElement m)setUnderElement(m.getUnderElement());
-                else setUnderElement(new Element(getSymbol(nextX, nextY), nextX, nextY));
-                setX(nextX);setY(nextY);
-                setMazeElement(getX(),getY(),this);
-                positions.remove(index);
-                index--;
+                setUnderElement(new Element(getSymbol(nextX, nextY), nextX, nextY));
             }
+            setX(nextX);setY(nextY);
+            setMazeElement(getX(),getY(),this);
+            positions.remove(index);
+            index--;
         }else{
            setVulnerable(false);
         }

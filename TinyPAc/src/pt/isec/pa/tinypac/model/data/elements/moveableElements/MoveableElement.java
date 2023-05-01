@@ -59,9 +59,13 @@ public class MoveableElement extends Element {
             }
             setX(x);setY(y);
 
-            if(maze.getMazeElement(x,y) instanceof MoveableElement m)underElement=m.getUnderElement();
+            if(maze.getMazeElement(x,y) instanceof MoveableElement m){
+                if(m instanceof PacMan p){
+                    p.setDied(true);
+                }
+                underElement=m.getUnderElement();
+            }
             else underElement = new Element(maze.getSymbol(x, y), x, y);
-
             setMazeElement(getX(),getY(),this);
             return true;
         }

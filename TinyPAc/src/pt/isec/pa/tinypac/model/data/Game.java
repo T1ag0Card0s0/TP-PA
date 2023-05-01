@@ -100,14 +100,10 @@ public class Game {
     public boolean thereIsNoFood(){return (mazeInfo.getNumOfFood() == mazeInfo.getNumOfEatenFood());}
     public boolean LastLevel(){return currentLevel >= 20;}
     public boolean pacManWasEaten(){
-        PacMan pacMan = (PacMan) mazeInfo.getMoveableElement('P');
-        if(pacMan.getPowerValue())return false;
-        for(MoveableElement e: mazeInfo.getMoveableElements())
-            if(e instanceof Ghost)
-                if(e.getX()==pacMan.getX()&&e.getY()==pacMan.getY()) {
-                    lives--;
-                    return true;
-                }
+        if(((PacMan)mazeInfo.getMoveableElement('P')).Died()){
+            lives--;
+            return  true;
+        }
         return false;
     }
     public void changelevel(){
@@ -120,7 +116,6 @@ public class Game {
     public int getBoardHeight(){return mazeInfo.getBoardHeight();}
     public int getBoardWidth(){return mazeInfo.getBoardWidth();}
     public int getPacManLives(){return lives;}
-    public char[][]getMazeSymbols(){return  mazeInfo.getMazeSymbols();}
     public MoveableElement[] getMoveableElements(){return mazeInfo.getMoveableElements();}
     public IMazeElement getMazeElement(int x,int y){return mazeInfo.getMazeElement(x,y);}
     public void setGameEngineInterval(long interval){
@@ -145,7 +140,5 @@ public class Game {
         }
     }
     public boolean pacManHasPower(){return mazeInfo.pacManHasPower();}
-    public void evolve() {
-       mazeInfo.evolve();
-    }
+    public void evolve() {mazeInfo.evolve();}
 }
