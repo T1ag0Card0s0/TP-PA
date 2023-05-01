@@ -55,27 +55,17 @@ public class Game {
     private MazeInfo initSize(String filepath){
         int row = 0, column = 0;
         try {
-            File file = new File(filepath);
-            if(!file.exists()){
-                currentLevel--;
-                file=new File(filepath);
-            }
-            FileReader reader = new FileReader(file);
-            BufferedReader br = new BufferedReader(reader);
-            int c;
-            while ((c = br.read()) != -1) {
-                column++;
-                if ((char) c == '\n') {
-                    row++;
-                    column = 0;
-                }
+            BufferedReader br = new BufferedReader(new FileReader(filepath));
+            String line;
+            while ((line = br.readLine()) != null) {
+                column=line.length();
+                row++;
             }
             br.close();
-            reader.close();
         }catch (IOException e){
             e.printStackTrace();
         }
-        return new MazeInfo(row+2,column+2,currentLevel);
+        return new MazeInfo(column,row,currentLevel);
     }
     private IMazeElement elementFinder(char c, int x, int y){
         Element element=new Element(c,x,y);

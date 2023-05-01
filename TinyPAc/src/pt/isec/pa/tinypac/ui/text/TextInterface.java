@@ -114,11 +114,11 @@ public class TextInterface  implements IGameEngineEvolve {
         try{
             textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
             textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-            textGraphics.putString(1, fsm.getBoardHeight()+1, "Nivel: "+fsm.getLevel());
-            textGraphics.putString(1, fsm.getBoardHeight()+2, "Pontuação: "+fsm.getPacManPoints()+" ");
-            textGraphics.putString(1, fsm.getBoardHeight()+3, "Vidas: "+fsm.getPacManLives());
-            textGraphics.putString(1, fsm.getBoardHeight()+4, "Estado do Jogo: "+fsm.getState()+"    ");
-            textGraphics.putString(1, fsm.getBoardHeight()+5, "Pressiona 'esc' para sair");
+            textGraphics.putString(1, fsm.getBoardWidth()+1, "Nivel: "+fsm.getLevel());
+            textGraphics.putString(1, fsm.getBoardWidth()+2, "Pontuação: "+fsm.getPacManPoints()+" ");
+            textGraphics.putString(1, fsm.getBoardWidth()+3, "Vidas: "+fsm.getPacManLives());
+            textGraphics.putString(1, fsm.getBoardWidth()+4, "Estado do Jogo: "+fsm.getState()+"    ");
+            textGraphics.putString(1, fsm.getBoardWidth()+5, "Pressiona 'esc' para sair");
             terminal.flush();
         }catch (IOException e){
             e.printStackTrace();
