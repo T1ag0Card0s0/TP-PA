@@ -95,7 +95,7 @@ public class Ghost extends MoveableElement{
             }
             setX(nextX);setY(nextY);
             setMazeElement(getX(),getY(),this);
-            positions.remove(index);
+            //positions.remove(index);
             index--;
         }else{
            setVulnerable(false);
