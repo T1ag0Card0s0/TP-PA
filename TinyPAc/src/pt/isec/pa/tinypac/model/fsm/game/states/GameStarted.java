@@ -41,6 +41,7 @@ public class GameStarted extends GameStateAdapter {
     @Override
     public boolean beVulnerable(long interval) {
         if(game.pacManHasPower()){
+            game.setVulnerable(true);
             changeState(new Vulnerable(context,game));
             return true;
         }

@@ -58,7 +58,7 @@ public class PacMan extends MoveableElement  {
                 setUnderElement(null);
                 if(power)powerTime=powerTime+5000;
                 else powerTime=5000;
-                setPower(true);
+                setVulnerable(true);
                 points+=10;
                 numOfFood++;
             }

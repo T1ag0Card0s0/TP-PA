@@ -127,8 +127,6 @@ public class MazeInfo {
                 g.setPCoords(elements[4].getX(),elements[4].getY());
             }
             if(e instanceof PacMan p){
-                if(p.getPowerValue())
-                    setVulnerable(true);
                 if(p.getNumOfFood()%20==0&&p.getNumOfFood()!=0){
                     fruit.setSymbol('F');
                     maze.set(fruit.getX(),fruit.getY(),fruit);

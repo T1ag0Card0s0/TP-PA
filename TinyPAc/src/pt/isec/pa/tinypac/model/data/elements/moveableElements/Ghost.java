@@ -94,7 +94,7 @@ public class Ghost extends MoveableElement{
                 else setUnderElement(new Element(getSymbol(nextX, nextY), nextX, nextY));
                 setX(nextX);setY(nextY);
                 setMazeElement(getX(),getY(),this);
-                positions.remove(index);
+                //positions.remove(index);
                 index--;
             }
         }else{
@@ -103,13 +103,12 @@ public class Ghost extends MoveableElement{
     }
     @Override
     public boolean move() {
+        positions.add(new int[]{getX(),getY()});
         if(getVulnerable()){
            vulnerableMove();
-           positions.add(new int[]{getX(),getY()});
         }else{
             if(!inCave) {
                 index = positions.size();
-                positions.add(new int[]{getX(), getY()});
             }
             return super.move();
         }

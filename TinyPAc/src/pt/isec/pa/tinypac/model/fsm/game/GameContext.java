@@ -39,9 +39,7 @@ public class GameContext implements IGameEngineEvolve{
     public void KeyIsPressed(String s){//StartPlaying||Playing
         state.KeyIsPressed(s);
     }
-    public void WinLevel(){
-        state.WinLevel();
-    }
+    public void WinLevel(){state.WinLevel();}
 
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {

@@ -83,4 +83,5 @@ public class MoveableElement extends Element {
     public void setGameEngineInterval(long interval){this.interval=interval;}
     public void setUnderElement(Element underElement){this.underElement=underElement;}
     public void setMazeElement(int x,int y, Element newElement){maze.setMazeElement(x,y,newElement);}
+    public void setVulnerable(boolean value){maze.setVulnerable(value);}
 }
