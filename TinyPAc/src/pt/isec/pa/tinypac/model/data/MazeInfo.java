@@ -119,6 +119,15 @@ public class MazeInfo {
         }
     }
     public void pacManAteAGhost(){((PacMan)elements[4]).ateAGhost();}
+    public void ghostAtePacMan(){
+        for(MoveableElement e: elements) {
+            if(e instanceof Ghost g){
+                if((g.getX()==elements[4].getLastX()&&g.getY()==elements[4].getLastY())
+                        ||(g.getX()==elements[4].getX()&&g.getY()==elements[4].getY()))
+                    ((PacMan)elements[4]).setDied(true);
+            }
+        }
+    }
     public void evolve(){
         for(MoveableElement e: elements) {
             if(e instanceof Ghost g){
@@ -132,6 +141,6 @@ public class MazeInfo {
             }
             e.evolve();
         }
-
+        ghostAtePacMan();
     }
 }

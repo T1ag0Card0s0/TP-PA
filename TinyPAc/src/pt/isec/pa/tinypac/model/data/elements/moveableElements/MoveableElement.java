@@ -4,6 +4,8 @@ import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeInfo;
 import pt.isec.pa.tinypac.model.data.elements.zoneElement.Element;
 
+import java.util.ArrayList;
+
 public class MoveableElement extends Element {
     private final MazeInfo maze;
     private long ticks;
@@ -11,6 +13,7 @@ public class MoveableElement extends Element {
     private final boolean []neighboors;//TOP,RIGHT,BOTTOM,LEFT Check if there are walls around
     private long interval;
     private Element underElement;
+    private int lastX,lastY;
     public MoveableElement(int x, int y, char symbol, MazeInfo maze){
         super(symbol,x,y);
         this.neighboors=new boolean[]{true,true,true,true};
@@ -19,6 +22,8 @@ public class MoveableElement extends Element {
         this.ticks=0;
         this.interval=0;
         this.underElement=null;
+        this.lastX=0;
+        this.lastY=0;
         checkNeighboors();
     }
     public void checkNeighboors() {
@@ -50,6 +55,7 @@ public class MoveableElement extends Element {
         if(currentDirection==-1) { return false;}
         if (!neighboors[currentDirection]) {
             int x=getX(),y=getY();
+            lastX=x;lastY=y;
             setMazeElement(x,y,underElement);
             switch (currentDirection) {
                 case 0 -> y--;//UP
@@ -57,15 +63,12 @@ public class MoveableElement extends Element {
                 case 2 -> y++;//BOTTOM
                 case 3 -> x--;//LEFT
             }
-            setX(x);setY(y);
 
             if(maze.getMazeElement(x,y) instanceof MoveableElement m){
-                if(m instanceof PacMan p){
-                    p.setDied(true);
-                }
                 underElement=m.getUnderElement();
             }
             else underElement = new Element(maze.getSymbol(x, y), x, y);
+            setX(x);setY(y);
             setMazeElement(getX(),getY(),this);
             return true;
         }
@@ -83,6 +86,8 @@ public class MoveableElement extends Element {
     public IMazeElement getMazeElement(int x,int y){return maze.getMazeElement(x,y);}
     public int getCurrentLevel(){return maze.getCurrentLevel();}
     public char getSymbol(int x,int y){return maze.getSymbol(x,y);}
+    public int getLastX(){return lastX;}
+    public int getLastY(){return lastY;}
     public void setNextDirection(int newDirection){this.nextDirection=newDirection;}
     public void setGameEngineInterval(long interval){this.interval=interval;}
     public void setUnderElement(Element underElement){this.underElement=underElement;}

@@ -79,6 +79,7 @@ public class Ghost extends MoveableElement{
     public void vulnerableMove(){
         if(index>0){
             int nextX=positions.get(index)[0],nextY=positions.get(index)[1];
+            setMazeElement(getX(),getY(),getUnderElement());
             if(getMazeElement(nextX,nextY) instanceof MoveableElement m){
                 if(m instanceof PacMan p){
                     p.pacManAteAGhost();
@@ -90,7 +91,6 @@ public class Ghost extends MoveableElement{
                 }
                 setUnderElement(m.getUnderElement());
             } else{
-                setMazeElement(getX(),getY(),getUnderElement());
                 setUnderElement(new Element(getSymbol(nextX, nextY), nextX, nextY));
             }
             setX(nextX);setY(nextY);
