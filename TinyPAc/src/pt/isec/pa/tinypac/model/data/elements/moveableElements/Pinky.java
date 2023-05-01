@@ -14,10 +14,12 @@ public class Pinky extends Ghost {
         width=maze.getWidth();
         height = maze.getHeight();
     }
-   public boolean GoToCorner(){
-        if(Math.abs(getX()-corner[currentCorner][0])<=0.15*width&&Math.abs(getY()-corner[currentCorner][1])<=0.15*height) currentCorner++;
+   public void GoToCorner(){
+        if(Math.abs(getX()-corner[currentCorner][0])<=0.15*width
+                &&Math.abs(getY()-corner[currentCorner][1])<=0.15*height) currentCorner++;
         if(currentCorner> corner.length) currentCorner=0;
-        return true;
+        travelTo(corner[currentCorner][0],corner[currentCorner][1]);
+        System.out.println(currentCorner);
    }
     @Override
     public void evolve() {
@@ -26,7 +28,7 @@ public class Pinky extends Ghost {
             return;
         }
         if (!getVulnerable()) {
-            if(getCurrentDirection()==-1)
+           if(getCurrentDirection()==-1)
                 choseRandDirection();
         }
         move();

@@ -32,8 +32,8 @@ public class Ghost extends MoveableElement{
             if (y < getY()) setNextDirection(0);
             else setNextDirection(2);
         }else if(y==getY()){
-            if (x < getX()) setNextDirection(1);
-            else setNextDirection(3);
+            if (x < getX()) setNextDirection(3);
+            else setNextDirection(1);
         }
     }
     public void choseRandDirection(){
