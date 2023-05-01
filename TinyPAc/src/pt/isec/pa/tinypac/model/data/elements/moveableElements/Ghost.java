@@ -62,20 +62,10 @@ public class Ghost extends MoveableElement{
     public int getxPCoord() {return xPCoord;}
     public int getyPCoord() {return yPCoord;}
     public boolean getVulnerable(){return vulnerable;}
+
     public void setPCoords(int x, int y){xPCoord=x;yPCoord=y;}
     public void setVulnerable(boolean value){vulnerable=value;}
-    @Override
-    public void checkNeighboors() {
-        if(getVulnerable()){
-            super.checkNeighboors();
-            return;
-        }
-        if(getInCave()){
-            super.checkNeighboors();
-        }else{
-            super.checkNeighboorsWithExtraConstraint('Y');
-        }
-    }
+
     public void vulnerableMove(){
         if(index>0){
             if(inPacManPosition(getX(),getY())){
@@ -98,7 +88,19 @@ public class Ghost extends MoveableElement{
             //positions.remove(index);
             index--;
         }else{
-           setVulnerable(false);
+            setVulnerable(false);
+        }
+    }
+    @Override
+    public void checkNeighboors() {
+        if(getVulnerable()){
+            super.checkNeighboors();
+            return;
+        }
+        if(getInCave()){
+            super.checkNeighboors();
+        }else{
+            super.checkNeighboorsWithExtraConstraint('Y');
         }
     }
     @Override

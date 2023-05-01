@@ -45,7 +45,6 @@ public class MoveableElement extends Element {
             currentDirection=nextDirection;
         }
     }
-    public Element getUnderElement(){return underElement;}
     public boolean move(){
         ticks++;
         checkNeighboors();
@@ -87,6 +86,8 @@ public class MoveableElement extends Element {
     public char getSymbol(int x,int y){return maze.getSymbol(x,y);}
     public int getLastX(){return lastX;}
     public int getLastY(){return lastY;}
+    public Element getUnderElement(){return underElement;}
+
     public void setNextDirection(int newDirection){this.nextDirection=newDirection;}
     public void setGameEngineInterval(long interval){this.interval=interval;}
     public void setUnderElement(Element underElement){this.underElement=underElement;}

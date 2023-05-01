@@ -20,9 +20,6 @@ public class PacMan extends MoveableElement  {
         this.numOfGhost=0;
         this.died=false;
     }
-    public void setPower(boolean value){this.power=value;}
-    public void setPoints(int points){this.points=points;}
-    public void setNumOfFood(int numOfFood){this.numOfFood=numOfFood;}
     private int wichWraperIsPacMan( ){
         for(int i = 0; i<wraperCoordinates.length;i++){
             if(getX()==wraperCoordinates[i][0]&&getY()==wraperCoordinates[i][1]){
@@ -43,12 +40,15 @@ public class PacMan extends MoveableElement  {
             }
         }
     }
+    public void setPower(boolean value){this.power=value;}
+    public void setPoints(int points){this.points=points;}
+    public void setNumOfFood(int numOfFood){this.numOfFood=numOfFood;}
+    public void setDied(boolean value){died = value;}
     public boolean getPowerValue(){return power;}
     public int getPoints() {return points;}
     public int getNumOfFood(){return numOfFood;}
     public int getPowerTime(){return powerTime;}
     public boolean Died(){return died;}
-    public void setDied(boolean value){died = value;}
     public void IdentifyAction(){
         if(getUnderElement()==null)return;
         switch (getUnderElement().getSymbol()){

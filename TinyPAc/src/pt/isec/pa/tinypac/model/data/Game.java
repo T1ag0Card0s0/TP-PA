@@ -97,8 +97,12 @@ public class Game {
         if(currentLevel<10)return "Levels\\Level0"+currentLevel+".txt";
         return "Levels\\Level"+currentLevel+".txt";
     }
-    public boolean thereIsNoFood(){return (mazeInfo.getNumOfFood() == mazeInfo.getNumOfEatenFood());}
     public boolean LastLevel(){return currentLevel >= 20;}
+    public void changelevel(){
+        numOfEatenFood=0;
+        currentLevel++;
+        initGame();
+    }
     public boolean pacManWasEaten(){
         if(((PacMan)mazeInfo.getMoveableElement('P')).Died()){
             lives--;
@@ -106,25 +110,6 @@ public class Game {
         }
         return false;
     }
-    public void changelevel(){
-        numOfEatenFood=0;
-        currentLevel++;
-        initGame();
-    }
-    public int getPoints(){return points=mazeInfo.getPacManPoints();}
-    public int getCurrentLevel(){return currentLevel;}
-    public int getBoardHeight(){return mazeInfo.getBoardHeight();}
-    public int getBoardWidth(){return mazeInfo.getBoardWidth();}
-    public int getPacManLives(){return lives;}
-    public MoveableElement[] getMoveableElements(){return mazeInfo.getMoveableElements();}
-    public IMazeElement getMazeElement(int x,int y){return mazeInfo.getMazeElement(x,y);}
-    public void setGameEngineInterval(long interval){
-        for (MoveableElement element: mazeInfo.getMoveableElements()){
-            element.setGameEngineInterval(interval);
-        }
-    }
-    public void setVulnerable(boolean value){mazeInfo.setVulnerable(value);}
-    public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
     public boolean endOfVulnerability(long interval){
         if(mazeInfo.allGhostsNotVulnerable()){
             vulnerableTicks=0;
@@ -139,6 +124,23 @@ public class Game {
             return false;
         }
     }
+    public boolean thereIsNoFood(){return (mazeInfo.getNumOfFood() == mazeInfo.getNumOfEatenFood());}
+    public int getPoints(){return points=mazeInfo.getPacManPoints();}
+    public int getCurrentLevel(){return currentLevel;}
+    public int getBoardHeight(){return mazeInfo.getBoardHeight();}
+    public int getBoardWidth(){return mazeInfo.getBoardWidth();}
+    public int getPacManLives(){return lives;}
+    public MoveableElement[] getMoveableElements(){return mazeInfo.getMoveableElements();}
+    public IMazeElement getMazeElement(int x,int y){return mazeInfo.getMazeElement(x,y);}
     public boolean pacManHasPower(){return mazeInfo.pacManHasPower();}
+
+    public void setGameEngineInterval(long interval){
+        for (MoveableElement element: mazeInfo.getMoveableElements()){
+            element.setGameEngineInterval(interval);
+        }
+    }
+    public void setVulnerable(boolean value){mazeInfo.setVulnerable(value);}
+    public void setPacmanNextDirection(String keyPressed){mazeInfo.setPacmanNextDirection(keyPressed);}
+
     public void evolve() {mazeInfo.evolve();}
 }
