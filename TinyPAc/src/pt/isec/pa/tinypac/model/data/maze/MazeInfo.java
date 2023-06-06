@@ -38,6 +38,12 @@ public class MazeInfo {
         this.count = 0;
         this.eatenGhost=0;
     }
+    public void InitElemPos(){
+        for(MoveableElement moveableElement: moveableElements){
+            moveableElement.setUnderElement((Element) maze.get(moveableElement.getInitY(),moveableElement.getInitX()));
+            moveableElement.setXY(moveableElement.getInitX(),moveableElement.getInitY());
+        }
+    }
     public char pacManAte(){
         PacMan pacman = (PacMan) getMoveableElement('P');
         if(pacman==null){return ' ';}
@@ -85,17 +91,6 @@ public class MazeInfo {
     public int getNumOfEatenGhost(){return eatenGhost;}
     public MoveableElement []getMoveableElements(){
         return moveableElements;
-    }
-    public List<MoveableElement> getList(){
-        List<MoveableElement> list = new ArrayList<>();
-        for(MoveableElement el : moveableElements) {
-            try {
-                list.add((MoveableElement) el.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        }
-        return list;
     }
     public int getWidth(){return width;}
     public int getHeigth(){return heigth;}

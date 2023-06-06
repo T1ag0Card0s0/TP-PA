@@ -45,10 +45,6 @@ public class GameManager {
         pcs.firePropertyChange(null,null,null);
         return fsm.evolve(time);
     }
-    public List<MoveableElement> getList() {
-        if(fsm==null)return null;
-        return fsm.getList();
-    }
     public boolean save(File file){
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))){
             oos.writeObject(fsm);

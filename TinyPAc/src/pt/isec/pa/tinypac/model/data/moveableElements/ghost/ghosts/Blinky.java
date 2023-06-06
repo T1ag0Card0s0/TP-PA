@@ -14,8 +14,5 @@ public class Blinky extends Ghost {
         super.myMove();
     }
 
-    @Override
-    public String toString() {
-        return "Blinky: "+super.toString()+"cor: "+"vermelho";
-    }
+
 }

@@ -35,8 +35,4 @@ public class Clyde extends Ghost {
             randomMove();
         super.myMove();
     }
-    @Override
-    public String toString() {
-        return "Clyde: "+super.toString()+"cor: "+"laranja";
-    }
 }

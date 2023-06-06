@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.model.data.game;
 
 import pt.isec.pa.tinypac.model.data.element.Element;
+import pt.isec.pa.tinypac.model.data.log.ModelLog;
 import pt.isec.pa.tinypac.model.data.maze.MazeInfo;
 import pt.isec.pa.tinypac.model.data.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.data.moveableElements.ghost.Ghost;
@@ -21,6 +22,7 @@ public class Game {
     private int lives;
     private int eatenFood;
     private double timeRegister;
+    private char pacManAteSymbol;
     public Game(){
         this.ticks=0;
         this.level=1;
@@ -33,7 +35,12 @@ public class Game {
     void initMazeInfo(){
         int width = 0, height = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getLevelFilePath()));
+            File file = new File(getLevelFilePath());
+            if(!file.exists()){
+                level--;
+                file=new File(getLevelFilePath());
+            }
+            BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             while ((line = br.readLine()) != null) {
                 width=line.length();
@@ -74,9 +81,6 @@ public class Game {
         return "Levels\\Level"+level+".txt";
     }
     public char[][]getBoard(){return mazeInfo.getBoard();}
-    public List<MoveableElement> getList(){
-        return mazeInfo.getList();
-    }
     public void moveElements(double time){
         for(MoveableElement element: mazeInfo.getMoveableElements()){
             if(element.getUnderElement()!=null)
@@ -84,7 +88,7 @@ public class Game {
             else
                 mazeInfo.set(element.getY(),element.getX(),null);
             element.move();
-            char pacManAteSymbol=mazeInfo.pacManAte();
+            pacManAteSymbol=mazeInfo.pacManAte();
             mazeInfo.set(element.getY(),element.getX(),element);
             if(element instanceof PacMan pacMan) {
                 switch (pacManAteSymbol) {
@@ -95,8 +99,7 @@ public class Game {
                         pacMan.setUnderElement(null);
                     }
                     case 'b','c','i','p'->{
-                        if(pacMan.getPower())
-                            points += mazeInfo.getNumOfEatenGhost() * 50;
+                        if(pacMan.getPower()) points += mazeInfo.getNumOfEatenGhost() * 50;
                         else lives--;
                     }
                     case 'O' ->{
@@ -120,8 +123,9 @@ public class Game {
                 }
                 if(pacmanHasPower()&&pacManAteSymbol==ghost.getSymbol())
                         points += mazeInfo.getNumOfEatenGhost() * 50;
-                else if(pacManAteSymbol==ghost.getSymbol())
+                else if(pacManAteSymbol==ghost.getSymbol()) {
                     lives--;
+                }
 
             }
         }
@@ -139,13 +143,10 @@ public class Game {
             return true;
         }
         if(!mazeInfo.getPacManPower()&&
-             (mazeInfo.pacManAte()=='c'||mazeInfo.pacManAte()=='p'||
-             mazeInfo.pacManAte()=='b'||mazeInfo.pacManAte()=='i')) {
-            if(lives>0){
-             //   mazeInfo.initLevel();
+             (pacManAteSymbol=='c'||pacManAteSymbol=='p'||
+                     pacManAteSymbol=='b'||pacManAteSymbol=='i')&&lives>0) {
+                //mazeInfo.InitElemPos();
                 return true;
-            }
-
         }
         return false;
     }

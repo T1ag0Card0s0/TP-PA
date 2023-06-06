@@ -13,8 +13,4 @@ public class Pinky extends Ghost {
         randomMove();
         super.myMove();
     }
-    @Override
-    public String toString() {
-        return "Pinky: "+super.toString()+"cor: "+"rosa";
-    }
 }

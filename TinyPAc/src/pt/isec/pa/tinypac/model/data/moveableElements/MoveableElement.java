@@ -93,8 +93,4 @@ public class MoveableElement extends Element{
 
     public void setMazeInfo(MazeInfo mazeInfo){this.mazeInfo=mazeInfo;}
 
-    @Override
-    public String toString() {
-        return "("+getX()+","+getY()+")";
-    }
 }

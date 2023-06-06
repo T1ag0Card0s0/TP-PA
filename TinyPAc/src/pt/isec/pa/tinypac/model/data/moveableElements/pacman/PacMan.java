@@ -11,8 +11,4 @@ public class PacMan extends MoveableElement {
     }
     public boolean getPower(){return power;}
     public void setPower(boolean value){this.power = value;}
-    @Override
-    public String toString() {
-        return "PacMan: "+super.toString()+"cor: "+"amarelo";
-    }
 }

@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.ui.gui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.Background;
@@ -8,15 +9,18 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.model.GameManager;
 
 public class MainJFX extends Application {
     GameManager gameManager;
+    GameEngine gameEngine;
 
     @Override
     public void init() throws Exception {
         super.init();
         gameManager=new GameManager();
+        gameEngine = new GameEngine();
     }
     private void newStage(Stage stage,double x,double y){
         RootPane root = new RootPane(gameManager);
@@ -42,8 +46,18 @@ public class MainJFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         newStage(stage,100,100);
-       // newStage(new Stage(),stage.getX(),stage.getY()+50);
-        //newStage(new Stage(),stage.getX(),stage.getY()+100);
+        newStage(new Stage(),stage.getX(),stage.getY()+50);
+        newStage(new Stage(),stage.getX(),stage.getY()+100);
         createListStage(stage.getX()+stage.getWidth(),stage.getY());
+        gameEngine.registerClient((g,t)-> Platform.runLater(()->{
+            gameManager.evolve(t/1_000_000_000.0);
+        }));
+        gameEngine.start(200);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        gameEngine.stop();
+        gameEngine.waitForTheEnd();
     }
 }

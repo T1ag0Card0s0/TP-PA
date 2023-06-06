@@ -21,13 +21,10 @@ public class GameUI extends BorderPane {
     GridPane gridPane;
     Label lblPts,lblLives,lblLevel;
     Button btnPause;
-    GameEngine gameEngine;
     HBox barraInformacao;
     String pngFile;
     public GameUI(GameManager gameManager ){
         this.gameManager = gameManager;
-        this.gameEngine = new GameEngine();
-        gameEngine.start(200);
         this.lblLevel=new Label();
         this.lblLives=new Label();
         this.lblPts=new Label();
@@ -41,22 +38,20 @@ public class GameUI extends BorderPane {
     }
     public void createViews() {
         ImageView imageView = new ImageView(ImageManager.getImage("pause-button.png"));
-        imageView.setFitHeight(50);
+        imageView.setFitHeight(45);
         imageView.setFitWidth(50);
         btnPause.setGraphic(imageView);
         btnPause.setId("pause-button");
-        btnPause.setAlignment(Pos.TOP_RIGHT);
-
         // Criação das Labels
         lblLives.setText("Vidas: ");
         lblPts.setText("Pontos: ");
         lblLevel.setText("Nivel: ");
-
+        lblLives.setId("label_gameInfo");lblLevel.setId("label_gameInfo");lblPts.setId("label_gameInfo");
         gridPane.setAlignment(Pos.CENTER);
 
         // Criação da VBox e adição das Labels
-        VBox vbox = new VBox(lblLevel, lblPts, lblLives);
-        HBox hBox = new HBox(vbox,gridPane,btnPause);
+        VBox vbox = new VBox(btnPause,lblLevel, lblPts, lblLives);
+        HBox hBox = new HBox(gridPane,vbox);
 
         hBox.setAlignment(Pos.CENTER);
         this.setCenter(hBox);
@@ -67,9 +62,6 @@ public class GameUI extends BorderPane {
         gameManager.addPropertyChangeListener(evt -> {
             update();
         });
-        gameEngine.registerClient((g,t)->Platform.runLater(()->{
-            gameManager.evolve(t/1_000_000_000.0);
-        }));
         btnPause.setOnAction(evt->{
             gameManager.pause();
             GamePausedMenu.show(getScene().getWindow());
@@ -105,6 +97,9 @@ public class GameUI extends BorderPane {
                 gridPane.add(imgView, j, i);
             }
         }
+        lblLevel.setText("Nivel: "+gameManager.getLevel());
+        lblPts.setText("Pontos: "+gameManager.getPoints());
+        lblLives.setText("Vidas: "+gameManager.getLives());
     }
 
     private ImageView getOrCreateImageView(char c) {

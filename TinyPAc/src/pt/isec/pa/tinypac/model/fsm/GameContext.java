@@ -47,7 +47,6 @@ public class GameContext {
     public int getLevel(){return game.getLevel();}
     public char [][]getBoard(){return game.getBoard();}
     public int getDirection(){return game.getDirection();}
-    public List<MoveableElement> getList() {return game.getList();}
 
     public boolean evolve(double time){
         if(state.evolve(time)){
