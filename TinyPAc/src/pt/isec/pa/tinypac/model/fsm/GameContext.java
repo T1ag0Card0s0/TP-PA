@@ -48,6 +48,5 @@ public class GameContext implements Serializable {
             game.moveElements(time);
         }
         return game.getLives()>0;
-
     }
 }

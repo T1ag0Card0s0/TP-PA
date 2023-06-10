@@ -1,5 +1,6 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,44 +14,57 @@ import pt.isec.pa.tinypac.ui.gui.util.PauseOverlay;
 
 public class GameUI extends BorderPane {
     GameManager gameManager;
-    PauseOverlay pauseOverlay;
     GridPane gridPane;
-    Label lblPts,lblLives,lblLevel;
+    Label lblPts,lblLevel,lblLives;
     Button btnPause;
-    HBox barraInformacao;
+    HBox hBoxTop,hBoxBottom;
+    HBox hBoxLives;
     String pngFile;
     public GameUI(GameManager gameManager ){
         this.gameManager = gameManager;
-        this.lblLevel=new Label();
-        this.lblLives=new Label();
-        this.lblPts=new Label();
-        this.gridPane=new GridPane();
-        this.btnPause = new Button();
-        this.barraInformacao=new HBox();
         this.pngFile="pacman-left.png";
+
         createViews();
         registerHandlers();
         update();
     }
     public void createViews() {
+        this.lblLevel = new Label();
+        this.lblPts = new Label();
+        this.lblLives = new Label("Vidas:");
+        this.gridPane = new GridPane();
+        this.btnPause = new Button();
+        this.hBoxLives = new HBox();
         ImageView imageView = new ImageView(ImageManager.getImage("pause-button.png"));
         imageView.setFitHeight(45);
         imageView.setFitWidth(50);
         btnPause.setGraphic(imageView);
         btnPause.setId("pause-button");
-        // Criação das Labels
-        lblLives.setText("Vidas: ");
+
+        hBoxLives.setSpacing(5);
+
         lblPts.setText("Pontos: ");
         lblLevel.setText("Nivel: ");
-        lblLives.setId("label_gameInfo");lblLevel.setId("label_gameInfo");lblPts.setId("label_gameInfo");
+        lblLevel.setId("label_gameInfo");
+        lblPts.setId("label_gameInfo");
+        lblLives.setId("label_gameInfo");
         gridPane.setAlignment(Pos.CENTER);
+        VBox vBoxTopLabels = new VBox(lblLevel, lblPts);
+        vBoxTopLabels.setAlignment(Pos.CENTER); // Alinhar à margem esquerda da janela
+        vBoxTopLabels.setPadding(new Insets(10));
+        Region region = new Region();
+        HBox.setHgrow(region, Priority.ALWAYS);
+        region.setMinWidth(10); // Adjust the width as needed
 
-        // Criação da VBox e adição das Labels
-        VBox vbox = new VBox(btnPause,lblLevel, lblPts, lblLives);
-        HBox hBox = new HBox(gridPane,vbox);
-
-        hBox.setAlignment(Pos.CENTER);
-        this.setCenter(hBox);
+        hBoxTop = new HBox(vBoxTopLabels,region, btnPause);
+        hBoxTop.setAlignment(Pos.CENTER);
+        hBoxBottom = new HBox(hBoxLives);
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(hBoxTop, gridPane, hBoxBottom);
+        hBoxTop.setAlignment(Pos.CENTER);
+        hBoxBottom.setAlignment(Pos.CENTER);
+        vBox.setAlignment(Pos.CENTER);
+        this.setCenter(vBox);
     }
 
     public void registerHandlers(){
@@ -83,10 +97,6 @@ public class GameUI extends BorderPane {
             this.setVisible(false);
             return;
         }
-        /*if(gameManager.getState()== EGameState.GAME_PAUSED) {
-            this.setVisible(false);
-            return;
-        }*/
         this.setVisible(true);
         requestFocus();
         char[][] board = gameManager.getBoard();
@@ -103,7 +113,15 @@ public class GameUI extends BorderPane {
         }
         lblLevel.setText("Nivel: "+gameManager.getLevel());
         lblPts.setText("Pontos: "+gameManager.getPoints());
-        lblLives.setText("Vidas: "+gameManager.getLives());
+        hBoxLives.getChildren().clear();
+
+        hBoxLives.getChildren().add(lblLives);
+        for(int i = 0; i<gameManager.getLives();i++){
+            ImageView imageView = new ImageView(ImageManager.getImage("pacman-left.png"));
+            imageView.setFitWidth(15);imageView.setFitHeight(15);
+            hBoxLives.getChildren().add(imageView);
+        }
+        hBoxTop.setPrefWidth(gridPane.getWidth());
     }
 
     private ImageView getOrCreateImageView(char c) {

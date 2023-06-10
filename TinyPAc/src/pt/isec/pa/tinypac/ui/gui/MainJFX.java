@@ -22,15 +22,16 @@ public class MainJFX extends Application {
         gameManager=new GameManager();
         gameEngine = new GameEngine();
     }
-    private void newStage(Stage stage,double x,double y){
+    private void newStage(Stage stage,String title,double x,double y){
         RootPane root = new RootPane(gameManager);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         stage.setScene(new Scene(root,600,600));
-        stage.setTitle("Adicionei stage");
+        stage.setTitle(title);
         stage.setUserData(gameManager);
         stage.setX(x);
         stage.setY(y);
-        stage.setMinHeight(600);stage.setMinWidth(600);
+        stage.setMinWidth(600);
+        stage.setMinHeight(700);
         stage.show();
     }
     public void createListStage(double x,double y){
@@ -45,9 +46,9 @@ public class MainJFX extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        newStage(stage,100,100);
-        newStage(new Stage(),stage.getX(),stage.getY()+50);
-        newStage(new Stage(),stage.getX(),stage.getY()+100);
+        newStage(stage,"TinyPac",100,100);
+        newStage(new Stage(),"TinyPac#1",stage.getX(),stage.getY()+50);
+        newStage(new Stage(),"TinyPac#2",stage.getX(),stage.getY()+100);
         createListStage(stage.getX()+stage.getWidth(),stage.getY());
         gameEngine.registerClient((g,t)-> Platform.runLater(()->{
             gameManager.evolve(t/1_000_000_000.0);

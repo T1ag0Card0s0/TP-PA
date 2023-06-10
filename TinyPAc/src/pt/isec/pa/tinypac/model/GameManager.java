@@ -1,16 +1,12 @@
 package pt.isec.pa.tinypac.model;
 
-import pt.isec.pa.tinypac.model.data.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.data.top5.Top5Players;
 import pt.isec.pa.tinypac.model.fsm.EGameState;
 import pt.isec.pa.tinypac.model.fsm.GameContext;
-import pt.isec.pa.tinypac.model.fsm.IGameState;
 
-import javax.swing.plaf.PanelUI;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
@@ -27,7 +23,6 @@ public class GameManager {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
     }
-    public void changeState(IGameState newState){fsm.changeState(newState);}
     public void Up(){fsm.Up();}
     public void Down(){fsm.Down();}
     public void Left(){fsm.Left();}
@@ -37,10 +32,7 @@ public class GameManager {
     public void exit(){fsm=null;pcs.firePropertyChange(null,null,null);}
     public void start(){fsm = new GameContext(); pcs.firePropertyChange(null,null,null);}
     public boolean elementVulnerable(char c){return fsm.elementVulnerable(c);}
-    public EGameState getState(){return fsm.getState();}
-    public EGameState getLastState() {
-        return fsm.getLastState();
-    }
+    public EGameState getState(){if(fsm==null)return null; return fsm.getState();}
     public  int getPoints(){return fsm.getPoints();}
     public int getLives(){return fsm.getLives();}
     public int getLevel(){return fsm.getLevel();}
@@ -50,7 +42,8 @@ public class GameManager {
 
     public boolean evolve(double time){
         if(fsm==null)return false;
-        pcs.firePropertyChange(null,null,null);
+        if(getState()!=EGameState.GAME_PAUSED)
+            pcs.firePropertyChange(null,null,null);
         return fsm.evolve(time);
     }
     public boolean save(){
@@ -99,7 +92,7 @@ public class GameManager {
         return true;
     }
 
-
+    public void closeTop5(){top5Players=null;        pcs.firePropertyChange(null,null,null);}
     public boolean existSavedGame() {
         File arquivo = new File(FILE_GAME);
         return arquivo.exists();

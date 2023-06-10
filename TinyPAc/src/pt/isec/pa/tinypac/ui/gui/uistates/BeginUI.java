@@ -5,33 +5,53 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import pt.isec.pa.tinypac.model.GameManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
+import pt.isec.pa.tinypac.ui.gui.util.ExitOverlay;
 
 public class BeginUI extends BorderPane {
     GameManager gameManager;
     Button btnInitGame,btnTop5,btnExit;
-
     public BeginUI(GameManager gameManager){
         this.gameManager = gameManager;
         createViews();
         registerHandlers();
         update();
     }
-    public void createViews(){
+    public void createViews() {
+        ImageView imageView = new ImageView(ImageManager.getImage("isec-logo.png"));
+        Label label = new Label("""
+        DEIS-ISEC-IPC
+        Licenciatura Engenharia Informática (LEI)
+        Trabalho realizado no âmbito da Unidade Curricular Programação Avançada
+        Autor:
+            Tiago Rafael Santos Cardoso, 2011138999
+        2022/2023""");
+
+        label.setAlignment(Pos.CENTER);
+        label.setStyle("-fx-text-fill:  grey;");
+        VBox vBoxInfo = new VBox(imageView, label);
+        vBoxInfo.setAlignment(Pos.CENTER);
         btnInitGame = new Button("Iniciar Jogo");
         btnTop5 = new Button("Top 5");
         btnExit = new Button("Sair");
-        btnInitGame.setId("btnInitScreen");btnTop5.setId("btnInitScreen");btnExit.setId("btnInitScreen");
+        btnInitGame.setId("btnInitScreen");
+        btnTop5.setId("btnInitScreen");
+        btnExit.setId("btnInitScreen");
+
         ImageView imgView = new ImageView(ImageManager.getImage("title.png"));
-        VBox vBox = new VBox(imgView,btnInitGame,btnTop5,btnExit);
+        VBox vBox = new VBox(imgView, btnInitGame, btnTop5, btnExit, vBoxInfo);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(10);
+
         this.setCenter(vBox);
     }
+
     public void registerHandlers(){
         gameManager.addPropertyChangeListener(evt -> { update(); });
         btnInitGame.setOnAction( event -> {
@@ -61,7 +81,7 @@ public class BeginUI extends BorderPane {
             gameManager.loadTop5();
         });
         btnExit.setOnAction( event -> {
-            Platform.exit();
+            ExitOverlay.show(getScene().getWindow());
         });
     }
     public void update(){

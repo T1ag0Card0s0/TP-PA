@@ -36,5 +36,5 @@
     -fx-pref-height: 20;
 }
 #label_gameInfo{
-    -fx-text-fill:rgb(252, 201, 46) ;
+    -fx-text-fill:white ;
 }
