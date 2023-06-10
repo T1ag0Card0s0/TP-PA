@@ -1,6 +1,8 @@
 package pt.isec.pa.tinypac.model.fsm;
 
-public interface IGameState {
+import java.io.Serializable;
+
+public interface IGameState extends Serializable {
     EGameState getGameState();
     void Up();
     void Down();

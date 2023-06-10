@@ -1,23 +1,19 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import pt.isec.pa.tinypac.gameengine.GameEngine;
-import pt.isec.pa.tinypac.gameengine.GameEngineState;
 import pt.isec.pa.tinypac.model.GameManager;
+import pt.isec.pa.tinypac.model.fsm.EGameState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
-import pt.isec.pa.tinypac.ui.gui.util.GamePausedMenu;
+import pt.isec.pa.tinypac.ui.gui.util.PauseOverlay;
 
 public class GameUI extends BorderPane {
     GameManager gameManager;
+    PauseOverlay pauseOverlay;
     GridPane gridPane;
     Label lblPts,lblLives,lblLevel;
     Button btnPause;
@@ -55,7 +51,6 @@ public class GameUI extends BorderPane {
 
         hBox.setAlignment(Pos.CENTER);
         this.setCenter(hBox);
-
     }
 
     public void registerHandlers(){
@@ -64,7 +59,7 @@ public class GameUI extends BorderPane {
         });
         btnPause.setOnAction(evt->{
             gameManager.pause();
-            GamePausedMenu.show(getScene().getWindow());
+            PauseOverlay.show(getScene().getWindow(),gameManager);
         });
         setOnKeyPressed(KeyEvent->{
             switch (KeyEvent.getCode()){
@@ -72,7 +67,13 @@ public class GameUI extends BorderPane {
                 case DOWN -> gameManager.Down();
                 case LEFT ->gameManager.Left();
                 case RIGHT -> gameManager.Right();
-                case SPACE ->gameManager.pause();
+                case SPACE ->{
+                    if(gameManager.pause()){
+                        PauseOverlay.show(getScene().getWindow(),gameManager);
+                    }else{
+                        gameManager.resume();
+                    }
+                }
             }
         });
 
@@ -82,7 +83,10 @@ public class GameUI extends BorderPane {
             this.setVisible(false);
             return;
         }
-
+        /*if(gameManager.getState()== EGameState.GAME_PAUSED) {
+            this.setVisible(false);
+            return;
+        }*/
         this.setVisible(true);
         requestFocus();
         char[][] board = gameManager.getBoard();

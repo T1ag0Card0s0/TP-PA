@@ -2,7 +2,9 @@ package pt.isec.pa.tinypac.ui.gui.uistates;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -33,16 +35,37 @@ public class BeginUI extends BorderPane {
     public void registerHandlers(){
         gameManager.addPropertyChangeListener(evt -> { update(); });
         btnInitGame.setOnAction( event -> {
-            gameManager.start();
+            if(gameManager.existSavedGame()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Iniciar Jogo");
+                alert.setHeaderText(null);
+                alert.setContentText("Existe um jogo guardado deseja carrega-lo?");
+
+                ButtonType buttonTypeYes = new ButtonType("Sim");
+                ButtonType buttonTypeNo = new ButtonType("Não");
+
+                alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+                alert.showAndWait().ifPresent(response -> {
+                    if (response == buttonTypeNo) {
+                        gameManager.start();
+                    }else if(response == buttonTypeYes){
+                        gameManager.load();
+                    }
+                });
+            }else{
+                gameManager.start();
+            }
         });
         btnTop5.setOnAction( event -> {
+            gameManager.loadTop5();
         });
         btnExit.setOnAction( event -> {
             Platform.exit();
         });
     }
     public void update(){
-        if(gameManager.FSM_Is_Created()){
+        if(gameManager.FSM_Is_Created()||gameManager.top5IsLoaded()){
             this.setVisible(false);
             return;
         }

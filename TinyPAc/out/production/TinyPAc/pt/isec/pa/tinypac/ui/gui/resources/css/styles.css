@@ -14,6 +14,22 @@
     -fx-border-color: blue;
     -fx-text-fill:blue;
 }
+#btnPauseOverlay{
+    -fx-background-color: blue;
+    -fx-border-color: rgb(252, 201, 46);
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 12px;
+    -fx-font-size: 15px;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+    -fx-text-fill:rgb(252, 201, 46) ;
+}
+#btnPauseOverlay:hover{
+    -fx-background-color: rgb(252, 201, 46);
+    -fx-border-color: blue;
+    -fx-text-fill:blue;
+}
 #pause-button{
     -fx-background-color: transparent;
     -fx-pref-width: 20;

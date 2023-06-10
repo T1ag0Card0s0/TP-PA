@@ -9,10 +9,11 @@ import pt.isec.pa.tinypac.model.data.moveableElements.ghost.ghosts.Inky;
 import pt.isec.pa.tinypac.model.data.moveableElements.ghost.ghosts.Pinky;
 import pt.isec.pa.tinypac.model.data.moveableElements.pacman.PacMan;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MazeInfo {
+public class MazeInfo implements Serializable {
     private final Maze maze;
     private final MoveableElement[] moveableElements;
     private Element fruit;

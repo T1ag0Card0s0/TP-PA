@@ -8,13 +8,11 @@ import pt.isec.pa.tinypac.model.data.moveableElements.ghost.Ghost;
 import pt.isec.pa.tinypac.model.data.moveableElements.ghost.ghosts.Pinky;
 import pt.isec.pa.tinypac.model.data.moveableElements.pacman.PacMan;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
     private int ticks;
     private MazeInfo mazeInfo;
     private int level;

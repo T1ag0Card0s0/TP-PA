@@ -11,6 +11,7 @@ public class GamePaused extends GameStateAdapter {
         super(context,game);
         ModelLog.getInstance().add(getGameState().toString());
     }
+
     @Override
     public boolean resume() {
         changeState(context.getLastState());
