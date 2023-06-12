@@ -1,17 +1,22 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import pt.isec.pa.tinypac.model.GameManager;
 import pt.isec.pa.tinypac.model.data.log.ModelLog;
+import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
 public class GameOverUI extends BorderPane {
     GameManager gameManager;
-    Label lblTitle;
+    ImageView gameOver;
+    Label lblTitle,lblPts;
     TextField nameInput;
     Button btnOk;
 
@@ -23,17 +28,22 @@ public class GameOverUI extends BorderPane {
     }
 
     public void createViews(){
-        lblTitle = new Label("GAME OVER");
-        lblTitle.setId("game_over");
+        gameOver = new ImageView(ImageManager.getImage("game-over.png"));
+        lblPts = new Label("Pontuação: 0");
+        lblTitle = new Label("Introduza um username");
+        lblTitle.setId("game_overTitle");
+        lblPts.setId("game_overTitle");
         nameInput = new TextField();
-        nameInput.setStyle("-fx-pref-width: 200px;-fx-pref-height: 50px");
-        btnOk = new Button("Submit");
+        nameInput.setId("game_overInput");
+        btnOk = new Button("Submeter");
         btnOk.getStyleClass().add("btnInitScreen");
-        VBox vBox = new VBox(lblTitle,nameInput,btnOk);
+        VBox vBoxLabels = new VBox(lblPts,lblTitle);
+        vBoxLabels.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(gameOver,vBoxLabels,nameInput,btnOk);
         vBox.setAlignment(Pos.CENTER);
-        this.setCenter(vBox);
+        vBox.setSpacing(30);
+        this.setTop(vBox);
     }
-
     public void registerHandlers(){
         gameManager.addPropertyChangeListener(evt ->{
             update();
@@ -44,6 +54,8 @@ public class GameOverUI extends BorderPane {
                 gameManager.addTop5(nameInput.getText());
                 gameManager.saveTop5();
                 gameManager.exit();
+            }else{
+                lblTitle.setStyle("-fx-font-size: 25px;-fx-text-fill: red");
             }
         });
     }
@@ -58,6 +70,6 @@ public class GameOverUI extends BorderPane {
             return;
         }
         this.setVisible(true);
-
+        lblPts.setText("Pontuação: "+gameManager.getPoints());
     }
 }

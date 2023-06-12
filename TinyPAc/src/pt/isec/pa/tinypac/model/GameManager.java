@@ -14,10 +14,12 @@ public class GameManager {
     private static final String FILE_TOP5 = "files/top5.dat";
     private GameContext fsm;
     private Top5Players top5Players;
+    private boolean deleteAtTheEnd;
     PropertyChangeSupport pcs;
     public GameManager(){
         this.fsm = null;
         this.top5Players=null;
+        this.deleteAtTheEnd=false;
         pcs = new PropertyChangeSupport(this);
     }
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -35,7 +37,9 @@ public class GameManager {
         return false;
     }
     public void resume(){fsm.resume();pcs.firePropertyChange(null,null,null);}
-    public void exit(){fsm=null;pcs.firePropertyChange(null,null,null);}
+    public void exit(){
+        fsm=null;pcs.firePropertyChange(null,null,null);
+    }
     public void start(){fsm = new GameContext(); pcs.firePropertyChange(null,null,null);}
     public boolean lostGame(){
         if(fsm == null)return false;
@@ -43,7 +47,10 @@ public class GameManager {
     }
     public boolean elementVulnerable(char c){return fsm.elementVulnerable(c);}
     public EGameState getState(){if(fsm==null)return null; return fsm.getState();}
-    public  int getPoints(){return fsm.getPoints();}
+    public  int getPoints(){
+        if(fsm == null)return 0;
+        return fsm.getPoints();
+    }
     public int getLives(){return fsm.getLives();}
     public int getLevel(){return fsm.getLevel();}
     public char [][]getBoard(){return fsm.getBoard();}
