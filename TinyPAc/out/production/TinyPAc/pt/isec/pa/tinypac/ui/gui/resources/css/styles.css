@@ -1,4 +1,4 @@
-#btnInitScreen{
+.btnInitScreen{
     -fx-background-color: blue;
     -fx-border-color: rgb(252, 201, 46);
     -fx-border-width: 2px;
@@ -9,12 +9,12 @@
     -fx-pref-height: 50px;
     -fx-text-fill:rgb(252, 201, 46) ;
 }
-#btnInitScreen:hover{
+.btnInitScreen:hover{
     -fx-background-color: rgb(252, 201, 46);
     -fx-border-color: blue;
     -fx-text-fill:blue;
 }
-#btnPauseOverlay{
+.btnPopUp{
     -fx-background-color: blue;
     -fx-border-color: rgb(252, 201, 46);
     -fx-border-width: 2px;
@@ -25,7 +25,7 @@
     -fx-pref-height: 20px;
     -fx-text-fill:rgb(252, 201, 46) ;
 }
-#btnPauseOverlay:hover{
+.btnPopUp:hover{
     -fx-background-color: rgb(252, 201, 46);
     -fx-border-color: blue;
     -fx-text-fill:blue;
@@ -37,4 +37,23 @@
 }
 #label_gameInfo{
     -fx-text-fill:white ;
+}
+#game_over{
+    -fx-text-fill:white ;
+    -fx-font-size: 30px;
+}
+.popup{
+    -fx-background-color: #808080;
+    -fx-border-color: blue;
+    -fx-border-radius: 20px;
+    -fx-border-width: 8px;
+    -fx-background-radius: 21px;
+    -fx-pref-width:300px ;
+    -fx-pref-height: 100px;
+    -fx-alignment: center;
+}
+.popup_label{
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+    -fx-alignment: center;
 }

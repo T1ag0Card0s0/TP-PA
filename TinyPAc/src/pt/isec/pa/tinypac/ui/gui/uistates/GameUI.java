@@ -10,7 +10,8 @@ import javafx.scene.layout.*;
 import pt.isec.pa.tinypac.model.GameManager;
 import pt.isec.pa.tinypac.model.fsm.EGameState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
-import pt.isec.pa.tinypac.ui.gui.util.PauseOverlay;
+import pt.isec.pa.tinypac.ui.gui.util.InsertNamePopup;
+import pt.isec.pa.tinypac.ui.gui.util.PausePopup;
 
 public class GameUI extends BorderPane {
     GameManager gameManager;
@@ -68,12 +69,12 @@ public class GameUI extends BorderPane {
     }
 
     public void registerHandlers(){
-        gameManager.addPropertyChangeListener(evt -> {
+        gameManager.addPropertyChangeListener(evt ->{
             update();
         });
         btnPause.setOnAction(evt->{
             gameManager.pause();
-            PauseOverlay.show(getScene().getWindow(),gameManager);
+            PausePopup.show(getScene().getWindow(),gameManager);
         });
         setOnKeyPressed(KeyEvent->{
             switch (KeyEvent.getCode()){
@@ -83,7 +84,7 @@ public class GameUI extends BorderPane {
                 case RIGHT -> gameManager.Right();
                 case SPACE ->{
                     if(gameManager.pause()){
-                        PauseOverlay.show(getScene().getWindow(),gameManager);
+                        PausePopup.show(getScene().getWindow(),gameManager);
                     }else{
                         gameManager.resume();
                     }
@@ -94,6 +95,11 @@ public class GameUI extends BorderPane {
     }
     public void update() {
         if (!gameManager.FSM_Is_Created()) {
+            this.setVisible(false);
+            return;
+        }
+        if(gameManager.lostGame()){
+            gameManager.pause();
             this.setVisible(false);
             return;
         }

@@ -15,7 +15,7 @@ public class ListPane extends ListView<String> {
     }
     public void createViews(){}
     public void registerHadlers(){
-        gameManager.addPropertyChangeListener( evt -> update());
+        gameManager.addPropertyChangeListener( evt ->update());
     }
     public void update(){
         this.getItems().clear();

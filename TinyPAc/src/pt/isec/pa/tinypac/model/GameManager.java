@@ -27,10 +27,20 @@ public class GameManager {
     public void Down(){fsm.Down();}
     public void Left(){fsm.Left();}
     public void Right(){fsm.Right();}
-    public boolean pause(){pcs.firePropertyChange(null,null,null);return fsm.pause();}
+    public boolean pause(){
+        if(fsm.pause()) {
+            pcs.firePropertyChange(null, null, null);
+            return true;
+        }
+        return false;
+    }
     public void resume(){fsm.resume();pcs.firePropertyChange(null,null,null);}
     public void exit(){fsm=null;pcs.firePropertyChange(null,null,null);}
     public void start(){fsm = new GameContext(); pcs.firePropertyChange(null,null,null);}
+    public boolean lostGame(){
+        if(fsm == null)return false;
+        return fsm.lostGame();
+    }
     public boolean elementVulnerable(char c){return fsm.elementVulnerable(c);}
     public EGameState getState(){if(fsm==null)return null; return fsm.getState();}
     public  int getPoints(){return fsm.getPoints();}
@@ -39,11 +49,9 @@ public class GameManager {
     public char [][]getBoard(){return fsm.getBoard();}
     public int getDirection(){return fsm.getDirection();}
     public boolean FSM_Is_Created(){return fsm!=null;}
-
     public boolean evolve(double time){
         if(fsm==null)return false;
-        if(getState()!=EGameState.GAME_PAUSED)
-            pcs.firePropertyChange(null,null,null);
+        pcs.firePropertyChange(null,null,null);
         return fsm.evolve(time);
     }
     public boolean save(){

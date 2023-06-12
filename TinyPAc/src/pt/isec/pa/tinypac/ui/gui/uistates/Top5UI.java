@@ -43,7 +43,7 @@ public class Top5UI extends BorderPane {
         gridPane.setStyle("-fx-background-color: #f2f2f2; -fx-background-radius: 20;");
 
         btnBack = new Button("Voltar");
-        btnBack.setId("btnInitScreen");
+        btnBack.getStyleClass().add("btnInitScreen");
         VBox vBoxCenter = new VBox(10);
         vBoxCenter.getChildren().addAll(imgView, lblTitle, gridPane, btnBack); // Adiciona o botão ao VBox
         vBoxCenter.setAlignment(Pos.CENTER);
@@ -57,6 +57,7 @@ public class Top5UI extends BorderPane {
         btnBack.setOnAction(evt -> {
             gameManager.closeTop5();
         });
+
     }
 
     public void update() {

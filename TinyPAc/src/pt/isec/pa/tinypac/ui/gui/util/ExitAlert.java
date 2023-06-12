@@ -6,8 +6,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 
-public class ExitOverlay {
-    private ExitOverlay() {}
+public class ExitAlert {
+    private ExitAlert() {}
 
     public static void show(Window owner) {
         Alert alert = new Alert(AlertType.CONFIRMATION);

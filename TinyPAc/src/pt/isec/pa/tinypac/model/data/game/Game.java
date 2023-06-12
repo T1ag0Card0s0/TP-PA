@@ -98,7 +98,10 @@ public class Game implements Serializable {
                     }
                     case 'b','c','i','p'->{
                         if(pacMan.getPower()) points += mazeInfo.getNumOfEatenGhost() * 50;
-                        else lives--;
+                        else{
+                            lives--;
+                            mazeInfo.initMoveableElements();
+                        }
                     }
                     case 'O' ->{
                         eatenFood++;
@@ -123,6 +126,7 @@ public class Game implements Serializable {
                         points += mazeInfo.getNumOfEatenGhost() * 50;
                 else if(pacManAteSymbol==ghost.getSymbol()) {
                     lives--;
+                    mazeInfo.initMoveableElements();
                 }
 
             }
@@ -143,7 +147,7 @@ public class Game implements Serializable {
         if(!mazeInfo.getPacManPower()&&
              (pacManAteSymbol=='c'||pacManAteSymbol=='p'||
                      pacManAteSymbol=='b'||pacManAteSymbol=='i')&&lives>0) {
-                //mazeInfo.InitElemPos();
+                mazeInfo.initMoveableElements();
                 return true;
         }
         return false;
@@ -156,6 +160,7 @@ public class Game implements Serializable {
         }
         return false;
     }
+    public boolean lostGame(){return getLives()<=0;}
     public int getTicks() {return ticks;}
     public int getLevel() {return level;}
     public int getPoints(){return points;}

@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.model.GameManager;
+import pt.isec.pa.tinypac.ui.gui.util.ExitAlert;
 
 public class MainJFX extends Application {
     GameManager gameManager;
@@ -54,6 +55,7 @@ public class MainJFX extends Application {
             gameManager.evolve(t/1_000_000_000.0);
         }));
         gameEngine.start(200);
+
     }
 
     @Override

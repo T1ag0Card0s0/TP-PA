@@ -9,10 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import pt.isec.pa.tinypac.model.GameManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
-import pt.isec.pa.tinypac.ui.gui.util.ExitOverlay;
+import pt.isec.pa.tinypac.ui.gui.util.ExitAlert;
+
 
 public class BeginUI extends BorderPane {
     GameManager gameManager;
@@ -40,9 +40,9 @@ public class BeginUI extends BorderPane {
         btnInitGame = new Button("Iniciar Jogo");
         btnTop5 = new Button("Top 5");
         btnExit = new Button("Sair");
-        btnInitGame.setId("btnInitScreen");
-        btnTop5.setId("btnInitScreen");
-        btnExit.setId("btnInitScreen");
+        btnInitGame.getStyleClass().add("btnInitScreen");
+        btnTop5.getStyleClass().add("btnInitScreen");
+        btnExit.getStyleClass().add("btnInitScreen");
 
         ImageView imgView = new ImageView(ImageManager.getImage("title.png"));
         VBox vBox = new VBox(imgView, btnInitGame, btnTop5, btnExit, vBoxInfo);
@@ -53,7 +53,7 @@ public class BeginUI extends BorderPane {
     }
 
     public void registerHandlers(){
-        gameManager.addPropertyChangeListener(evt -> { update(); });
+        gameManager.addPropertyChangeListener(evt -> update());
         btnInitGame.setOnAction( event -> {
             if(gameManager.existSavedGame()) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -81,8 +81,9 @@ public class BeginUI extends BorderPane {
             gameManager.loadTop5();
         });
         btnExit.setOnAction( event -> {
-            ExitOverlay.show(getScene().getWindow());
+            ExitAlert.show(getScene().getWindow());
         });
+
     }
     public void update(){
         if(gameManager.FSM_Is_Created()||gameManager.top5IsLoaded()){

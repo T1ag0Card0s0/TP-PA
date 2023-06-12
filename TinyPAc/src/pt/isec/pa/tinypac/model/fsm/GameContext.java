@@ -30,6 +30,7 @@ public class GameContext implements Serializable {
     public boolean pause(){return state.pause();}
     public void resume(){state.resume();}
     public boolean elementVulnerable(char c){return game.elementVulnerable(c);}
+    public boolean lostGame(){return game.lostGame();}
     public EGameState getState(){
         if(state==null)return null;
         return state.getGameState();

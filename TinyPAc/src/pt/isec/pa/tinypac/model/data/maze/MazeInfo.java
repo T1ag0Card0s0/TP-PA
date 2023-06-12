@@ -79,9 +79,11 @@ public class MazeInfo implements Serializable {
         else
             e.setXY(wrap[0].getX(),wrap[0].getY());
     }
-    public void initLevel(){
-        for(MoveableElement moveableElement:moveableElements){
-            moveableElement.setXY(moveableElement.getInitX(),moveableElement.getInitY());
+    public void initMoveableElements(){
+        for(MoveableElement m:moveableElements){
+            maze.set(m.getY(),m.getX(),null);
+            m.setUnderElement((Element) maze.get(m.getInitY(),m.getInitX()));
+            m.setXY(m.getInitX(),m.getInitY());
         }
     }
     public boolean getPacManPower(){
