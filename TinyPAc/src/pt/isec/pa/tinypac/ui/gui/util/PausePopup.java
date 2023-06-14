@@ -5,7 +5,6 @@
     import javafx.geometry.Pos;
     import javafx.scene.control.Button;
     import javafx.scene.control.Label;
-    import javafx.scene.control.TextField;
     import javafx.scene.layout.*;
     import javafx.stage.Popup;
     import javafx.stage.PopupWindow;
@@ -14,9 +13,31 @@
     import pt.isec.pa.tinypac.model.fsm.EGameState;
     import pt.isec.pa.tinypac.ui.gui.resources.CSSManager;
 
+    /**
+     * PausePopup (popup de pausa de jogo)
+     * <p>
+     *     Aqui é criado um popup que mostra duas opções:
+     *     <ul>
+     *         <li>
+     *             Resumir
+     *         </li>
+     *         <li>
+     *             Salvar e Sair
+     *         </li>
+     *     </ul>
+     * <p>
+     *@author Tiago Cardoso 2021138999
+     *@version guiVersion
+     */
     public class PausePopup {
         private PausePopup() {}
 
+        /**
+         * Metodo estatico que mostra um popup onde é possivel resumir o jogo, ou salvar e sair. Na segunda opção é chamado
+         * o metodo show da classe InsertNamePopup.
+         * @param owner janela onde se pretende mostrar o popup.
+         * @param gameManager gestor do jogo para resumir o jogo ou sair dele.
+         */
         public static void show(Window owner, GameManager gameManager) {
             Popup popup = new Popup();
             popup.setAnchorLocation(PopupWindow.AnchorLocation.WINDOW_TOP_LEFT);

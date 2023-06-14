@@ -14,9 +14,23 @@ import javafx.stage.Window;
 import pt.isec.pa.tinypac.model.GameManager;
 import pt.isec.pa.tinypac.ui.gui.resources.CSSManager;
 
+/**
+ * InsertNamePopup (insere user name)
+ * <p>
+ *     Aqui é criado um popup que pede ao utilizador o seu username
+ * </p>
+ *@author Tiago Cardoso 2021138999
+ *@version guiVersion
+ */
 public class InsertNamePopup {
-    private InsertNamePopup() {
-    }
+    private InsertNamePopup() {}
+
+    /**
+     * Metodo estatico que cria um popup onde é pedido o nome do utilizador.
+     * @param owner janela onde deve aparecer o popup
+     * @param gameManager gestor do jogo
+     * @param title titulo do popup
+     */
     public static void show(Window owner, GameManager gameManager,String title) {
         Popup popup = new Popup();
         popup.setAnchorLocation(PopupWindow.AnchorLocation.WINDOW_TOP_LEFT);

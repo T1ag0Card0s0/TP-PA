@@ -8,19 +8,37 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import pt.isec.pa.tinypac.model.GameManager;
-import pt.isec.pa.tinypac.model.fsm.EGameState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
-import pt.isec.pa.tinypac.ui.gui.util.InsertNamePopup;
 import pt.isec.pa.tinypac.ui.gui.util.PausePopup;
-
+/**
+ * GameUI (ecrã do jogo)
+ * <p>
+ *     Esta classe representa o painel onde ocorre o jogo.
+ *     Aqui a interação é feita principalmente atravez de inputs vindos do teclado,como
+ *     mudar direção do pacman e pausar o jogo carregando na tecla espaço.
+ * </p>
+ * @author Tiago Cardoso 2021138999
+ * @version guiVersion
+ */
 public class GameUI extends BorderPane {
-    GameManager gameManager;
-    GridPane gridPane;
-    Label lblPts,lblLevel,lblLives;
-    Button btnPause;
-    HBox hBoxTop,hBoxBottom;
-    HBox hBoxLives;
-    String pngFile;
+    /**
+     * Gestor do jogo
+     */
+    private final GameManager gameManager;
+    /**
+     * Grelha onde é colocado as imagens que representam cada item do jogo.
+     */
+    private GridPane gridPane;
+    private Label lblPts,lblLevel,lblLives;
+    private Button btnPause;
+    private HBox hBoxTop;
+    private HBox hBoxLives;
+    private String pngFile;
+
+    /**
+     * Construtor do painel do jogo.
+     * @param gameManager gestor do jogo.
+     */
     public GameUI(GameManager gameManager ){
         this.gameManager = gameManager;
         this.pngFile="pacman-left.png";
@@ -29,6 +47,9 @@ public class GameUI extends BorderPane {
         registerHandlers();
         update();
     }
+    /**
+     * Cria todos o aspetos do ecrã e aplica os estilos
+     */
     public void createViews() {
         this.lblLevel = new Label();
         this.lblPts = new Label();
@@ -59,7 +80,7 @@ public class GameUI extends BorderPane {
 
         hBoxTop = new HBox(vBoxTopLabels,region, btnPause);
         hBoxTop.setAlignment(Pos.CENTER);
-        hBoxBottom = new HBox(hBoxLives);
+        HBox hBoxBottom = new HBox(hBoxLives);
         VBox vBox = new VBox();
         vBox.getChildren().addAll(hBoxTop, gridPane, hBoxBottom);
         hBoxTop.setAlignment(Pos.CENTER);
@@ -67,11 +88,11 @@ public class GameUI extends BorderPane {
         vBox.setAlignment(Pos.CENTER);
         this.setCenter(vBox);
     }
-
+    /**
+     * Regista todas as interações possiveis presentes no ecrã do jogo
+     */
     public void registerHandlers(){
-        gameManager.addPropertyChangeListener(evt ->{
-            update();
-        });
+        gameManager.addPropertyChangeListener(evt -> update());
         btnPause.setOnAction(evt->{
             gameManager.pause();
             PausePopup.show(getScene().getWindow(),gameManager);
@@ -91,8 +112,11 @@ public class GameUI extends BorderPane {
                 }
             }
         });
-
     }
+    /**
+     * Serve para fazer transições entre ecrãs tornando falso ou verdadeiro a sua visibilidade.
+     * Aqui é onde o tabuleiro do jogo é atualizado com imagens e a informação como vidas,o nivel,e os pontos são atualizadas.
+     */
     public void update() {
         if (!gameManager.FSM_Is_Created()) {
             this.setVisible(false);
@@ -106,7 +130,7 @@ public class GameUI extends BorderPane {
         this.setVisible(true);
         requestFocus();
         char[][] board = gameManager.getBoard();
-        gridPane.getChildren().clear(); // Clear existing nodes
+        gridPane.getChildren().clear();
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {

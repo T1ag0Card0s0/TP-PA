@@ -10,9 +10,16 @@ import pt.isec.pa.tinypac.model.data.moveableElements.ghost.ghosts.Pinky;
 import pt.isec.pa.tinypac.model.data.moveableElements.pacman.PacMan;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * MazeInfo (informações importantes do Maze)
+ * <p>
+ *     Aqui são guardadas informações e implementados metodos para
+ *     obter informações importantes para a execução do jogo.
+ * </p>
+ * @author Tiago Cardoso 2021138999
+ * @version guiVersion
+ */
 public class MazeInfo implements Serializable {
     private final Maze maze;
     private final MoveableElement[] moveableElements;
@@ -21,14 +28,17 @@ public class MazeInfo implements Serializable {
     private final int[] caveDoors;
     private final int [] initGhostXY;
     private final int[] initPacManXY;
-    private final int heigth, width;
     private boolean ghostsAdded;
     private int wrapindex, eatenGhost, count, numOfFood;
+
+    /**
+     * Construtor do MazeInfo
+     * @param heigh altura do tabuleiro
+     * @param width comprimento do tabuleiro
+     */
     public MazeInfo(int heigh,int width){
         maze = new Maze(heigh,width);
         this.caveDoors=new int[2];
-        this.heigth=heigh;
-        this.width=width;
         this.moveableElements=new MoveableElement[5];
         this.ghostsAdded=false;
         this.wrapindex=0;
@@ -39,12 +49,11 @@ public class MazeInfo implements Serializable {
         this.count = 0;
         this.eatenGhost=0;
     }
-    public void InitElemPos(){
-        for(MoveableElement moveableElement: moveableElements){
-            moveableElement.setUnderElement((Element) maze.get(moveableElement.getInitY(),moveableElement.getInitX()));
-            moveableElement.setXY(moveableElement.getInitX(),moveableElement.getInitY());
-        }
-    }
+
+    /**
+     * Obtem o simbolo do elemento que o pacman passou por cima
+     * @return char symbol, simbolo do elemento que o pacman "comeu"
+     */
     public char pacManAte(){
         PacMan pacman = (PacMan) getMoveableElement('P');
         if(pacman==null){return ' ';}
@@ -70,7 +79,10 @@ public class MazeInfo implements Serializable {
         else fruit.setSymbol(' ');
         return pacman.getUnderElement().getSymbol();
     }
-    
+
+    /**
+     * Teletransporta o pacman de um wrapper para outro
+     */
     public void teleTransportPacMan(){
         MoveableElement e = getMoveableElement('P');
         if(e==null)return;
@@ -79,6 +91,10 @@ public class MazeInfo implements Serializable {
         else
             e.setXY(wrap[0].getX(),wrap[0].getY());
     }
+
+    /**
+     * Coloca os elementos móveis nas suas posições iniciais
+     */
     public void initMoveableElements(){
         for(MoveableElement m:moveableElements){
             maze.set(m.getY(),m.getX(),null);
@@ -86,31 +102,85 @@ public class MazeInfo implements Serializable {
             m.setXY(m.getInitX(),m.getInitY());
         }
     }
+
+    /**
+     * Obtém o valor de poder do pacman
+     * @return boolean poder, verdade se tiver poder, falso se nao tiver poder
+     */
     public boolean getPacManPower(){
         PacMan pacMan=(PacMan) getMoveableElement('P');
         if(pacMan==null)return false;
         return pacMan.getPower();
     }
+
+    /**
+     * Retorna numero de fantasmas comidos para ser usado no calculo da pontuação
+     * @return int numero de fantasmas comidos
+     */
     public int getNumOfEatenGhost(){return eatenGhost;}
+
+    /**
+     * Retorna os elementos moveis.
+     * @return moveableElements.
+     */
     public MoveableElement []getMoveableElements(){
         return moveableElements;
     }
-    public int getWidth(){return width;}
-    public int getHeigth(){return heigth;}
+
+    /**
+     * Retorna a direção atual do pacman.
+     * @return int direção atual do pacman
+     */
     public int getPacManDirection(){return getMoveableElement('P').getCurrentDirection();}
+
+    /**
+     * Obtem um elemento na posição x e y
+     * @param y coordenada y
+     * @param x coordenada x
+     * @return IMazeElement elemento do labirinto
+     */
     public IMazeElement get(int y,int x){return maze.get(y,x);}
+
+    /**
+     * Retorna array de coordenadas da porta de saida da caverna.
+     * @return int [] coordenadas
+     */
     public int []getCaveDoors(){return caveDoors;}
+
+    /**
+     * Retorna o tabuleiro do jogo.
+     * @return char [][] tabuleiro
+     */
     public char[][]getBoard(){return maze.getMaze().clone();}
+
+    /**
+     * Obtem o elemento movel apartir do seu simbolo
+     * @param c simbolo do elemento movel.
+     * @return Elemento movel
+     */
     public MoveableElement getMoveableElement(char c){
         for(MoveableElement e:moveableElements)
             if(e.getSymbol() == c)
                 return e;
         return null;
     }
+
+    /**
+     * Retorna o numero de comida que existe
+     * @return numero de comida que existe
+     */
     public int getNumOfFood() {return numOfFood;}
-    public int[] getInitGhostXY() {return initGhostXY;}
-    public int[] getInitPacManXY() {return initPacManXY;}
+
+    /**
+     * Atribui a proxima direção para o pacman tomar.
+     * @param nextDirection proxima direção
+     */
     public void setPacManNextDirection(int nextDirection){moveableElements[4].setNextDirection(nextDirection);}
+
+    /**
+     * Inicialização dos elementos moveis no maze
+     * @param element novo elemento no maze
+     */
     public void setInitElements(Element element){
         if(element==null) return;
         maze.set(element.getY(), element.getX(), element);
@@ -146,14 +216,23 @@ public class MazeInfo implements Serializable {
             case 'O'->numOfFood++;
         }
     }
+
+    /**
+     * Coloca os fantasmas vulneraveis
+     * @param value verdade para ficarem vulneraveis, falso para nao ficarem vulneraveis
+     */
     public void setVulnerable(boolean value){
         for(MoveableElement element:moveableElements)
             if(element instanceof Ghost ghost) ghost.setVulnerable(value);
     }
+
+    /**
+     * Coloca um elemento numa posição do maze
+     * @param y coordenada y
+     * @param x coordenada x
+     * @param element elemento
+     */
     public void set(int y,int x,IMazeElement element){
         maze.set(y,x,element);
-    }
-    public void setNumOfFood(int numOfFood) {
-        this.numOfFood = numOfFood;
     }
 }

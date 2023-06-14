@@ -1,6 +1,5 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,16 +12,45 @@ import pt.isec.pa.tinypac.model.GameManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ExitAlert;
 
-
+/**
+ * BeginUI (ecrã inicial)
+ * <p>
+ *     Esta classe gere todas as funcionalidades presentes no ecrã inicial
+ *     Funcionalidades estas:
+ *     <ul>
+ *         <li>Iniciar jogo</li>
+ *         <li>Ver Top 5</li>
+ *         <li>Sair</li>
+ *     </ul>
+ *     Aqui tambem são mostrados os creditos
+ * <p>
+ * @author Tiago Cardoso 2021138999
+ * @version guiVersion
+ */
 public class BeginUI extends BorderPane {
-    GameManager gameManager;
-    Button btnInitGame,btnTop5,btnExit;
+    /**
+     * Gestor do jogo
+     */
+    private final GameManager gameManager;
+    /**
+     * Botões que estão presentes no ecrã inicial
+     */
+    private Button btnInitGame,btnTop5,btnExit;
+
+    /**
+     * Construtor do ecrã inicial
+     * @param gameManager gestor do jogo
+     */
     public BeginUI(GameManager gameManager){
         this.gameManager = gameManager;
         createViews();
         registerHandlers();
         update();
     }
+
+    /**
+     * Cria todos o aspetos do ecrã e aplica os estilos
+     */
     public void createViews() {
         ImageView imageView = new ImageView(ImageManager.getImage("isec-logo.png"));
         Label label = new Label("""
@@ -51,7 +79,9 @@ public class BeginUI extends BorderPane {
 
         this.setCenter(vBox);
     }
-
+    /**
+     * Regista todas as interações possiveis presentes no ecrã principal
+     */
     public void registerHandlers(){
         gameManager.addPropertyChangeListener(evt -> update());
         btnInitGame.setOnAction( event -> {
@@ -85,6 +115,10 @@ public class BeginUI extends BorderPane {
         });
 
     }
+
+    /**
+     * Neste caso serve para fazer transições entre ecrãs tornando falso ou verdadeiro a sua visibilidade
+     */
     public void update(){
         if(gameManager.FSM_Is_Created()||gameManager.top5IsLoaded()){
             this.setVisible(false);

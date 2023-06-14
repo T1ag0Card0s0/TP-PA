@@ -8,7 +8,6 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-import pt.isec.pa.tinypac.model.fsm.EGameState;
 import pt.isec.pa.tinypac.model.fsm.GameContext;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ public class TextInterface {
         try {
             TerminalSize size = new TerminalSize(50, 50);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(size);
-            terminalFactory.setTerminalEmulatorTitle("TinyPAc");
+            terminalFactory.setTerminalEmulatorTitle("pt.isec.pa.tinypac.TinyPAc");
             terminal = terminalFactory.createTerminal();
             terminal.enterPrivateMode();
             terminal.clearScreen();

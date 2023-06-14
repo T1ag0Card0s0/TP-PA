@@ -6,9 +6,22 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 
+/**
+ * ExitAlert (confirmação de saida)
+ * <p>
+ *     Aqui é criado um alert para confirmar a saida do utilizador.
+ * </p>
+ *@author Tiago Cardoso 2021138999
+ *@version guiVersion
+ *
+ */
 public class ExitAlert {
     private ExitAlert() {}
 
+    /**
+     * Metodo estatico que cria o Alert e o mostra. Nele é questionado ao utilizador se quer realmente sair ou não.
+     * @param owner janela onde é pretendido mostrar o alert.
+     */
     public static void show(Window owner) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmação de Saída");

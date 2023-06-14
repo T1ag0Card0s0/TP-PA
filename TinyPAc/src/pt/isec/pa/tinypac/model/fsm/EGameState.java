@@ -6,10 +6,22 @@ import pt.isec.pa.tinypac.model.fsm.states.InitialState;
 import pt.isec.pa.tinypac.model.fsm.states.Vulnerable;
 import pt.isec.pa.tinypac.model.fsm.states.GameStarted;
 
+/**
+ * EGameState (enumeração de estados)
+ * <p>
+ *     Aqui são enumerados os estados possiveis do jogo
+ * </p>
+ * @author Tiago Cardoso 2021138999
+ * @version guiVersion
+ */
 public enum EGameState {
+
     INITIAL_STATE,GAME_STARTED,GAME_PAUSED,VULNERABLE;
 
-
+    /**
+     * toString para transmitir informação do estado atual
+     * @return  String "nome do estado"
+     */
     @Override
     public String toString() {
         return(
@@ -21,6 +33,13 @@ public enum EGameState {
                 }
         );
     }
+
+    /**
+     * Cria uma nova instancia de estado
+     * @param context contexto do jogo
+     * @param game dados do jogo
+     * @return instancia do estado correspondente ao valor da enumeração
+     */
     public IGameState createState(GameContext context, Game game){
         return(
                 switch (this){

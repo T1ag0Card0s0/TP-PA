@@ -1,17 +1,21 @@
 package pt.isec.pa.tinypac.model.data.game;
 
 import pt.isec.pa.tinypac.model.data.element.Element;
-import pt.isec.pa.tinypac.model.data.log.ModelLog;
 import pt.isec.pa.tinypac.model.data.maze.MazeInfo;
 import pt.isec.pa.tinypac.model.data.moveableElements.MoveableElement;
 import pt.isec.pa.tinypac.model.data.moveableElements.ghost.Ghost;
-import pt.isec.pa.tinypac.model.data.moveableElements.ghost.ghosts.Pinky;
 import pt.isec.pa.tinypac.model.data.moveableElements.pacman.PacMan;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Game (onde os dados sao geridos)
+ * <p>
+ *     Aqui é onde ocorre toda a logica aplicada ao jogo em si.
+ * </p>
+ * @author TiagoCardoso 2021138999
+ * @version guiVersion
+ */
 public class Game implements Serializable {
     private int ticks;
     private MazeInfo mazeInfo;
@@ -21,6 +25,10 @@ public class Game implements Serializable {
     private int eatenFood;
     private double timeRegister;
     private char pacManAteSymbol;
+
+    /**
+     * Construtor do jogo
+     */
     public Game(){
         this.ticks=0;
         this.level=1;
@@ -30,6 +38,10 @@ public class Game implements Serializable {
         this.timeRegister=0;
         initMazeInfo();
     }
+
+    /**
+     * Preenche o labirinto através de um ficheiro de texto
+     */
     void initMazeInfo(){
         int width = 0, height = 0;
         try {
@@ -37,6 +49,7 @@ public class Game implements Serializable {
             if(!file.exists()){
                 level--;
                 file=new File(getLevelFilePath());
+                level++;
             }
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -54,6 +67,7 @@ public class Game implements Serializable {
             if(!file.exists()){
                 level--;
                 file=new File(getLevelFilePath());
+                level++;
             }
             FileReader reader = new FileReader(file);
             BufferedReader br = new BufferedReader(reader);
@@ -74,11 +88,26 @@ public class Game implements Serializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Obtém o nome do ficheiro de texto que contém o labirinto correspondente ao nivel.
+     * @return String caminho do ficheiro de texto do labirinto
+     */
     private String getLevelFilePath(){
         if(level<10)return "Levels\\Level0"+level+".txt";
         return "Levels\\Level"+level+".txt";
     }
+
+    /**
+     * Obtem conjunto de caracteres do labirinto.
+     * @return  char[][] tabuleiro
+     */
     public char[][]getBoard(){return mazeInfo.getBoard();}
+
+    /**
+     * Logica do movimento dos elementos que se movem
+     * @param time tempo de execução em segundos
+     */
     public void moveElements(double time){
         for(MoveableElement element: mazeInfo.getMoveableElements()){
             if(element.getUnderElement()!=null)
@@ -135,6 +164,11 @@ public class Game implements Serializable {
             timeRegister=time;
         ticks++;
     }
+
+    /**
+     * Verifica se o nivel acabou, tanto por vencer como por perder.
+     * @return verdade se acabou, falso se nao acabou
+     */
     public boolean levelEnded(){
         if(mazeInfo.getNumOfFood()-eatenFood==0){
             if(level<20) {
@@ -152,7 +186,18 @@ public class Game implements Serializable {
         }
         return false;
     }
+
+    /**
+     * Saber se o pacman tem poderes ou nao.
+     * @return verdade, tem poderes, falso, nao tem poderes
+     */
     public boolean pacmanHasPower(){return mazeInfo.getPacManPower();}
+
+    /**
+     * Saber se um certo fantasma esta vulneravel através de uma pesquisa do seu simbolo
+     * @param c simbolo do fantasma que pretendemos saber se esta vulneravel ou nao
+     * @return verdade se estiver vulneravel, falso se nao estiver vulneravel, ou se o simbolo do parametro nao for simbolo de  nenhum fantasma
+     */
     public boolean elementVulnerable(char c){
 
         if(mazeInfo.getMoveableElement(c) instanceof Ghost ghost){
@@ -160,16 +205,41 @@ public class Game implements Serializable {
         }
         return false;
     }
+
+    /**
+     * Diz se perdeu o jogo ou nao.
+     * @return verdade se perdeu o jogo, falso se nao perdeu
+     */
     public boolean lostGame(){return getLives()<=0;}
-    public int getTicks() {return ticks;}
+
+    /**
+     * Obtém o nivel atual
+     * @return int nivel
+     */
     public int getLevel() {return level;}
+
+    /**
+     * Obtém os pontos que o jogador ja acumolou ate ao momento
+     * @return int pontos
+     */
     public int getPoints(){return points;}
-    public double getTimeRegister(){return timeRegister;}
+
+    /**
+     * Obtém as vidas que o jogoados ainda tem.
+     * @return int vidas.
+     */
     public int getLives(){return lives;}
+
+    /**
+     * Obtém a direção atual do pacman
+     * @return int direção
+     */
     public int getDirection(){return mazeInfo.getPacManDirection();}
-    public void setTicks(int ticks) {this.ticks = ticks;}
-    public void setLevel(int level) {this.level = level;}
+
+    /**
+     * Coloca a proxima direção do pacman a pretendida.
+     * @param nextDirection proxima direção pretendida.
+     */
     public void setNextDirection(int nextDirection){mazeInfo.setPacManNextDirection(nextDirection);}
-    public void setTimeRegister(long time){this.timeRegister=time;}
 
 }

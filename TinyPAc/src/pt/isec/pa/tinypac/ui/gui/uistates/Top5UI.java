@@ -12,13 +12,29 @@ import pt.isec.pa.tinypac.model.GameManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
 import java.util.List;
-
+/**
+ * Top5UI (ecrã da lista top5 pontuações)
+ * <p>
+ *     Esta classe representa o painel onde é mostrada as cinco melhores pontuações e o correspondente nome de utilizador.
+ * </p>
+ * @author Tiago Cardoso 2021138999
+ * @version guiVersion
+ */
 public class Top5UI extends BorderPane {
+    /**
+     * Gestor de jogo
+     */
     private final GameManager gameManager;
-    GridPane gridPane;
-    Button btnBack;
-    Label lblTitle;
+    /**
+     * Tabela para mostrar as pontuações
+     */
+    private GridPane gridPane;
+    private Button btnBack;
 
+    /**
+     * Construtor do Top5UI
+     * @param gameManager gestor do jogo
+     */
     public Top5UI(GameManager gameManager) {
         this.gameManager = gameManager;
 
@@ -26,10 +42,12 @@ public class Top5UI extends BorderPane {
         registerHandlers();
         update();
     }
-
+    /**
+     * Cria todos o aspetos do ecrã e aplica os estilos
+     */
     public void createViews() {
         ImageView imgView = new ImageView(ImageManager.getImage("title.png"));
-        lblTitle = new Label("TOP 5");
+        Label lblTitle = new Label("TOP 5");
         lblTitle.setAlignment(Pos.CENTER);
         lblTitle.setStyle("-fx-text-fill:rgb(252, 201, 46);-fx-font-size: 40px; -fx-font-weight: bold;");
         Label nome = new Label("Nome:");
@@ -50,16 +68,19 @@ public class Top5UI extends BorderPane {
         this.setCenter(vBoxCenter);
     }
 
+    /**
+     * Aqui regista todas as possiveis interações neste painel.
+     */
     public void registerHandlers() {
-        gameManager.addPropertyChangeListener(evt -> {
-            update();
-        });
-        btnBack.setOnAction(evt -> {
-            gameManager.closeTop5();
-        });
+        gameManager.addPropertyChangeListener(evt -> update());
+        btnBack.setOnAction(evt -> gameManager.closeTop5());
 
     }
 
+    /**
+     * Serve para fazer transições entre ecrãs tornando falso ou verdadeiro a sua visibilidade.
+     * Aqui também é atualizada a lista top5.
+     */
     public void update() {
         if (!gameManager.top5IsLoaded() || gameManager.FSM_Is_Created()) {
             this.setVisible(false);
