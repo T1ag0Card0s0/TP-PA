@@ -21,7 +21,7 @@ public class Ghost extends MoveableElement {
     private final int []caveDoor;
     private List<int []> positions;
     private int index;
-
+    private int forbiddenDirection;
     /**
      * Construtor dos fantasmas
      * @param symbol simbolo que representa o fantasmas
@@ -36,26 +36,40 @@ public class Ghost extends MoveableElement {
         this.caveDoor=mazeInfo.getCaveDoors();
         this.index=0;
         this.positions = new ArrayList<>();
+        this.forbiddenDirection=-1;
     }
-
-    /**
+       /**
      * Coloca a proxima direção a tomar dos fantasmas na direção que os leva para as coordenadas introduzidas
      * @param x coordenada x
      * @param y coordenada y
      */
     public void TravelTo(int x,int y){
-        boolean XAxis=false,YAxis=false;
+        boolean YAxis = false,XAxis = false;
         if(x==getX())YAxis = true;
         else if(y==getY())XAxis = true;
         else {
+            if(Math.abs(x-getX())>Math.abs(y-getY()))XAxis = true;
+            else if(Math.abs(x-getX())<Math.abs(y-getY()))YAxis = true;
+        }
+
+        if(XAxis)
+            if(getX()>x){
+              setNextDirection(3);
+            }
+            else if(getX()<x){
+                setNextDirection(1);
+            }
+        if(YAxis)
+            if (getY() > y){
+              setNextDirection(0);
+            }
+            else if (getY() < y){
+              setNextDirection(2);
+
+            }
+        if(getNeighboors()[getNextDirection()]){
             randomMove();
         }
-        if(XAxis)
-            if(getX()>x) setNextDirection(3);
-            else if(getX()<x)setNextDirection(1);
-        if(YAxis)
-            if (getY() > y) setNextDirection(0);
-            else if (getY() < y)setNextDirection(2);
     }
 
     /**

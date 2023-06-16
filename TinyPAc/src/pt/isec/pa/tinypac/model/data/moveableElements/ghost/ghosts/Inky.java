@@ -20,7 +20,6 @@ public class Inky extends Ghost {
     public Inky(int y, int x, MazeInfo mazeInfo) {
         super('i', y, x, mazeInfo);
     }
-
     /**
      * Movimento do fantasma inky
      */

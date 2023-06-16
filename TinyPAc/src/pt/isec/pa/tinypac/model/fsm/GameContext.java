@@ -124,7 +124,16 @@ public class GameContext implements Serializable {
      * Retorna a direção atual do pacman chamando metodo no Game
      * @return game.getDirection()
      */
-    public int getDirection(){return game.getDirection();}
+    public String getDirection(){
+        return (
+            switch (game.getDirection()){
+                case 0->"Up";
+                case 1->"Right";
+                case 2->"Down";
+                case 3-> "Left";
+                default -> " ";
+            });
+    }
 
     /**
      * Chama metodo evolve do state atual.

@@ -30,7 +30,7 @@ public class MazeInfo implements Serializable {
     private final int[] initPacManXY;
     private boolean ghostsAdded;
     private int wrapindex, eatenGhost, count, numOfFood;
-
+    private int width,height;
     /**
      * Construtor do MazeInfo
      * @param heigh altura do tabuleiro
@@ -38,6 +38,7 @@ public class MazeInfo implements Serializable {
      */
     public MazeInfo(int heigh,int width){
         maze = new Maze(heigh,width);
+        this.width=width;this.height=heigh;
         this.caveDoors=new int[2];
         this.moveableElements=new MoveableElement[5];
         this.ghostsAdded=false;
@@ -98,7 +99,7 @@ public class MazeInfo implements Serializable {
     public void initMoveableElements(){
         for(MoveableElement m:moveableElements){
             maze.set(m.getY(),m.getX(),null);
-            m.setUnderElement((Element) maze.get(m.getInitY(),m.getInitX()));
+           // m.setUnderElement((Element) maze.get(m.getInitY(),m.getInitX()));
             m.setXY(m.getInitX(),m.getInitY());
         }
     }
@@ -170,7 +171,8 @@ public class MazeInfo implements Serializable {
      * @return numero de comida que existe
      */
     public int getNumOfFood() {return numOfFood;}
-
+    public int getHeight(){return height;}
+    public int getWidth(){return width;}
     /**
      * Atribui a proxima direção para o pacman tomar.
      * @param nextDirection proxima direção

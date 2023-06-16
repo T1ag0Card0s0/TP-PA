@@ -158,10 +158,10 @@ public class GameUI extends BorderPane {
         String filename;
         if (c == 'P') {
             filename = switch (gameManager.getDirection()) {
-                case 0 -> pngFile="pacman-up.png";
-                case 1 -> pngFile="pacman-right.png";
-                case 2 -> pngFile="pacman-down.png";
-                case 3 -> pngFile="pacman-left.png";
+                case "Up"-> pngFile="pacman-up.png";
+                case "Right" -> pngFile="pacman-right.png";
+                case "Down" -> pngFile="pacman-down.png";
+                case "Left" -> pngFile="pacman-left.png";
                 default -> pngFile;
             };
         }else filename = getImageFilename(c);

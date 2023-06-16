@@ -34,8 +34,8 @@ public class Top5Players implements Serializable {
                 if (score > entry.getScore()) {
                     entry.setScore(score);
                     sortEntries();
-                    return;
                 }
+                return;
             }
         }
 

@@ -120,6 +120,14 @@ public class MoveableElement extends Element{
     public boolean[] getNeighboors() {return neighboors;}
 
     /**
+     * Retorna a proxima direção.
+     * @return proxima direção;
+     */
+    public int getNextDirection() {
+        return nextDirection;
+    }
+
+    /**
      * Retorna o elemento que está por debaixo.
      * @return underElement
      */

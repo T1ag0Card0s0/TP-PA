@@ -25,7 +25,7 @@ public class Game implements Serializable {
     private int eatenFood;
     private double timeRegister;
     private char pacManAteSymbol;
-
+    private String lastLevelFile;
     /**
      * Construtor do jogo
      */
@@ -47,9 +47,9 @@ public class Game implements Serializable {
         try {
             File file = new File(getLevelFilePath());
             if(!file.exists()){
-                level--;
-                file=new File(getLevelFilePath());
-                level++;
+                file=new File(lastLevelFile);
+            }else{
+                lastLevelFile = getLevelFilePath();
             }
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -65,9 +65,7 @@ public class Game implements Serializable {
         try {
             File file = new File(getLevelFilePath());
             if(!file.exists()){
-                level--;
-                file=new File(getLevelFilePath());
-                level++;
+                file=new File(lastLevelFile);
             }
             FileReader reader = new FileReader(file);
             BufferedReader br = new BufferedReader(reader);

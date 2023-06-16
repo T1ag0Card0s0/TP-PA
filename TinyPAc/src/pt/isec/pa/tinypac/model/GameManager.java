@@ -139,9 +139,9 @@ public class GameManager {
 
     /**
      *Obtém a direção atual do pacman.
-     * @return int fsm.getDirection()
+     * @return String fsm.getDirection()
      */
-    public int getDirection(){return fsm.getDirection();}
+    public String getDirection(){return fsm.getDirection();}
 
     /**
      * Retorna se o contexto existe ou nao.
