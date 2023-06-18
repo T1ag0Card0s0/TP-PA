@@ -148,6 +148,8 @@ public class Game implements Serializable {
             if(element instanceof Ghost ghost){
                 if(ghost.getLocked()&&time-timeRegister>5.0){
                     ghost.setLocked(false);
+                }else if(time-timeRegister<5.0){
+                    ghost.setLocked(true);
                 }
                 if(pacmanHasPower()&&pacManAteSymbol==ghost.getSymbol())
                         points += mazeInfo.getNumOfEatenGhost() * 50;

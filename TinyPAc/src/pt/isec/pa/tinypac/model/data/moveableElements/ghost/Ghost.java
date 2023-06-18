@@ -21,7 +21,6 @@ public class Ghost extends MoveableElement {
     private final int []caveDoor;
     private List<int []> positions;
     private int index;
-    private int forbiddenDirection;
     /**
      * Construtor dos fantasmas
      * @param symbol simbolo que representa o fantasmas
@@ -36,7 +35,6 @@ public class Ghost extends MoveableElement {
         this.caveDoor=mazeInfo.getCaveDoors();
         this.index=0;
         this.positions = new ArrayList<>();
-        this.forbiddenDirection=-1;
     }
        /**
      * Coloca a proxima direção a tomar dos fantasmas na direção que os leva para as coordenadas introduzidas
@@ -139,8 +137,9 @@ public class Ghost extends MoveableElement {
     @Override
     public boolean move() {
         positions.add(new int[]{getX(), getY()});
-        if (vulnerable) vulnerableMove();
-        else if (locked){
+        if (vulnerable) {
+            vulnerableMove();
+        }else if (locked){
             positions=new ArrayList<>();
             randomMove();
         }
